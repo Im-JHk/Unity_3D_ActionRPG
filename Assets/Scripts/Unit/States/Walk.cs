@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Walk : LowerState
 {
-    private Player.PlayerState state = Player.PlayerState.Idle;
-    private Vector2 moveAxis;
-
-    public Player.PlayerState State { get { return state; } private set { state = value; } }
-    public Vector2 MoveAxis { get { return moveAxis; } set { moveAxis = value; } }
+    public Walk(Unit unit)
+    {
+        this.unit = unit;
+    }
 
     override public void StateEnter()
     {
@@ -18,6 +17,8 @@ public class Walk : LowerState
     override public void StateStay()
     {
         Debug.Log("Walk Stay");
+        unit.Move();
+        unit.Rotate();
     }
 
     override public void StateExit()

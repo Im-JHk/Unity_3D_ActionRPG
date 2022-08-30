@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Dodge : LowerState
 {
-    private Player.PlayerState state = Player.PlayerState.Idle;
-    public Player.PlayerState State { get { return state; } private set { state = value; } }
+    public Dodge(Unit unit)
+    {
+        this.unit = unit;
+    }
 
     override public void StateEnter()
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LowerState : IState
 {
+    protected Unit unit = null;
     private float elapsedTime;
     private float releaseTime = 1.0f;
 

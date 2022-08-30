@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Attack : UpperState
 {
-    private Player.PlayerState state = Player.PlayerState.Attack;
-    public Player.PlayerState State { get { return state; } private set { state = value; } }
+    public Attack(Unit unit)
+    {
+        this.unit = unit;
+    }
 
     override public void StateEnter()
     {

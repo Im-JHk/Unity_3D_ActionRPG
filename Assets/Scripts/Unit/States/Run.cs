@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Run : LowerState
 {
-    private Player.PlayerState state = Player.PlayerState.Idle;
-    public Player.PlayerState State { get { return state; } private set { state = value; } }
+    public Run(Unit unit)
+    {
+        this.unit = unit;
+    }
 
     override public void StateEnter()
     {
@@ -15,6 +17,8 @@ public class Run : LowerState
     override public void StateStay()
     {
         Debug.Log("Run Stay");
+        unit.Move();
+        unit.Rotate();
     }
 
     override public void StateExit()

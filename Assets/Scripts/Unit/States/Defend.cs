@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Defend : UpperState
 {
-    private Player.PlayerState state = Player.PlayerState.Defend;
-    public Player.PlayerState State { get { return state; } private set { state = value; } }
+    public Defend(Unit unit)
+    {
+        this.unit = unit;
 
+    }
     override public void StateEnter()
     {
         Debug.Log("Defend Enter");

@@ -11,17 +11,16 @@ public class Idle : LowerState
 
     override public void StateEnter()
     {
-        Debug.Log("Idle Enter");
-
+        //Debug.Log("Idle Enter");
     }
 
     override public void StateStay()
     {
-        Debug.Log("Idle Stay");
+        //Debug.Log("Idle Stay");
     }
 
     override public void StateExit()
     {
-        Debug.Log("Idle Exit");
+        //Debug.Log("Idle Exit");
     }
 }

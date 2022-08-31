@@ -11,18 +11,21 @@ public class Walk : LowerState
 
     override public void StateEnter()
     {
-        Debug.Log("Walk Enter");
+        //Debug.Log("Walk Enter");
+        unit.IsMove = true;
     }
 
     override public void StateStay()
     {
-        Debug.Log("Walk Stay");
+        //Debug.Log("Walk Stay");
         unit.Move();
-        unit.Rotate();
     }
 
     override public void StateExit()
     {
         Debug.Log("Walk Exit");
+        Debug.Log(unit.MoveVector);
+        if(unit.MoveVector == Vector3.zero) unit.IsMove = false;
+        unit.Move();
     }
 }

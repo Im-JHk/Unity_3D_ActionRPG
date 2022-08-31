@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
         }
         else if (context.canceled)
         {
+            player.Move();
             player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Idle]);
         }
     }
@@ -36,13 +37,14 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
         if (context.performed && player.GetPlayerState.CurrentState == player.GetDicPlayerState[Player.PlayerState.Walk])
         {
             player.IsRun = true;
-            player.MoveSpeed *= 2f;
             player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Run]);
         }
         else if (context.canceled)
         {
             player.IsRun = false;
-            player.MoveSpeed *= 0.5f;
+            player.Move();
+            if(player.IsMove) player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Walk]);
+            else player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Idle]);
         }
     }
 

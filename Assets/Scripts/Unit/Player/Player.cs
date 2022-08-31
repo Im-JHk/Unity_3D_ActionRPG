@@ -21,28 +21,20 @@ public class Player : Unit
         Run
     }
 
-    private Animator animator = null;
-    private Rigidbody rigidbody = null;
-    private State playerState = null;
     private Dictionary<PlayerState, IState> dicPlayerState;
+    private State playerState = null;
 
-    private static float moveSpeed = 3f;
-    private static float rotateSpeed = 10f;
-
-    public Animator GetAnimator { get { return animator; } }
-    public Rigidbody GetRigidbody { get { return rigidbody; } }
-    public State GetPlayerState { get { return playerState; } }
+    #region properties
     public Dictionary<PlayerState, IState> GetDicPlayerState { get { return dicPlayerState; } }
-
-    public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
-    public float RotateSpeed { get { return rotateSpeed; } set { rotateSpeed = value; } }
-
+    public State GetPlayerState { get { return playerState; } set { playerState = value; } }
+    #endregion
 
     private void Awake()
     {
-        unitType = UnitType.Player;
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
+        unitType = UnitType.Player;
+        Initialize();
     }
 
     private void Start()
@@ -52,7 +44,7 @@ public class Player : Unit
 
     private void Update()
     {
-
+        playerState.Update();
     }
 
     public void Initialize()
@@ -68,25 +60,40 @@ public class Player : Unit
         playerState = new State(dicPlayerState[Player.PlayerState.Idle]);
 
         moveVector = Vector3.zero;
+        moveSpeed = 3f;
+        rotateSpeed = 50f;
         rotateTime = 0;
+        isMove = false;
         isRun = false;
+        isCanInput = true;
     }
 
     override public void Move()
     {
         if (moveVector != Vector3.zero)
         {
-            if (isRun) moveSpeed *= 2f;
+            animator.SetFloat("Horizontal", moveVector.x);
+            animator.SetFloat("Vertical", moveVector.z);
+            animator.SetFloat("MoveSpeed", moveSpeed);
+            animator.SetBool("IsMove", isMove);
+            animator.SetBool("IsRun", isRun);
+
             rigidbody.MovePosition(rigidbody.position + moveVector * moveSpeed * Time.deltaTime);
+            Rotate();
+        }
+        else
+        {
+            animator.SetFloat("Horizontal", moveVector.x);
+            animator.SetFloat("Vertical", moveVector.z);
+            animator.SetFloat("MoveSpeed", 0);
+            animator.SetBool("IsMove", isMove);
+            animator.SetBool("IsRun", isRun);
         }
     }
 
     override public void Rotate()
     {
-        if (moveVector != Vector3.zero)
-        {
-            var rotation = Quaternion.LookRotation(moveVector);
-            transform.rotation = Quaternion.Slerp(rigidbody.rotation, rotation, rotateSpeed * Time.deltaTime);
-        }
+        var rotation = Quaternion.LookRotation(moveVector);
+        transform.rotation = Quaternion.Slerp(rigidbody.rotation, rotation, rotateSpeed * Time.deltaTime);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class State : MonoBehaviour
+public class State
 {
     private IState currentState = null;
 
@@ -13,7 +13,7 @@ public class State : MonoBehaviour
         this.currentState = state;
     }
 
-    private void Update()
+    public void Update()
     {
         this.currentState.StateStay();
     }

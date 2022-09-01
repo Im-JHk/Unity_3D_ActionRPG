@@ -11,16 +11,20 @@ public class Dodge : LowerState
 
     override public void StateEnter()
     {
+        unit.CanChangeState = false;
+        unit.GetAnimator.SetBool("IsDodge", true);
         Debug.Log("Dodge Enter");
     }
 
     override public void StateStay()
     {
-        Debug.Log("Dodge Stay");
+        //Debug.Log("Dodge Stay");
+        unit.Dodge();
     }
 
     override public void StateExit()
     {
         Debug.Log("Dodge Exit");
+        unit.GetAnimator.SetBool("IsDodge", false);
     }
 }

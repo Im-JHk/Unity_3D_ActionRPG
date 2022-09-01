@@ -23,7 +23,7 @@ public class Walk : LowerState
 
     override public void StateExit()
     {
-        Debug.Log("Walk Exit");
+        //Debug.Log("Walk Exit");
         Debug.Log(unit.MoveVector);
         if(unit.MoveVector == Vector3.zero) unit.IsMove = false;
         unit.Move();

@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 
     public void OnWalk(InputAction.CallbackContext context)
     {
+        if (!player.CanChangeState) return;
+
         var value = context.ReadValue<Vector2>();
         player.MoveVector = new Vector3(value.x, 0, value.y);
         if(player.MoveVector != Vector3.zero && !player.IsRun)
@@ -34,7 +36,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 
     public void OnRun(InputAction.CallbackContext context)
     {
-        if (context.performed && player.GetPlayerState.CurrentState == player.GetDicPlayerState[Player.PlayerState.Walk])
+        if (player.CanChangeState && context.performed && player.GetPlayerState.CurrentState == player.GetDicPlayerState[Player.PlayerState.Walk])
         {
             player.IsRun = true;
             player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Run]);
@@ -50,7 +52,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (player.CanChangeState && context.started)
         {
             player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Attack]);
         }
@@ -58,7 +60,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 
     public void OnDefend(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (player.CanChangeState && context.started)
         {
             player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Defend]);
         }
@@ -66,7 +68,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 
     public void OnDodge(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (player.CanChangeState && context.started)
         {
             player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Dodge]);
         }
@@ -74,6 +76,9 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 
     public void OnFocus(InputAction.CallbackContext context)
     {
+        if (player.CanChangeState && context.started)
+        {
 
+        }
     }
 }

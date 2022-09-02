@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Walk : LowerState
+public class Walk : MoveState
 {
     public Walk(Unit unit)
     {
@@ -13,6 +13,7 @@ public class Walk : LowerState
     {
         //Debug.Log("Walk Enter");
         unit.IsMove = true;
+        unit.GetMoveState = Unit.MoveState.Walk;
     }
 
     override public void StateStay()
@@ -24,8 +25,9 @@ public class Walk : LowerState
     override public void StateExit()
     {
         //Debug.Log("Walk Exit");
-        Debug.Log(unit.MoveVector);
         if(unit.MoveVector == Vector3.zero) unit.IsMove = false;
+        unit.LookVector = unit.MoveVector;
         unit.Move();
+        unit.GetMoveState = Unit.MoveState.None;
     }
 }

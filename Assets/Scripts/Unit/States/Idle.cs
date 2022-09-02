@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Idle : LowerState
+public class Idle : MoveState
 {
     public Idle(Unit unit)
     {
@@ -12,6 +12,8 @@ public class Idle : LowerState
     override public void StateEnter()
     {
         //Debug.Log("Idle Enter");
+        unit.LookVector = Vector3.zero;
+        unit.GetMoveState = Unit.MoveState.Idle;
     }
 
     override public void StateStay()
@@ -22,5 +24,6 @@ public class Idle : LowerState
     override public void StateExit()
     {
         //Debug.Log("Idle Exit");
+        unit.GetMoveState = Unit.MoveState.None;
     }
 }

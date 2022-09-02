@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : UpperState
+public class Attack : ActionState
 {
     public Attack(Unit unit)
     {
@@ -12,6 +12,8 @@ public class Attack : UpperState
     override public void StateEnter()
     {
         Debug.Log("Attack Enter");
+        unit.CanChangeState = false;
+        unit.GetActionState = Unit.ActionState.Attack;
     }
 
     override public void StateStay()
@@ -22,5 +24,7 @@ public class Attack : UpperState
     override public void StateExit()
     {
         Debug.Log("Attack Exit");
+        unit.CanChangeState = true;
+        unit.GetActionState = Unit.ActionState.None;
     }
 }

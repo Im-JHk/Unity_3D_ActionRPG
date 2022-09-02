@@ -19,10 +19,9 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 
     public void OnWalk(InputAction.CallbackContext context)
     {
-        if (!player.CanChangeState) return;
-
         var value = context.ReadValue<Vector2>();
         player.MoveVector = new Vector3(value.x, 0, value.y);
+        if (!player.CanChangeState) return;
         if(player.MoveVector != Vector3.zero && !player.IsRun)
         {
             player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Walk]);

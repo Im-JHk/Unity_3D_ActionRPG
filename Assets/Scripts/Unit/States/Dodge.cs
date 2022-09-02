@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dodge : LowerState
+public class Dodge : ActionState
 {
     public Dodge(Unit unit)
     {
@@ -12,7 +12,10 @@ public class Dodge : LowerState
     override public void StateEnter()
     {
         unit.CanChangeState = false;
-        unit.GetAnimator.SetBool("IsDodge", true);
+        unit.IsDodge = true;
+        //unit.GetAnimator.SetBool("IsDodge", true);
+        unit.GetAnimator.SetTrigger("OnDodge");
+        unit.GetActionState = Unit.ActionState.Dodge;
         Debug.Log("Dodge Enter");
     }
 
@@ -25,6 +28,9 @@ public class Dodge : LowerState
     override public void StateExit()
     {
         Debug.Log("Dodge Exit");
-        unit.GetAnimator.SetBool("IsDodge", false);
+        unit.CanChangeState = true;
+        unit.IsDodge = false;
+        //unit.GetAnimator.SetBool("IsDodge", false);
+        unit.GetActionState = Unit.ActionState.None;
     }
 }

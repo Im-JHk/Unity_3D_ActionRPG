@@ -14,13 +14,6 @@ public class Player : Unit
         Dodge,
     }
 
-    public enum PlayerMoveState
-    {
-        None = 0,
-        Walk,
-        Run
-    }
-
     private Dictionary<PlayerState, IState> dicPlayerState;
     private State playerState = null;
     private float dodgeSpeed = 6f;
@@ -48,6 +41,7 @@ public class Player : Unit
     private void Update()
     {
         playerState.Update();
+        print(canChangeState);
     }
 
     public void Initialize()
@@ -73,24 +67,11 @@ public class Player : Unit
 
     override public void Move()
     {
-        if (moveVector != Vector3.zero)
+        SetMoveParameter();
+        if (moveVector != Vector3.zero && currentActionState == ActionState.None)
         {
-            animator.SetFloat("Horizontal", moveVector.x);
-            animator.SetFloat("Vertical", moveVector.z);
-            animator.SetFloat("MoveSpeed", moveSpeed);
-            animator.SetBool("IsMove", isMove);
-            animator.SetBool("IsRun", isRun);
-
             rigidbody.MovePosition(rigidbody.position + moveVector * moveSpeed * Time.deltaTime);
             Rotate();
-        }
-        else
-        {
-            animator.SetFloat("Horizontal", moveVector.x);
-            animator.SetFloat("Vertical", moveVector.z);
-            animator.SetFloat("MoveSpeed", 0);
-            animator.SetBool("IsMove", isMove);
-            animator.SetBool("IsRun", isRun);
         }
     }
 
@@ -117,23 +98,39 @@ public class Player : Unit
 
     override public void Dodge()
     {
-        if(moveVector != Vector3.zero)
+        if(moveVector == Vector3.zero)
+        {
+            dodgeDirection = lookVector;
+        }
+        else
         {
             dodgeDirection = moveVector;
-            moveVector = Vector3.zero;
-            isMove = false;
-            isRun = false;
-            Move();
+            //moveVector = Vector3.zero;
+            //isMove = false;
+            //isRun = false;
+            //Move();
         }
 
-        if (animator.GetCurrentAnimatorStateInfo((int)AnimatorLayer.Single).normalizedTime >= 1.0)
+        if (animator.GetCurrentAnimatorStateInfo((int)AnimatorLayer.Single).normalizedTime >= 0.9)
         {
-            CanChangeState = true;
-            playerState.SetState(dicPlayerState[Player.PlayerState.Idle]);
+            canChangeState = true;
+            if (isMove) playerState.SetState(dicPlayerState[Player.PlayerState.Walk]);
+            else if (isRun) playerState.SetState(dicPlayerState[Player.PlayerState.Run]);
+            else playerState.SetState(dicPlayerState[Player.PlayerState.Idle]);
         }
-        else if (animator.GetCurrentAnimatorStateInfo((int)AnimatorLayer.Single).normalizedTime >= 0.13)
+        else if (animator.GetCurrentAnimatorStateInfo((int)AnimatorLayer.Single).normalizedTime >= 0.15)
         {
             rigidbody.MovePosition(rigidbody.position + dodgeDirection * dodgeSpeed * Time.deltaTime);
         }
+    }
+
+    public void SetMoveParameter()
+    {
+        animator.SetFloat("Horizontal", moveVector.x);
+        animator.SetFloat("Vertical", moveVector.z);
+        animator.SetBool("IsMove", isMove);
+        animator.SetBool("IsRun", isRun);
+        if (moveVector == Vector3.zero) animator.SetFloat("MoveSpeed", 0);
+        else animator.SetFloat("MoveSpeed", moveSpeed);
     }
 }

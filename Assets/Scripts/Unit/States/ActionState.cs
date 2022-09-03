@@ -25,7 +25,7 @@ public class ActionState : IState
         Debug.Log("ActionState Exit");
     }
 
-    virtual public bool CanInput(Player.PlayerState newState)
+    virtual public bool CanInput(Unit.BaseState newState)
     {
         if (elapsedTime > releaseTime) return true;
         else return false;

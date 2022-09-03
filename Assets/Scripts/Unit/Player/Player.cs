@@ -4,23 +4,13 @@ using UnityEngine;
 
 public class Player : Unit
 {
-    public enum PlayerState
-    {
-        Idle,
-        Walk,
-        Run,
-        Attack,
-        Defend,
-        Dodge,
-    }
-
-    private Dictionary<PlayerState, IState> dicPlayerState;
+    private Dictionary<BaseState, IState> dicPlayerState;
     private State playerState = null;
     private float dodgeSpeed = 6f;
     private Vector3 dodgeDirection = Vector3.zero;
 
     #region properties
-    public Dictionary<PlayerState, IState> GetDicPlayerState { get { return dicPlayerState; } }
+    public Dictionary<BaseState, IState> GetDicPlayerState { get { return dicPlayerState; } }
     public State GetPlayerState { get { return playerState; } set { playerState = value; } }
     public Vector3 DodgeDirection { get { return dodgeDirection; } set { dodgeDirection = value; } }
     #endregion
@@ -46,15 +36,15 @@ public class Player : Unit
 
     public void Initialize()
     {
-        dicPlayerState = new Dictionary<Player.PlayerState, IState>();
-        dicPlayerState.Add(Player.PlayerState.Idle, new Idle(this));
-        dicPlayerState.Add(Player.PlayerState.Walk, new Walk(this));
-        dicPlayerState.Add(Player.PlayerState.Run, new Run(this));
-        dicPlayerState.Add(Player.PlayerState.Attack, new Attack(this));
-        dicPlayerState.Add(Player.PlayerState.Defend, new Defend(this));
-        dicPlayerState.Add(Player.PlayerState.Dodge, new Dodge(this));
+        dicPlayerState = new Dictionary<BaseState, IState>();
+        dicPlayerState.Add(BaseState.Idle, new Idle(this));
+        dicPlayerState.Add(BaseState.Walk, new Walk(this));
+        dicPlayerState.Add(BaseState.Run, new Run(this));
+        dicPlayerState.Add(BaseState.Attack, new Attack(this));
+        dicPlayerState.Add(BaseState.Defend, new Defend(this));
+        dicPlayerState.Add(BaseState.Dodge, new Dodge(this));
 
-        playerState = new State(dicPlayerState[Player.PlayerState.Idle]);
+        playerState = new State(dicPlayerState[Unit.BaseState.Idle]);
 
         moveVector = Vector3.zero;
         moveSpeed = 3f;
@@ -114,9 +104,9 @@ public class Player : Unit
         if (animator.GetCurrentAnimatorStateInfo((int)AnimatorLayer.Single).normalizedTime >= 0.9)
         {
             canChangeState = true;
-            if (isMove) playerState.SetState(dicPlayerState[Player.PlayerState.Walk]);
-            else if (isRun) playerState.SetState(dicPlayerState[Player.PlayerState.Run]);
-            else playerState.SetState(dicPlayerState[Player.PlayerState.Idle]);
+            if (isMove) playerState.SetState(dicPlayerState[BaseState.Walk]);
+            else if (isRun) playerState.SetState(dicPlayerState[BaseState.Run]);
+            else playerState.SetState(dicPlayerState[BaseState.Idle]);
         }
         else if (animator.GetCurrentAnimatorStateInfo((int)AnimatorLayer.Single).normalizedTime >= 0.15)
         {

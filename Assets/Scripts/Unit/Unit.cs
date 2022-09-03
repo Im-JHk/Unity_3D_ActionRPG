@@ -15,6 +15,15 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
         Blend,
         Single
     }
+    public enum BaseState
+    {
+        Idle = 0,
+        Walk,
+        Run,
+        Attack,
+        Defend,
+        Dodge,
+    }
     public enum MoveState
     {
         None = 0,

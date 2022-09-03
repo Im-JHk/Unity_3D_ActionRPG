@@ -24,28 +24,28 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
         if (!player.CanChangeState) return;
         if(player.MoveVector != Vector3.zero && !player.IsRun)
         {
-            player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Walk]);
+            player.GetPlayerState.SetState(player.GetDicPlayerState[Unit.BaseState.Walk]);
         }
         else if (context.canceled)
         {
             player.Move();
-            player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Idle]);
+            player.GetPlayerState.SetState(player.GetDicPlayerState[Unit.BaseState.Idle]);
         }
     }
 
     public void OnRun(InputAction.CallbackContext context)
     {
-        if (player.CanChangeState && context.performed && player.GetPlayerState.CurrentState == player.GetDicPlayerState[Player.PlayerState.Walk])
+        if (player.CanChangeState && context.performed && player.GetPlayerState.CurrentState == player.GetDicPlayerState[Unit.BaseState.Walk])
         {
             player.IsRun = true;
-            player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Run]);
+            player.GetPlayerState.SetState(player.GetDicPlayerState[Unit.BaseState.Run]);
         }
         else if (context.canceled)
         {
             player.IsRun = false;
             player.Move();
-            if(player.IsMove) player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Walk]);
-            else player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Idle]);
+            if(player.IsMove) player.GetPlayerState.SetState(player.GetDicPlayerState[Unit.BaseState.Walk]);
+            else player.GetPlayerState.SetState(player.GetDicPlayerState[Unit.BaseState.Idle]);
         }
     }
 
@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
     {
         if (player.CanChangeState && context.started)
         {
-            player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Attack]);
+            player.GetPlayerState.SetState(player.GetDicPlayerState[Unit.BaseState.Attack]);
         }
     }
 
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
     {
         if (player.CanChangeState && context.started)
         {
-            player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Defend]);
+            player.GetPlayerState.SetState(player.GetDicPlayerState[Unit.BaseState.Defend]);
         }
     }
 
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
     {
         if (player.CanChangeState && context.started)
         {
-            player.GetPlayerState.SetState(player.GetDicPlayerState[Player.PlayerState.Dodge]);
+            player.GetPlayerState.SetState(player.GetDicPlayerState[Unit.BaseState.Dodge]);
         }
     }
 

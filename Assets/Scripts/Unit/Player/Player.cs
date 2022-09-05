@@ -31,7 +31,6 @@ public class Player : Unit
     private void Update()
     {
         playerState.Update();
-        print(canChangeState);
     }
 
     public void Initialize()
@@ -95,10 +94,6 @@ public class Player : Unit
         else
         {
             dodgeDirection = moveVector;
-            //moveVector = Vector3.zero;
-            //isMove = false;
-            //isRun = false;
-            //Move();
         }
 
         if (animator.GetCurrentAnimatorStateInfo((int)AnimatorLayer.Single).normalizedTime >= 0.9)

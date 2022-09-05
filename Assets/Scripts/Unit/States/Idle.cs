@@ -7,6 +7,7 @@ public class Idle : MoveState
     public Idle(Unit unit)
     {
         this.unit = unit;
+        StateType = Unit.BaseState.Idle;
     }
 
     override public void StateEnter()

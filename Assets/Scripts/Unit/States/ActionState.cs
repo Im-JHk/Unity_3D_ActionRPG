@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class ActionState : IState
 {
+    protected Unit.BaseState stateType;
+    
     protected Unit unit = null;
     private float elapsedTime;
     private float releaseTime = 1.0f;
+
+    public Unit.BaseState StateType { get { return stateType; } protected set { stateType = value; } }
 
     virtual public void StateEnter()
     {

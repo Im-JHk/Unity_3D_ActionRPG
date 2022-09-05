@@ -5,18 +5,20 @@ using UnityEngine.AI;
 
 public class Monster : Unit
 {
-    private Dictionary<BaseState, IState> dicMonsterState;
-    private State mosterState = null;
-    private NavMeshAgent monsterNavAgent = null;
-    private GameObject target = null;
+    protected Dictionary<BaseState, IState> dicMonsterState;
+    protected State monsterState = null;
+    protected NavMeshAgent monsterNavAgent = null;
+    protected GameObject target = null;
 
-    private Vector3 dodgeDirection = Vector3.zero;
-    private float dodgeSpeed;
-    private bool canAttack;
+    protected Vector3 dodgeDirection = Vector3.zero;
+    protected float dodgeSpeed;
+    protected float phaseTime;
+    protected float phaseDelay;
+    protected bool canAttack;
 
     #region properties
     public Dictionary<BaseState, IState> DicMonsterState { get { return dicMonsterState; } }
-    public State MonsterState { get { return mosterState; } set { mosterState = value; } }
+    public State MonsterState { get { return monsterState; } set { monsterState = value; } }
     public Vector3 DodgeDirection { get { return dodgeDirection; } set { dodgeDirection = value; } }
     #endregion
 
@@ -24,18 +26,20 @@ public class Monster : Unit
     {
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
-        monsterNavAgent.GetComponent<NavMeshAgent>();
-        unitType = UnitType.Player;
+        monsterNavAgent = GetComponent<NavMeshAgent>();
+        unitType = UnitType.Monster;
+        phaseTime = 0;
+        phaseDelay = 1f;
         canAttack = false;
         Initialize();
     }
 
-    void Update()
+    private void Update()
     {
-        
+        monsterState.Update();
     }
 
-    private void Initialize()
+    virtual public void Initialize()
     {
         dicMonsterState = new Dictionary<BaseState, IState>();
         dicMonsterState.Add(BaseState.Idle, new Idle(this));
@@ -45,11 +49,11 @@ public class Monster : Unit
         dicMonsterState.Add(BaseState.Defend, new Defend(this));
         dicMonsterState.Add(BaseState.Dodge, new Dodge(this));
 
-        MonsterState = new State(dicMonsterState[BaseState.Idle]);
+        monsterState = new State(dicMonsterState[BaseState.Idle]);
 
         moveVector = Vector3.zero;
-        moveSpeed = 3f;
-        rotateSpeed = 50f;
+        moveSpeed = 1f;
+        rotateSpeed = 100f;
         rotateTime = 0;
         isMove = false;
         isRun = false;
@@ -69,28 +73,32 @@ public class Monster : Unit
                 this.target = obj;
             }
         }
+        animator.SetBool("IsFocus", true);
     }
 
     public void TargettingOff()
     {
         this.target = null;
+        animator.SetBool("IsFocus", false);
     }
 
     public void SetStopDistance(float distance)
     {
         monsterNavAgent.stoppingDistance = distance;
+        print("SetStopDistance: " + monsterNavAgent.stoppingDistance);
     }
 
     public void ChangeMoveAndAttackState(bool b)
     {
+        print("ChangeMoveAndAttackState: " + b);
         monsterNavAgent.isStopped = b;
+        phaseTime = 0;
         canAttack = b;
         animator.SetBool("CanAttack", b);
     }
 
     override public void Move()
     {
-        print("mons move");
         monsterNavAgent.SetDestination(this.target.transform.position);
         animator.SetTrigger("OnMove");
     }

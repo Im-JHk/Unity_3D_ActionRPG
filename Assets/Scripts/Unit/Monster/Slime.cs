@@ -1,16 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Slime : NormalMonster
 {
-    void Start()
+    public enum SlimePhase
     {
-        
-    }
-
-    void Update()
-    {
-        
+        Attack1 = 0,
+        Attack2
     }
 }

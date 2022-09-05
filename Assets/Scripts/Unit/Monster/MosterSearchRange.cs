@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class MosterSearchRange : MonoBehaviour
 {
+    [SerializeField]
     private Monster monster = null;
     [SerializeField]
     private SphereCollider rangeCollider = null;
-    private float distance = 1.5f;
+    private float radius = 7f;
+    private float distance = 1f;
 
     private void Awake()
     {
-        monster = GetComponentInParent<Monster>();
         rangeCollider = GetComponent<SphereCollider>();
     }
     private void Start()
     {
+        rangeCollider.radius = radius;
         monster.SetStopDistance(distance);
     }
 
@@ -24,6 +26,7 @@ public class MosterSearchRange : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             monster.FocusTarget(other.gameObject);
+            monster.MonsterState.SetState(monster.DicMonsterState[Unit.BaseState.Run]);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -31,6 +34,7 @@ public class MosterSearchRange : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             monster.TargettingOff();
+            monster.MonsterState.SetState(monster.DicMonsterState[Unit.BaseState.Idle]);
         }
     }
 }

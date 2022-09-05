@@ -6,6 +6,7 @@ public class Attack : ActionState
 {
     public Attack(Unit unit)
     {
+        StateType = Unit.BaseState.Attack;
         this.unit = unit;
     }
 
@@ -19,6 +20,7 @@ public class Attack : ActionState
     override public void StateStay()
     {
         Debug.Log("Attack Stay");
+        unit.Attack();
     }
 
     override public void StateExit()

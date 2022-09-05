@@ -6,6 +6,7 @@ public class Walk : MoveState
 {
     public Walk(Unit unit)
     {
+        StateType = Unit.BaseState.Walk;
         this.unit = unit;
     }
 
@@ -27,7 +28,7 @@ public class Walk : MoveState
         //Debug.Log("Walk Exit");
         if(unit.MoveVector == Vector3.zero) unit.IsMove = false;
         unit.LookVector = unit.MoveVector;
-        unit.Move();
+        if(unit.GetUnitType == Unit.UnitType.Player) unit.Move();
         unit.GetMoveState = Unit.MoveState.None;
     }
 }

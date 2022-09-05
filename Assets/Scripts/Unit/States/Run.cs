@@ -6,6 +6,7 @@ public class Run : MoveState
 {
     public Run(Unit unit)
     {
+        StateType = Unit.BaseState.Run;
         this.unit = unit;
     }
 

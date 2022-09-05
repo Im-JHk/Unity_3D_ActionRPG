@@ -6,6 +6,7 @@ public class Dodge : ActionState
 {
     public Dodge(Unit unit)
     {
+        StateType = Unit.BaseState.Dodge;
         this.unit = unit;
     }
 

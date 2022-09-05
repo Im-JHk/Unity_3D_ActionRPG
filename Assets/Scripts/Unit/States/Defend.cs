@@ -6,8 +6,8 @@ public class Defend : ActionState
 {
     public Defend(Unit unit)
     {
+        StateType = Unit.BaseState.Defend;
         this.unit = unit;
-
     }
     override public void StateEnter()
     {

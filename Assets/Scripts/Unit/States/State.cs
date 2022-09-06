@@ -2,36 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class State
+namespace NS_State
 {
-    private IState currentState = null;
-
-    public IState CurrentState { get { return currentState; } private set { currentState = value; } }
-
-    public State(IState state)
+    public class State
     {
-        this.currentState = state;
-    }
+        private IState currentState = null;
 
-    public void Update()
-    {
-        this.currentState.StateStay();
-    }
+        public IState CurrentState { get { return currentState; } private set { currentState = value; } }
 
-    public void SetState(IState state)
-    {
-        if (this.currentState == state)
+        public State(IState state)
         {
-            return;
+            this.currentState = state;
         }
-        this.currentState.StateExit();
-        this.currentState = state;
-        this.currentState.StateEnter();
-    }
 
-    //public bool CanInputCheck(Player.PlayerState newState)
-    //{
-    //    if (this.currentState.CanInput(newState)) return true;
-    //    else return false;
-    //}
+        public void StateUpdate()
+        {
+            this.currentState.StateStay();
+        }
+
+        public void SetState(IState state)
+        {
+            if (this.currentState == state)
+            {
+                return;
+            }
+            this.currentState.StateExit();
+            this.currentState = state;
+            this.currentState.StateEnter();
+        }
+
+        //public bool CanInputCheck(Player.PlayerState newState)
+        //{
+        //    if (this.currentState.CanInput(newState)) return true;
+        //    else return false;
+        //}
+    }
 }

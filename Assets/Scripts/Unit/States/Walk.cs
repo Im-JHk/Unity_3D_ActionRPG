@@ -1,34 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Walk : MoveState
+namespace NS_State
 {
-    public Walk(Unit unit)
+    public class Walk : MoveState
     {
-        StateType = Unit.BaseState.Walk;
-        this.unit = unit;
-    }
+        public Walk(Unit unit)
+        {
+            StateType = NS_Unit.BaseState.Walk;
+            this.unit = unit;
+        }
 
-    override public void StateEnter()
-    {
-        //Debug.Log("Walk Enter");
-        unit.IsMove = true;
-        unit.GetMoveState = Unit.MoveState.Walk;
-    }
+        override public void StateEnter()
+        {
+            //Debug.Log("Walk Enter");
+            unit.IsMove = true;
+            unit.GetMoveState = NS_Unit.MoveState.Walk;
+        }
 
-    override public void StateStay()
-    {
-        //Debug.Log("Walk Stay");
-        unit.Move();
-    }
+        override public void StateStay()
+        {
+            //Debug.Log("Walk Stay");
+            unit.Move();
+        }
 
-    override public void StateExit()
-    {
-        //Debug.Log("Walk Exit");
-        if(unit.MoveVector == Vector3.zero) unit.IsMove = false;
-        unit.LookVector = unit.MoveVector;
-        if(unit.GetUnitType == Unit.UnitType.Player) unit.Move();
-        unit.GetMoveState = Unit.MoveState.None;
+        override public void StateExit()
+        {
+            //Debug.Log("Walk Exit");
+            if (unit.MoveVector == Vector3.zero) unit.IsMove = false;
+            unit.LookVector = unit.MoveVector;
+            if (unit.GetUnitType == NS_Unit.UnitType.Player) unit.Move();
+            unit.GetMoveState = NS_Unit.MoveState.None;
+        }
     }
 }

@@ -1,36 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Run : MoveState
+namespace NS_State
 {
-    public Run(Unit unit)
+    public class Run : MoveState
     {
-        StateType = Unit.BaseState.Run;
-        this.unit = unit;
-    }
+        public Run(Unit unit)
+        {
+            StateType = NS_Unit.BaseState.Run;
+            this.unit = unit;
+        }
 
-    override public void StateEnter()
-    {
-        //Debug.Log("Run Enter");
-        unit.MoveSpeed *= 2f;
-        unit.GetMoveState = Unit.MoveState.Run;
-    }
+        override public void StateEnter()
+        {
+            //Debug.Log("Run Enter");
+            unit.MoveSpeed *= 2f;
+            unit.GetMoveState = NS_Unit.MoveState.Run;
+        }
 
-    override public void StateStay()
-    {
-        //Debug.Log("Run Stay");
-        unit.Move();
-    }
+        override public void StateStay()
+        {
+            //Debug.Log("Run Stay");
+            unit.Move();
+        }
 
-    override public void StateExit()
-    {
-        //Debug.Log("Run Exit");
-        if (unit.MoveVector == Vector3.zero) unit.IsMove = false;
-        unit.IsRun = false;
-        unit.LookVector = unit.MoveVector;
-        unit.MoveSpeed *= 0.5f;
-        unit.Move();
-        unit.GetMoveState = Unit.MoveState.None;
+        override public void StateExit()
+        {
+            //Debug.Log("Run Exit");
+            if (unit.MoveVector == Vector3.zero) unit.IsMove = false;
+            unit.IsRun = false;
+            unit.LookVector = unit.MoveVector;
+            unit.MoveSpeed *= 0.5f;
+            unit.Move();
+            unit.GetMoveState = NS_Unit.MoveState.None;
+        }
     }
 }

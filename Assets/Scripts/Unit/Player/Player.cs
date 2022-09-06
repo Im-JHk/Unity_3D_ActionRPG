@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Player : Unit
 {
-    private Dictionary<BaseState, IState> dicPlayerState;
-    private State playerState = null;
+    private Dictionary<NS_Unit.BaseState, IState> dicPlayerState;
+    private NS_State.State playerState = null;
     private float dodgeSpeed = 6f;
     private Vector3 dodgeDirection = Vector3.zero;
 
     #region properties
-    public Dictionary<BaseState, IState> GetDicPlayerState { get { return dicPlayerState; } }
-    public State GetPlayerState { get { return playerState; } set { playerState = value; } }
+    public Dictionary<NS_Unit.BaseState, IState> GetDicPlayerState { get { return dicPlayerState; } }
+    public NS_State.State GetPlayerState { get { return playerState; } set { playerState = value; } }
     public Vector3 DodgeDirection { get { return dodgeDirection; } set { dodgeDirection = value; } }
     #endregion
 
@@ -19,7 +19,7 @@ public class Player : Unit
     {
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
-        unitType = UnitType.Player;
+        unitType = NS_Unit.UnitType.Player;
         Initialize();
     }
 
@@ -30,25 +30,26 @@ public class Player : Unit
 
     private void Update()
     {
-        playerState.Update();
+        playerState.StateUpdate();
     }
 
     public void Initialize()
     {
-        dicPlayerState = new Dictionary<BaseState, IState>();
-        dicPlayerState.Add(BaseState.Idle, new Idle(this));
-        dicPlayerState.Add(BaseState.Walk, new Walk(this));
-        dicPlayerState.Add(BaseState.Run, new Run(this));
-        dicPlayerState.Add(BaseState.Attack, new Attack(this));
-        dicPlayerState.Add(BaseState.Defend, new Defend(this));
-        dicPlayerState.Add(BaseState.Dodge, new Dodge(this));
+        dicPlayerState = new Dictionary<NS_Unit.BaseState, IState>();
+        dicPlayerState.Add(NS_Unit.BaseState.Idle, new NS_State.Idle(this));
+        dicPlayerState.Add(NS_Unit.BaseState.Walk, new NS_State.Walk(this));
+        dicPlayerState.Add(NS_Unit.BaseState.Run, new NS_State.Run(this));
+        dicPlayerState.Add(NS_Unit.BaseState.Attack, new NS_State.Attack(this));
+        dicPlayerState.Add(NS_Unit.BaseState.Defend, new NS_State.Defend(this));
+        dicPlayerState.Add(NS_Unit.BaseState.Dodge, new NS_State.Dodge(this));
 
-        playerState = new State(dicPlayerState[Unit.BaseState.Idle]);
+        playerState = new NS_State.State(dicPlayerState[NS_Unit.BaseState.Idle]);
 
         moveVector = Vector3.zero;
         moveSpeed = 3f;
         rotateSpeed = 50f;
         rotateTime = 0;
+        comboCount = 0;
         isMove = false;
         isRun = false;
         canChangeState = true;
@@ -57,7 +58,7 @@ public class Player : Unit
     override public void Move()
     {
         SetMoveParameter();
-        if (moveVector != Vector3.zero && currentActionState == ActionState.None)
+        if (moveVector != Vector3.zero && currentActionState == NS_Unit.ActionState.None)
         {
             rigidbody.MovePosition(rigidbody.position + moveVector * moveSpeed * Time.deltaTime);
             Rotate();
@@ -96,14 +97,14 @@ public class Player : Unit
             dodgeDirection = moveVector;
         }
 
-        if (animator.GetCurrentAnimatorStateInfo((int)AnimatorLayer.Single).normalizedTime >= 0.9)
+        if (animator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Single).normalizedTime >= 0.9)
         {
             canChangeState = true;
-            if (isMove) playerState.SetState(dicPlayerState[BaseState.Walk]);
-            else if (isRun) playerState.SetState(dicPlayerState[BaseState.Run]);
-            else playerState.SetState(dicPlayerState[BaseState.Idle]);
+            if (isMove) playerState.SetState(dicPlayerState[NS_Unit.BaseState.Walk]);
+            else if (isRun) playerState.SetState(dicPlayerState[NS_Unit.BaseState.Run]);
+            else playerState.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
         }
-        else if (animator.GetCurrentAnimatorStateInfo((int)AnimatorLayer.Single).normalizedTime >= 0.15)
+        else if (animator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Single).normalizedTime >= 0.15)
         {
             rigidbody.MovePosition(rigidbody.position + dodgeDirection * dodgeSpeed * Time.deltaTime);
         }

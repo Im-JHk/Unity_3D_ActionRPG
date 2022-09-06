@@ -1,60 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Monster : Unit
 {
-    protected Dictionary<BaseState, IState> dicMonsterState;
-    protected State monsterState = null;
+    protected Dictionary<NS_Unit.BaseState, IState> dicMonsterState;
+    protected NS_State.State monsterState = null;
+
+    protected List<IBattlePhase> listMonsterPhase;
+    protected NS_Phase.BattlePhase monsterPhase = null;
+    protected int currentPhaseIndex = 0;
+
     protected NavMeshAgent monsterNavAgent = null;
     protected GameObject target = null;
 
     protected Vector3 dodgeDirection = Vector3.zero;
     protected float dodgeSpeed;
-    protected float phaseTime;
-    protected float phaseDelay;
     protected bool canAttack;
 
     #region properties
-    public Dictionary<BaseState, IState> DicMonsterState { get { return dicMonsterState; } }
-    public State MonsterState { get { return monsterState; } set { monsterState = value; } }
+    public Dictionary<NS_Unit.BaseState, IState> DicMonsterState { get { return dicMonsterState; } }
+    public NS_State.State MonsterState { get { return monsterState; } set { monsterState = value; } }
+    public List<IBattlePhase> ListMonsterPhase { get { return listMonsterPhase; } }
+    public NS_Phase.BattlePhase MonsterPhase { get { return monsterPhase; } set { monsterPhase = value; } }
     public Vector3 DodgeDirection { get { return dodgeDirection; } set { dodgeDirection = value; } }
+    public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
     #endregion
-
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody>();
-        monsterNavAgent = GetComponent<NavMeshAgent>();
-        unitType = UnitType.Monster;
-        phaseTime = 0;
-        phaseDelay = 1f;
-        canAttack = false;
-        Initialize();
-    }
-
-    private void Update()
-    {
-        monsterState.Update();
-    }
 
     virtual public void Initialize()
     {
-        dicMonsterState = new Dictionary<BaseState, IState>();
-        dicMonsterState.Add(BaseState.Idle, new Idle(this));
-        dicMonsterState.Add(BaseState.Walk, new Walk(this));
-        dicMonsterState.Add(BaseState.Run, new Run(this));
-        dicMonsterState.Add(BaseState.Attack, new Attack(this));
-        dicMonsterState.Add(BaseState.Defend, new Defend(this));
-        dicMonsterState.Add(BaseState.Dodge, new Dodge(this));
+        dicMonsterState = new Dictionary<NS_Unit.BaseState, IState>();
+        dicMonsterState.Add(NS_Unit.BaseState.Idle, new NS_State.Idle(this));
+        dicMonsterState.Add(NS_Unit.BaseState.Walk, new NS_State.Walk(this));
+        dicMonsterState.Add(NS_Unit.BaseState.Run, new NS_State.Run(this));
+        dicMonsterState.Add(NS_Unit.BaseState.Attack, new NS_State.Attack(this));
+        dicMonsterState.Add(NS_Unit.BaseState.Defend, new NS_State.Defend(this));
+        dicMonsterState.Add(NS_Unit.BaseState.Dodge, new NS_State.Dodge(this));
 
-        monsterState = new State(dicMonsterState[BaseState.Idle]);
+        monsterState = new NS_State.State(dicMonsterState[NS_Unit.BaseState.Idle]);
 
         moveVector = Vector3.zero;
         moveSpeed = 1f;
         rotateSpeed = 100f;
         rotateTime = 0;
+        comboCount = 0;
         isMove = false;
         isRun = false;
         canChangeState = true;
@@ -92,7 +83,6 @@ public class Monster : Unit
     {
         print("ChangeMoveAndAttackState: " + b);
         monsterNavAgent.isStopped = b;
-        phaseTime = 0;
         canAttack = b;
         animator.SetBool("CanAttack", b);
     }
@@ -106,6 +96,41 @@ public class Monster : Unit
     override public void Attack()
     {
         print("mons attack");
+        animator.SetInteger("Combo", comboCount++);
         animator.SetTrigger("OnAttack");
+    }
+
+    virtual public void NextPhase()
+    {
+        if (currentPhaseIndex >= monsterPhase.PhaseMax)
+        {
+            currentPhaseIndex = 0;
+            monsterPhase.SetPhase(listMonsterPhase[currentPhaseIndex]);
+        }
+        else
+        {
+            currentPhaseIndex += 1;
+            monsterPhase.SetPhase(listMonsterPhase[currentPhaseIndex]);
+        }
+    }
+
+    public IEnumerator MeleeAttack(Action action)
+    {
+        while(!canAttack)
+        {
+            monsterState.SetState(dicMonsterState[NS_Unit.BaseState.Run]);
+            yield return new WaitForSeconds(0.5f);
+        }
+        monsterState.SetState(dicMonsterState[NS_Unit.BaseState.Attack]);
+        action();
+
+        yield break;
+    }
+
+    public IEnumerator Defend(Action action)
+    {
+        action();
+
+        yield break;
     }
 }

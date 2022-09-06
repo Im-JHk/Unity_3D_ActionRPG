@@ -26,7 +26,7 @@ public class MosterSearchRange : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             monster.FocusTarget(other.gameObject);
-            monster.MonsterState.SetState(monster.DicMonsterState[Unit.BaseState.Run]);
+            monster.MonsterState.SetState(monster.DicMonsterState[NS_Unit.BaseState.Run]);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -34,7 +34,7 @@ public class MosterSearchRange : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             monster.TargettingOff();
-            monster.MonsterState.SetState(monster.DicMonsterState[Unit.BaseState.Idle]);
+            monster.MonsterState.SetState(monster.DicMonsterState[NS_Unit.BaseState.Idle]);
         }
     }
 }

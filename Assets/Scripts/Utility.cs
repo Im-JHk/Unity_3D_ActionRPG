@@ -10,5 +10,4 @@ public static class Utility
         float next = Vector3.Distance(basePosition, rightPosition);
         return prev > next;
     }
-
 }

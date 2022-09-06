@@ -1,30 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Idle : MoveState
+namespace NS_State
 {
-    public Idle(Unit unit)
+    public class Idle : MoveState
     {
-        this.unit = unit;
-        StateType = Unit.BaseState.Idle;
-    }
+        public Idle(Unit unit)
+        {
+            this.unit = unit;
+            StateType = NS_Unit.BaseState.Idle;
+        }
 
-    override public void StateEnter()
-    {
-        //Debug.Log("Idle Enter");
-        unit.LookVector = Vector3.zero;
-        unit.GetMoveState = Unit.MoveState.Idle;
-    }
+        override public void StateEnter()
+        {
+            unit.LookVector = Vector3.zero;
+            unit.GetMoveState = NS_Unit.MoveState.Idle;
+        }
 
-    override public void StateStay()
-    {
-        //Debug.Log("Idle Stay");
-    }
+        override public void StateStay()
+        {
+        }
 
-    override public void StateExit()
-    {
-        //Debug.Log("Idle Exit");
-        unit.GetMoveState = Unit.MoveState.None;
+        override public void StateExit()
+        {
+            unit.GetMoveState = NS_Unit.MoveState.None;
+        }
     }
 }

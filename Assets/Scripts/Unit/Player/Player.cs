@@ -17,7 +17,7 @@ public class Player : Unit
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animationEvent = new AnimationEvent(GetComponent<Animator>());
         rigidbody = GetComponent<Rigidbody>();
         unitType = NS_Unit.UnitType.Player;
         Initialize();
@@ -97,14 +97,14 @@ public class Player : Unit
             dodgeDirection = moveVector;
         }
 
-        if (animator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Single).normalizedTime >= 0.9)
+        if (animationEvent.GetAnimator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Single).normalizedTime >= 0.9)
         {
             canChangeState = true;
             if (isMove) playerState.SetState(dicPlayerState[NS_Unit.BaseState.Walk]);
             else if (isRun) playerState.SetState(dicPlayerState[NS_Unit.BaseState.Run]);
             else playerState.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
         }
-        else if (animator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Single).normalizedTime >= 0.15)
+        else if (animationEvent.GetAnimator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Single).normalizedTime >= 0.15)
         {
             rigidbody.MovePosition(rigidbody.position + dodgeDirection * dodgeSpeed * Time.deltaTime);
         }
@@ -112,11 +112,11 @@ public class Player : Unit
 
     public void SetMoveParameter()
     {
-        animator.SetFloat("Horizontal", moveVector.x);
-        animator.SetFloat("Vertical", moveVector.z);
-        animator.SetBool("IsMove", isMove);
-        animator.SetBool("IsRun", isRun);
-        if (moveVector == Vector3.zero) animator.SetFloat("MoveSpeed", 0);
-        else animator.SetFloat("MoveSpeed", moveSpeed);
+        animationEvent.GetAnimator.SetFloat("Horizontal", moveVector.x);
+        animationEvent.GetAnimator.SetFloat("Vertical", moveVector.z);
+        animationEvent.GetAnimator.SetBool("IsMove", isMove);
+        animationEvent.GetAnimator.SetBool("IsRun", isRun);
+        if (moveVector == Vector3.zero) animationEvent.GetAnimator.SetFloat("MoveSpeed", 0);
+        else animationEvent.GetAnimator.SetFloat("MoveSpeed", moveSpeed);
     }
 }

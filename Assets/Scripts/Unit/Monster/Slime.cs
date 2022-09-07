@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +16,10 @@ public class Slime : Monster
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody>();
+        monsterPhase = new NS_Phase.BattlePhase(Enum.GetValues(typeof(SlimePhase)).Length);
         monsterNavAgent = GetComponent<NavMeshAgent>();
+        rigidbody = GetComponent<Rigidbody>();
+        animationEvent = new AnimationEvent(GetComponent<Animator>());
         Initialize();
     }
 
@@ -36,10 +38,9 @@ public class Slime : Monster
         dicMonsterState.Add(NS_Unit.BaseState.Attack, new NS_State.Attack(this));
         monsterState = new NS_State.State(dicMonsterState[NS_Unit.BaseState.Idle]);
 
-        listMonsterPhase = new List<IBattlePhase>();
-        listMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
-        listMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
-        monsterPhase = new NS_Phase.BattlePhase(sizeof(SlimePhase));
+        monsterPhase.ListMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
+        monsterPhase.ListMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
+        monsterPhase.SetPhase(monsterPhase.ListMonsterPhase[monsterPhase.CurrentPhaseIndex]);
 
         canAttack = false;
 

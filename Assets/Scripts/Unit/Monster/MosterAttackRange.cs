@@ -24,7 +24,6 @@ public class MosterAttackRange : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             monster.ChangeMoveAndAttackState(true);
-            monster.MonsterState.SetState(monster.DicMonsterState[NS_Unit.BaseState.Attack]);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -32,7 +31,6 @@ public class MosterAttackRange : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             monster.ChangeMoveAndAttackState(false);
-            monster.MonsterState.SetState(monster.DicMonsterState[NS_Unit.BaseState.Run]);
         }
     }
 }

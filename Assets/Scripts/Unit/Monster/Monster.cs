@@ -9,9 +9,8 @@ public class Monster : Unit
     protected Dictionary<NS_Unit.BaseState, IState> dicMonsterState;
     protected NS_State.State monsterState = null;
 
-    protected List<IBattlePhase> listMonsterPhase;
     protected NS_Phase.BattlePhase monsterPhase = null;
-    protected int currentPhaseIndex = 0;
+    protected bool isStayCoroutine = false;
 
     protected NavMeshAgent monsterNavAgent = null;
     protected GameObject target = null;
@@ -23,8 +22,10 @@ public class Monster : Unit
     #region properties
     public Dictionary<NS_Unit.BaseState, IState> DicMonsterState { get { return dicMonsterState; } }
     public NS_State.State MonsterState { get { return monsterState; } set { monsterState = value; } }
-    public List<IBattlePhase> ListMonsterPhase { get { return listMonsterPhase; } }
+
     public NS_Phase.BattlePhase MonsterPhase { get { return monsterPhase; } set { monsterPhase = value; } }
+    public bool IsStayCoroutine { get { return isStayCoroutine; } set { isStayCoroutine = value; } }
+
     public Vector3 DodgeDirection { get { return dodgeDirection; } set { dodgeDirection = value; } }
     public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
     #endregion
@@ -64,67 +65,59 @@ public class Monster : Unit
                 this.target = obj;
             }
         }
-        animator.SetBool("IsFocus", true);
+        animationEvent.GetAnimator.SetBool("IsFocus", true);
     }
 
     public void TargettingOff()
     {
         this.target = null;
-        animator.SetBool("IsFocus", false);
+        animationEvent.GetAnimator.SetBool("IsFocus", false);
     }
 
     public void SetStopDistance(float distance)
     {
         monsterNavAgent.stoppingDistance = distance;
-        print("SetStopDistance: " + monsterNavAgent.stoppingDistance);
     }
 
     public void ChangeMoveAndAttackState(bool b)
     {
-        print("ChangeMoveAndAttackState: " + b);
         monsterNavAgent.isStopped = b;
         canAttack = b;
-        animator.SetBool("CanAttack", b);
+        animationEvent.GetAnimator.SetBool("CanAttack", b);
     }
 
     override public void Move()
     {
         monsterNavAgent.SetDestination(this.target.transform.position);
-        animator.SetTrigger("OnMove");
+        animationEvent.GetAnimator.SetTrigger("OnMove");
     }
 
     override public void Attack()
     {
-        print("mons attack");
-        animator.SetInteger("Combo", comboCount++);
-        animator.SetTrigger("OnAttack");
+        animationEvent.GetAnimator.SetInteger("Combo", comboCount);
+        animationEvent.GetAnimator.SetTrigger("OnAttack");
+        if (comboCount >= comboMax) comboCount = 0;
+        else comboCount += 1;
     }
 
-    virtual public void NextPhase()
+    public IEnumerator MeleeAttack()
     {
-        if (currentPhaseIndex >= monsterPhase.PhaseMax)
-        {
-            currentPhaseIndex = 0;
-            monsterPhase.SetPhase(listMonsterPhase[currentPhaseIndex]);
-        }
-        else
-        {
-            currentPhaseIndex += 1;
-            monsterPhase.SetPhase(listMonsterPhase[currentPhaseIndex]);
-        }
-    }
-
-    public IEnumerator MeleeAttack(Action action)
-    {
+        isStayCoroutine = true;
         while(!canAttack)
         {
             monsterState.SetState(dicMonsterState[NS_Unit.BaseState.Run]);
             yield return new WaitForSeconds(0.5f);
         }
         monsterState.SetState(dicMonsterState[NS_Unit.BaseState.Attack]);
-        action();
 
-        yield break;
+        while (!animationEvent.IsOverPlaytime("MeleeAttack"))
+        {
+            yield return null;
+        }
+        monsterState.SetState(dicMonsterState[NS_Unit.BaseState.Idle]);
+        monsterPhase.PhaseExit();
+
+        isStayCoroutine = false;
     }
 
     public IEnumerator Defend(Action action)

@@ -17,7 +17,7 @@ namespace NS_State
 
         public void StateUpdate()
         {
-            this.currentState.StateStay();
+            if(this.currentState != null) this.currentState.StateStay();
         }
 
         public void SetState(IState state)

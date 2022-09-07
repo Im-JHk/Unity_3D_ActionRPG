@@ -16,7 +16,7 @@ public class Turtle : Monster
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animationEvent = new AnimationEvent(GetComponent<Animator>());
         rigidbody = GetComponent<Rigidbody>();
         monsterNavAgent = GetComponent<NavMeshAgent>();
         Initialize();

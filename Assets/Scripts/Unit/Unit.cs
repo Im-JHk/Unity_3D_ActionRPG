@@ -4,8 +4,9 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour, IMovable, IBattle
 {
-    protected Animator animator = null;
+    protected AnimationEvent animationEvent = null;
     protected Rigidbody rigidbody = null;
+
     protected NS_Unit.UnitType unitType;
     protected NS_Unit.MoveState currentMoveState = NS_Unit.MoveState.None;
     protected NS_Unit.ActionState currentActionState = NS_Unit.ActionState.None;
@@ -24,7 +25,7 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     protected bool canChangeState;
 
     #region properties
-    public Animator GetAnimator { get { return animator; } }
+    public AnimationEvent GetAnimationEvent { get { return animationEvent; } }
     public Rigidbody GetRigidbody { get { return rigidbody; } }
     public NS_Unit.UnitType GetUnitType { get { return unitType; } }
     public NS_Unit.MoveState GetMoveState { get { return currentMoveState; } set { currentMoveState = value; } }

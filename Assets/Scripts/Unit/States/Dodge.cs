@@ -15,7 +15,7 @@ namespace NS_State
             unit.CanChangeState = false;
             unit.IsDodge = true;
             //unit.GetAnimator.SetBool("IsDodge", true);
-            unit.GetAnimator.SetTrigger("OnDodge");
+            unit.GetAnimationEvent.GetAnimator.SetTrigger("OnDodge");
             unit.GetActionState = NS_Unit.ActionState.Dodge;
             Debug.Log("Dodge Enter");
         }

@@ -15,12 +15,12 @@ namespace NS_State
             Debug.Log("Attack Enter");
             unit.CanChangeState = false;
             unit.GetActionState = NS_Unit.ActionState.Attack;
+            unit.Attack();
         }
 
         override public void StateStay()
         {
             Debug.Log("Attack Stay");
-            unit.Attack();
         }
 
         override public void StateExit()

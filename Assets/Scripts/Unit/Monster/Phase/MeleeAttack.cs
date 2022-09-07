@@ -8,23 +8,26 @@ namespace NS_Phase
     public class MeleeAttack : IBattlePhase
     {
         private Monster monster = null;
-        private Action exit;
         private NS_Phase.PhaseType phaseType;
 
         public MeleeAttack(Monster monster)
         {
-            phaseType = NS_Phase.PhaseType.MeleeAttack;
-            exit += Exit;
+            this.phaseType = NS_Phase.PhaseType.MeleeAttack;
             this.monster = monster;
         }
 
         public void Execute()
         {
-            monster.StartCoroutine(nameof(MeleeAttack), exit);
+            if (!monster.IsStayCoroutine)
+            {
+                Debug.Log("melee execute");
+                monster.StartCoroutine(nameof(monster.MeleeAttack));
+            }
         }
+
         public void Exit()
         {
-            monster.NextPhase();
+            Debug.Log("melee exit");
         }
     }
 }

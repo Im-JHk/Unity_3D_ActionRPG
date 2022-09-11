@@ -15,7 +15,7 @@ namespace NS_State
         {
             Debug.Log("Defend Enter");
             unit.CanChangeState = false;
-            unit.GetActionState = NS_Unit.ActionState.Defend;
+            unit.ActionState = NS_Unit.ActionState.Defend;
         }
 
         override public void StateStay()
@@ -27,7 +27,7 @@ namespace NS_State
         {
             Debug.Log("Defend Exit");
             unit.CanChangeState = true;
-            unit.GetActionState = NS_Unit.ActionState.None;
+            unit.ActionState = NS_Unit.ActionState.None;
         }
     }
 }

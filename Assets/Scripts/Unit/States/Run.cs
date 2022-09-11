@@ -13,8 +13,9 @@ namespace NS_State
         override public void StateEnter()
         {
             //Debug.Log("Run Enter");
+            unit.IsRun = true;
             unit.MoveSpeed *= 2f;
-            unit.GetMoveState = NS_Unit.MoveState.Run;
+            unit.MoveState = NS_Unit.MoveState.Run;
         }
 
         override public void StateStay()
@@ -26,12 +27,14 @@ namespace NS_State
         override public void StateExit()
         {
             //Debug.Log("Run Exit");
-            if (unit.MoveVector == Vector3.zero) unit.IsMove = false;
+            if (unit.MoveVector == Vector3.zero)
+            {
+                unit.IsMove = false;
+                //unit.GetAnimationEvent.GetAnimator.SetBool("IsMove", false);
+            }
             unit.IsRun = false;
-            unit.LookVector = unit.MoveVector;
             unit.MoveSpeed *= 0.5f;
-            unit.Move();
-            unit.GetMoveState = NS_Unit.MoveState.None;
+            unit.MoveState = NS_Unit.MoveState.None;
         }
     }
 }

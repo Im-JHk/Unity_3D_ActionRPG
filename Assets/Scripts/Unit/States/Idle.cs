@@ -12,8 +12,8 @@ namespace NS_State
 
         override public void StateEnter()
         {
-            unit.LookVector = Vector3.zero;
-            unit.GetMoveState = NS_Unit.MoveState.Idle;
+            //unit.LookVector = Vector3.zero;
+            unit.MoveState = NS_Unit.MoveState.Idle;
         }
 
         override public void StateStay()
@@ -22,7 +22,7 @@ namespace NS_State
 
         override public void StateExit()
         {
-            unit.GetMoveState = NS_Unit.MoveState.None;
+            unit.MoveState = NS_Unit.MoveState.None;
         }
     }
 }

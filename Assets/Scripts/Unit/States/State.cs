@@ -6,35 +6,24 @@ namespace NS_State
 {
     public class State
     {
-        private IState currentState = null;
-
-        public IState CurrentState { get { return currentState; } private set { currentState = value; } }
+        public IState CurrentState { get; private set; }
 
         public State(IState state)
         {
-            this.currentState = state;
+            CurrentState = state;
         }
 
         public void StateUpdate()
         {
-            if(this.currentState != null) this.currentState.StateStay();
+            if(CurrentState != null) CurrentState.StateStay();
         }
 
         public void SetState(IState state)
         {
-            if (this.currentState == state)
-            {
-                return;
-            }
-            this.currentState.StateExit();
-            this.currentState = state;
-            this.currentState.StateEnter();
+            if (CurrentState == state) return;
+            CurrentState.StateExit();
+            CurrentState = state;
+            CurrentState.StateEnter();
         }
-
-        //public bool CanInputCheck(Player.PlayerState newState)
-        //{
-        //    if (this.currentState.CanInput(newState)) return true;
-        //    else return false;
-        //}
     }
 }

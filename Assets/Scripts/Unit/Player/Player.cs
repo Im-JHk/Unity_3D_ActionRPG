@@ -5,14 +5,12 @@ using UnityEngine;
 public class Player : Unit
 {
     private Dictionary<NS_Unit.BaseState, IState> dicPlayerState;
-    private NS_State.State playerState = null;
-    private float dodgeSpeed = 6f;
-    private Vector3 dodgeDirection = Vector3.zero;
+    private float dodgeSpeed = 0.5f;
 
     #region properties
-    public Dictionary<NS_Unit.BaseState, IState> GetDicPlayerState { get { return dicPlayerState; } }
-    public NS_State.State GetPlayerState { get { return playerState; } set { playerState = value; } }
-    public Vector3 DodgeDirection { get { return dodgeDirection; } set { dodgeDirection = value; } }
+    public Dictionary<NS_Unit.BaseState, IState> DicPlayerState { get { return dicPlayerState; } }
+    public NS_State.State StateMachine { get; set; }
+    public Vector3 DodgeDirection { get; set; }
     #endregion
 
     private void Awake()
@@ -30,7 +28,7 @@ public class Player : Unit
 
     private void Update()
     {
-        playerState.StateUpdate();
+        StateMachine.StateUpdate();
     }
 
     public void Initialize()
@@ -43,7 +41,7 @@ public class Player : Unit
         dicPlayerState.Add(NS_Unit.BaseState.Defend, new NS_State.Defend(this));
         dicPlayerState.Add(NS_Unit.BaseState.Dodge, new NS_State.Dodge(this));
 
-        playerState = new NS_State.State(dicPlayerState[NS_Unit.BaseState.Idle]);
+        StateMachine = new NS_State.State(dicPlayerState[NS_Unit.BaseState.Idle]);
 
         moveVector = Vector3.zero;
         moveSpeed = 3f;
@@ -58,9 +56,10 @@ public class Player : Unit
     override public void Move()
     {
         SetMoveParameter();
-        if (moveVector != Vector3.zero && currentActionState == NS_Unit.ActionState.None)
+        if (moveVector != Vector3.zero && isMove && currentActionState == NS_Unit.ActionState.None)
         {
             rigidbody.MovePosition(rigidbody.position + moveVector * moveSpeed * Time.deltaTime);
+            //if()
             Rotate();
         }
     }
@@ -88,35 +87,39 @@ public class Player : Unit
 
     override public void Dodge()
     {
-        if(moveVector == Vector3.zero)
+        print("tfor: " + transform.forward);
+        rigidbody.AddForce(transform.forward * dodgeSpeed, ForceMode.Impulse);
+        if (animationEvent.GetAnimator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Base).IsTag("Dodge"))
         {
-            dodgeDirection = lookVector;
+            //rigidbody.MovePosition(rigidbody.position + moveVector * dodgeSpeed * Time.deltaTime);
+            
+            if (animationEvent.GetAnimator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Base).normalizedTime >= 0.7)
+            {
+                if (isMove) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Walk]);
+                else if (isRun) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Run]);
+                else StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
+            }
         }
         else
         {
-            dodgeDirection = moveVector;
-        }
-
-        if (animationEvent.GetAnimator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Single).normalizedTime >= 0.9)
-        {
-            canChangeState = true;
-            if (isMove) playerState.SetState(dicPlayerState[NS_Unit.BaseState.Walk]);
-            else if (isRun) playerState.SetState(dicPlayerState[NS_Unit.BaseState.Run]);
-            else playerState.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
-        }
-        else if (animationEvent.GetAnimator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Single).normalizedTime >= 0.15)
-        {
-            rigidbody.MovePosition(rigidbody.position + dodgeDirection * dodgeSpeed * Time.deltaTime);
+            if (isMove) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Walk]);
+            else if (isRun) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Run]);
+            else StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
         }
     }
 
-    public void SetMoveParameter()
+    override public void SetMoveParameter()
     {
+        if (moveVector == Vector3.zero)
+        {
+            animationEvent.GetAnimator.SetFloat("MoveSpeed", 0);
+            isMove = false;
+            isRun = false;
+        }
+        else animationEvent.GetAnimator.SetFloat("MoveSpeed", moveSpeed);
         animationEvent.GetAnimator.SetFloat("Horizontal", moveVector.x);
         animationEvent.GetAnimator.SetFloat("Vertical", moveVector.z);
         animationEvent.GetAnimator.SetBool("IsMove", isMove);
         animationEvent.GetAnimator.SetBool("IsRun", isRun);
-        if (moveVector == Vector3.zero) animationEvent.GetAnimator.SetFloat("MoveSpeed", 0);
-        else animationEvent.GetAnimator.SetFloat("MoveSpeed", moveSpeed);
     }
 }

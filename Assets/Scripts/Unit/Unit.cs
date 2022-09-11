@@ -5,13 +5,17 @@ using UnityEngine;
 public abstract class Unit : MonoBehaviour, IMovable, IBattle
 {
     protected AnimationEvent animationEvent = null;
+    protected Animator anim = null;
     protected Rigidbody rigidbody = null;
 
     protected NS_Unit.UnitType unitType;
     protected NS_Unit.MoveState currentMoveState = NS_Unit.MoveState.None;
     protected NS_Unit.ActionState currentActionState = NS_Unit.ActionState.None;
+    [SerializeField]
     protected Vector3 moveVector;
+    [SerializeField]
     protected Vector3 lookVector;
+    [SerializeField]
     protected float moveSpeed;
     protected float rotateSpeed;
     protected float rotateTime;
@@ -26,10 +30,11 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
 
     #region properties
     public AnimationEvent GetAnimationEvent { get { return animationEvent; } }
+    public Animator Anim { get { return anim; } set { anim = value; } }
     public Rigidbody GetRigidbody { get { return rigidbody; } }
-    public NS_Unit.UnitType GetUnitType { get { return unitType; } }
-    public NS_Unit.MoveState GetMoveState { get { return currentMoveState; } set { currentMoveState = value; } }
-    public NS_Unit.ActionState GetActionState { get { return currentActionState; } set { currentActionState = value; } }
+    public NS_Unit.UnitType UnitType { get { return unitType; } }
+    public NS_Unit.MoveState MoveState { get { return currentMoveState; } set { currentMoveState = value; } }
+    public NS_Unit.ActionState ActionState { get { return currentActionState; } set { currentActionState = value; } }
     public Vector3 MoveVector { get { return moveVector; } set { moveVector = value; } }
     public Vector3 LookVector { get { return lookVector; } set { lookVector = value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
@@ -72,4 +77,6 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     {
         Debug.Log("base Dodge()");
     }
+
+    virtual public void SetMoveParameter() { }
 }

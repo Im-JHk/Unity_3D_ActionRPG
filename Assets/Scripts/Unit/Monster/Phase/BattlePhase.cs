@@ -46,7 +46,7 @@ namespace NS_Phase
 
         public void PhaseExecute()
         {
-            this.currentPhase.Execute();
+            if (this.currentPhase != null) this.currentPhase.Execute();
         }
 
         public void PhaseExit()
@@ -54,6 +54,7 @@ namespace NS_Phase
             this.currentPhase.Exit();
             this.currentPhase = null;
             this.phaseTime = 0;
+            Debug.Log("PhaseExit");
         }
 
         public void SetPhase(IBattlePhase phase)
@@ -63,6 +64,7 @@ namespace NS_Phase
 
         public void NextPhase()
         {
+            Debug.Log("nextphase");
             if (currentPhaseIndex >= phaseMax - 1) currentPhaseIndex = 0;
             else currentPhaseIndex += 1;
             this.currentPhase = listMonsterPhase[currentPhaseIndex];

@@ -50,6 +50,7 @@ public class Slime : Monster
         rotateSpeed = 100f;
         rotateTime = 0;
         comboCount = 0;
+        comboMax = 2;
         isMove = false;
         isRun = false;
         canChangeState = true;

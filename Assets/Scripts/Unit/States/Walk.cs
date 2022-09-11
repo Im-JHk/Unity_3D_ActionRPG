@@ -14,7 +14,7 @@ namespace NS_State
         {
             //Debug.Log("Walk Enter");
             unit.IsMove = true;
-            unit.GetMoveState = NS_Unit.MoveState.Walk;
+            unit.MoveState = NS_Unit.MoveState.Walk;
         }
 
         override public void StateStay()
@@ -27,9 +27,8 @@ namespace NS_State
         {
             //Debug.Log("Walk Exit");
             if (unit.MoveVector == Vector3.zero) unit.IsMove = false;
-            unit.LookVector = unit.MoveVector;
-            if (unit.GetUnitType == NS_Unit.UnitType.Player) unit.Move();
-            unit.GetMoveState = NS_Unit.MoveState.None;
+            if (unit.UnitType == NS_Unit.UnitType.Player) unit.SetMoveParameter();
+            unit.MoveState = NS_Unit.MoveState.None;
         }
     }
 }

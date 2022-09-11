@@ -14,9 +14,8 @@ namespace NS_State
         {
             unit.CanChangeState = false;
             unit.IsDodge = true;
-            //unit.GetAnimator.SetBool("IsDodge", true);
             unit.GetAnimationEvent.GetAnimator.SetTrigger("OnDodge");
-            unit.GetActionState = NS_Unit.ActionState.Dodge;
+            unit.ActionState = NS_Unit.ActionState.Dodge;
             Debug.Log("Dodge Enter");
         }
 
@@ -31,8 +30,7 @@ namespace NS_State
             Debug.Log("Dodge Exit");
             unit.CanChangeState = true;
             unit.IsDodge = false;
-            //unit.GetAnimator.SetBool("IsDodge", false);
-            unit.GetActionState = NS_Unit.ActionState.None;
+            unit.ActionState = NS_Unit.ActionState.None;
         }
     }
 }

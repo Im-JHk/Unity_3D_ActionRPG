@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class AnimationEvent : MonoBehaviour
+public class AnimationEvent
 {
     private Animator animator = null;
     private int currentLayer;

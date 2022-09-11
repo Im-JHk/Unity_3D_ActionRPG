@@ -14,20 +14,20 @@ namespace NS_State
         {
             Debug.Log("Attack Enter");
             unit.CanChangeState = false;
-            unit.GetActionState = NS_Unit.ActionState.Attack;
+            unit.ActionState = NS_Unit.ActionState.Attack;
             unit.Attack();
         }
 
         override public void StateStay()
         {
-            Debug.Log("Attack Stay");
+            //Debug.Log("Attack Stay");
         }
 
         override public void StateExit()
         {
             Debug.Log("Attack Exit");
             unit.CanChangeState = true;
-            unit.GetActionState = NS_Unit.ActionState.None;
+            unit.ActionState = NS_Unit.ActionState.None;
         }
     }
 }

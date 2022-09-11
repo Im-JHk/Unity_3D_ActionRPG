@@ -9,7 +9,7 @@ public class MosterSearchRange : MonoBehaviour
     [SerializeField]
     private SphereCollider rangeCollider = null;
     private float radius = 7f;
-    private float distance = 1f;
+    private float distance = 2f;
 
     private void Awake()
     {

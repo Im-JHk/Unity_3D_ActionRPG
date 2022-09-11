@@ -81,6 +81,7 @@ public class Monster : Unit
 
     public void ChangeMoveAndAttackState(bool b)
     {
+        print(b);
         monsterNavAgent.isStopped = b;
         canAttack = b;
         animationEvent.GetAnimator.SetBool("CanAttack", b);
@@ -88,16 +89,23 @@ public class Monster : Unit
 
     override public void Move()
     {
-        monsterNavAgent.SetDestination(this.target.transform.position);
-        animationEvent.GetAnimator.SetTrigger("OnMove");
+        if (this.target != null)
+        {
+            monsterNavAgent.SetDestination(this.target.transform.position);
+            animationEvent.GetAnimator.SetBool("IsMove", true);
+        }
+        
     }
 
     override public void Attack()
     {
         animationEvent.GetAnimator.SetInteger("Combo", comboCount);
-        animationEvent.GetAnimator.SetTrigger("OnAttack");
+        animationEvent.GetAnimator.SetBool("IsAttack", true);
+        print(comboMax);
         if (comboCount >= comboMax) comboCount = 0;
         else comboCount += 1;
+        print(comboCount);
+        //animationEvent.GetAnimator.SetInteger("Combo", comboCount);
     }
 
     public IEnumerator MeleeAttack()
@@ -108,12 +116,16 @@ public class Monster : Unit
             monsterState.SetState(dicMonsterState[NS_Unit.BaseState.Run]);
             yield return new WaitForSeconds(0.5f);
         }
+        print("moveEnd");
+        animationEvent.GetAnimator.SetBool("IsMove", false);
         monsterState.SetState(dicMonsterState[NS_Unit.BaseState.Attack]);
 
         while (!animationEvent.IsOverPlaytime("MeleeAttack"))
         {
             yield return null;
         }
+        animationEvent.GetAnimator.SetBool("IsAttack", false);
+        print("attackEnd");
         monsterState.SetState(dicMonsterState[NS_Unit.BaseState.Idle]);
         monsterPhase.PhaseExit();
 

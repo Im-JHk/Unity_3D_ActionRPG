@@ -35,7 +35,7 @@ public class MosterSearchRange : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             monster.TargettingOff();
-            monster.MonsterState.SetState(monster.DicMonsterState[NS_Unit.BaseState.Idle]);
+            monster.StateMachine.SetState(monster.DicMonsterState[NS_Unit.BaseState.Idle]);
         }
     }
 }

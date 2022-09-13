@@ -25,5 +25,11 @@ namespace NS_State
             CurrentState = state;
             CurrentState.StateEnter();
         }
+
+        public void OneMoreEnter(IState state)
+        {
+            if (CurrentState != state) return;
+            CurrentState.StateEnter();
+        }
     }
 }

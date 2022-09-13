@@ -16,11 +16,13 @@ namespace NS_State
             unit.IsRun = true;
             unit.MoveSpeed *= 2f;
             unit.MoveState = NS_Unit.MoveState.Run;
+            unit.SetMoveParameter();
         }
 
         override public void StateStay()
         {
             //Debug.Log("Run Stay");
+            unit.SetMoveParameter();
             unit.Move();
         }
 
@@ -30,11 +32,11 @@ namespace NS_State
             if (unit.MoveVector == Vector3.zero)
             {
                 unit.IsMove = false;
-                //unit.GetAnimationEvent.GetAnimator.SetBool("IsMove", false);
             }
             unit.IsRun = false;
             unit.MoveSpeed *= 0.5f;
             unit.MoveState = NS_Unit.MoveState.None;
+            unit.SetMoveParameter();
         }
     }
 }

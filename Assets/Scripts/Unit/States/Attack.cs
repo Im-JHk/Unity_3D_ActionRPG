@@ -12,7 +12,7 @@ namespace NS_State
 
         override public void StateEnter()
         {
-            Debug.Log("Attack Enter");
+            //Debug.Log("Attack Enter");
             unit.CanChangeState = false;
             unit.ActionState = NS_Unit.ActionState.Attack;
             unit.Attack();
@@ -25,8 +25,10 @@ namespace NS_State
 
         override public void StateExit()
         {
-            Debug.Log("Attack Exit");
+            //Debug.Log("Attack Exit");
             unit.CanChangeState = true;
+            unit.CanComboAttack = true;
+            unit.IsAttack = false;
             unit.ActionState = NS_Unit.ActionState.None;
         }
     }

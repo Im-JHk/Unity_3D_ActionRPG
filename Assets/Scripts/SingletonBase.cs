@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class SingletonBase<T> where T : SingletonBase<T>, new()
 {
     private static T instance = null;
 
@@ -8,15 +8,7 @@ public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
-            if (instance == null)
-            {
-                instance = (T)FindObjectOfType(typeof(T));
-                if (instance == null)
-                {
-                    var obj = new GameObject(typeof(T).ToString());
-                    instance = obj.AddComponent<T>();
-                }
-            }
+            if (instance == null) instance = new();
             return instance;
         }
     }

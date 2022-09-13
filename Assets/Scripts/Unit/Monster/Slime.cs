@@ -19,13 +19,15 @@ public class Slime : Monster
         monsterPhase = new NS_Phase.BattlePhase(Enum.GetValues(typeof(SlimePhase)).Length);
         monsterNavAgent = GetComponent<NavMeshAgent>();
         rigidbody = GetComponent<Rigidbody>();
-        animationEvent = new AnimationEvent(GetComponent<Animator>());
+        animationEvent = new AnimationEvent();
+        bodyCollider = GetComponentInChildren<CapsuleCollider>();
+        animator = GetComponent<Animator>();
         Initialize();
     }
 
     private void Update()
     {
-        monsterState.StateUpdate();
+        StateMachine.StateUpdate();
         monsterPhase.PhaseUpdate();
     }
 
@@ -36,7 +38,8 @@ public class Slime : Monster
         dicMonsterState.Add(NS_Unit.BaseState.Walk, new NS_State.Walk(this));
         dicMonsterState.Add(NS_Unit.BaseState.Run, new NS_State.Run(this));
         dicMonsterState.Add(NS_Unit.BaseState.Attack, new NS_State.Attack(this));
-        monsterState = new NS_State.State(dicMonsterState[NS_Unit.BaseState.Idle]);
+        dicMonsterState.Add(NS_Unit.BaseState.Die, new NS_State.Die(this));
+        StateMachine = new NS_State.State(dicMonsterState[NS_Unit.BaseState.Idle]);
 
         monsterPhase.ListMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
         monsterPhase.ListMonsterPhase.Add(new NS_Phase.MeleeAttack(this));

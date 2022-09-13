@@ -19,6 +19,7 @@ namespace NS_Unit
         Attack,
         Defend,
         Dodge,
+        Die
     }
     public enum MoveState
     {
@@ -32,7 +33,8 @@ namespace NS_Unit
         None = 0,
         Attack,
         Defend,
-        Dodge
+        Dodge,
+        Die
     }
 }
 
@@ -45,4 +47,10 @@ namespace NS_Phase
         StandoffAttack,
         Defend
     }
+}
+
+public enum TrueFalse
+{
+    False = 0,
+    True
 }

@@ -16,7 +16,8 @@ public class Turtle : Monster
 
     private void Awake()
     {
-        animationEvent = new AnimationEvent(GetComponent<Animator>());
+        animationEvent = new AnimationEvent();
+        animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         monsterNavAgent = GetComponent<NavMeshAgent>();
         Initialize();
@@ -24,7 +25,7 @@ public class Turtle : Monster
 
     private void Update()
     {
-        monsterState.StateUpdate();
+        StateMachine.StateUpdate();
     }
 
     virtual public void Initialize()
@@ -35,7 +36,7 @@ public class Turtle : Monster
         dicMonsterState.Add(NS_Unit.BaseState.Run, new NS_State.Run(this));
         dicMonsterState.Add(NS_Unit.BaseState.Attack, new NS_State.Attack(this));
         dicMonsterState.Add(NS_Unit.BaseState.Defend, new NS_State.Defend(this));
-        monsterState = new NS_State.State(dicMonsterState[NS_Unit.BaseState.Idle]);
+        StateMachine = new NS_State.State(dicMonsterState[NS_Unit.BaseState.Idle]);
 
 
         canAttack = false;

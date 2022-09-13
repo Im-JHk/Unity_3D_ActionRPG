@@ -13,21 +13,23 @@ namespace NS_State
         }
         override public void StateEnter()
         {
-            Debug.Log("Defend Enter");
+            //Debug.Log("Defend Enter");
             unit.CanChangeState = false;
             unit.ActionState = NS_Unit.ActionState.Defend;
+            unit.Animator.SetBool(unit.HashIsDefend, true);
         }
 
         override public void StateStay()
         {
-            Debug.Log("Defend Stay");
+            //Debug.Log("Defend Stay");
         }
 
         override public void StateExit()
         {
-            Debug.Log("Defend Exit");
+            //Debug.Log("Defend Exit");
             unit.CanChangeState = true;
             unit.ActionState = NS_Unit.ActionState.None;
+            unit.Animator.SetBool(unit.HashIsDefend, false);
         }
     }
 }

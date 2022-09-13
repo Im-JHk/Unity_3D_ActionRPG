@@ -15,11 +15,13 @@ namespace NS_State
             //Debug.Log("Walk Enter");
             unit.IsMove = true;
             unit.MoveState = NS_Unit.MoveState.Walk;
+            unit.SetMoveParameter();
         }
 
         override public void StateStay()
         {
             //Debug.Log("Walk Stay");
+            unit.SetMoveParameter();
             unit.Move();
         }
 
@@ -29,6 +31,7 @@ namespace NS_State
             if (unit.MoveVector == Vector3.zero) unit.IsMove = false;
             if (unit.UnitType == NS_Unit.UnitType.Player) unit.SetMoveParameter();
             unit.MoveState = NS_Unit.MoveState.None;
+            unit.SetMoveParameter();
         }
     }
 }

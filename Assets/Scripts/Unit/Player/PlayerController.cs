@@ -44,9 +44,10 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (player.CanChangeState && context.started)
+        if (context.started)
         {
-            player.StateMachine.SetState(player.DicPlayerState[NS_Unit.BaseState.Attack]);
+            if (player.CanChangeState) player.StateMachine.SetState(player.DicPlayerState[NS_Unit.BaseState.Attack]);
+            else if (player.CanComboAttack) player.StateMachine.OneMoreEnter(player.DicPlayerState[NS_Unit.BaseState.Attack]);
         }
     }
 
@@ -55,6 +56,11 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
         if (player.CanChangeState && context.started)
         {
             player.StateMachine.SetState(player.DicPlayerState[NS_Unit.BaseState.Defend]);
+        }
+        if (context.canceled)
+        {
+            if (player.IsMove) player.StateMachine.SetState(player.DicPlayerState[NS_Unit.BaseState.Walk]);
+            else player.StateMachine.SetState(player.DicPlayerState[NS_Unit.BaseState.Idle]);
         }
     }
 

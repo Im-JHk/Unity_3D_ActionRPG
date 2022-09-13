@@ -4,32 +4,15 @@ using UnityEngine;
 
 public class Player : Unit
 {
+    [SerializeField]
+    private PlayerAttackHit playerhit = null;
     private Dictionary<NS_Unit.BaseState, IState> dicPlayerState;
-    private float dodgeSpeed = 0.5f;
+    private float dodgeSpeed = 10f;
 
     #region properties
     public Dictionary<NS_Unit.BaseState, IState> DicPlayerState { get { return dicPlayerState; } }
-    public NS_State.State StateMachine { get; set; }
     public Vector3 DodgeDirection { get; set; }
     #endregion
-
-    private void Awake()
-    {
-        animationEvent = new AnimationEvent(GetComponent<Animator>());
-        rigidbody = GetComponent<Rigidbody>();
-        unitType = NS_Unit.UnitType.Player;
-        Initialize();
-    }
-
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        StateMachine.StateUpdate();
-    }
 
     public void Initialize()
     {
@@ -40,6 +23,7 @@ public class Player : Unit
         dicPlayerState.Add(NS_Unit.BaseState.Attack, new NS_State.Attack(this));
         dicPlayerState.Add(NS_Unit.BaseState.Defend, new NS_State.Defend(this));
         dicPlayerState.Add(NS_Unit.BaseState.Dodge, new NS_State.Dodge(this));
+        dicPlayerState.Add(NS_Unit.BaseState.Die, new NS_State.Die(this));
 
         StateMachine = new NS_State.State(dicPlayerState[NS_Unit.BaseState.Idle]);
 
@@ -48,14 +32,18 @@ public class Player : Unit
         rotateSpeed = 50f;
         rotateTime = 0;
         comboCount = 0;
+        comboMax = 4;
         isMove = false;
         isRun = false;
+        isAttack = false;
         canChangeState = true;
+        canComboAttack = true;
     }
 
+    #region State
+    // -- override --
     override public void Move()
     {
-        SetMoveParameter();
         if (moveVector != Vector3.zero && isMove && currentActionState == NS_Unit.ActionState.None)
         {
             rigidbody.MovePosition(rigidbody.position + moveVector * moveSpeed * Time.deltaTime);
@@ -72,7 +60,21 @@ public class Player : Unit
 
     override public void Attack()
     {
-        base.Attack();
+        if (!isAttack)
+        {
+            isAttack = true;
+            canComboAttack = false;
+            comboCount = 0;
+            animator.SetTrigger(HashOnAttack);
+        }
+        else if (canComboAttack)
+        {
+            if (comboCount >= comboMax - 1) comboCount = 0;
+            else comboCount += 1;
+            canComboAttack = false;
+            animator.ResetTrigger(HashOnAttack);
+            animator.SetTrigger(HashOnAttack);
+        }
     }
 
     override public void Defend()
@@ -80,46 +82,72 @@ public class Player : Unit
         base.Defend();
     }
 
-    override public void Damaged()
-    {
-        base.Damaged();
-    }
-
     override public void Dodge()
     {
-        print("tfor: " + transform.forward);
-        rigidbody.AddForce(transform.forward * dodgeSpeed, ForceMode.Impulse);
-        if (animationEvent.GetAnimator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Base).IsTag("Dodge"))
-        {
-            //rigidbody.MovePosition(rigidbody.position + moveVector * dodgeSpeed * Time.deltaTime);
-            
-            if (animationEvent.GetAnimator.GetCurrentAnimatorStateInfo((int)NS_Unit.AnimatorLayer.Base).normalizedTime >= 0.7)
-            {
-                if (isMove) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Walk]);
-                else if (isRun) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Run]);
-                else StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
-            }
-        }
-        else
-        {
-            if (isMove) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Walk]);
-            else if (isRun) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Run]);
-            else StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
-        }
+        Rigidbody.AddForce(transform.forward * dodgeSpeed, ForceMode.VelocityChange);
+    }
+
+    override public void Damaged(float damage)
+    {
+        hp -= damage;
+        if (hp < 0) hp = 0;
+        if (hp <= 0) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Die]);
     }
 
     override public void SetMoveParameter()
     {
         if (moveVector == Vector3.zero)
         {
-            animationEvent.GetAnimator.SetFloat("MoveSpeed", 0);
+            animator.SetFloat(HashMoveSpeed, 0);
             isMove = false;
             isRun = false;
         }
-        else animationEvent.GetAnimator.SetFloat("MoveSpeed", moveSpeed);
-        animationEvent.GetAnimator.SetFloat("Horizontal", moveVector.x);
-        animationEvent.GetAnimator.SetFloat("Vertical", moveVector.z);
-        animationEvent.GetAnimator.SetBool("IsMove", isMove);
-        animationEvent.GetAnimator.SetBool("IsRun", isRun);
+        else animator.SetFloat(HashMoveSpeed, moveSpeed);
+        animator.SetFloat(HashHorizontal, moveVector.x);
+        animator.SetFloat(HashVertical, moveVector.z);
+        animator.SetBool(HashIsMove, isMove);
+        animator.SetBool(HashIsRun, isRun);
     }
+    #endregion
+
+    #region AnimationEvent
+    override public void OnEventSetMoveState()
+    {
+        if (isMove) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Walk]);
+        else if (isRun) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Run]);
+        else StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
+    }
+
+    public void OnEventSetCanCombo()
+    {
+        canComboAttack = true;
+    }
+
+    public void OnEventSetHitbox(TrueFalse tf)
+    {
+        if (tf == TrueFalse.False) playerhit.Hitbox.enabled = false;
+        else playerhit.Hitbox.enabled = true;
+    }
+    #endregion
+
+    #region Monobehaviour
+    private void Awake()
+    {
+        animationEvent = new AnimationEvent();
+        animator = GetComponent<Animator>();
+        rigidbody = GetComponent<Rigidbody>();
+
+        unitType = NS_Unit.UnitType.Player;
+        Initialize();
+
+        playerhit = GetComponentInChildren<PlayerAttackHit>();
+        playerhit.Damage = 20f;
+    }
+
+    private void Update()
+    {
+        StateMachine.StateUpdate();
+        if (StateMachine.CurrentState.IsExitReady()) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
+    }
+    #endregion
 }

@@ -8,12 +8,14 @@ namespace RPGCharacterAnims
 		public float cameraTargetOffsetY;
 		private Vector3 cameraTargetOffset;
 		public float rotateSpeed;
+		[SerializeField]
 		private float rotate;
 		public float height = 6.0f;
 		public float distance = 5.0f;
 		public float zoomAmount = 0.1f;
 		public float smoothing = 2.0f;
 		private Vector3 offset;
+		[SerializeField]
 		private bool following = true;
 		private Vector3 lastPosition;
 
@@ -27,28 +29,28 @@ namespace RPGCharacterAnims
 				cameraTarget.transform.position.y + height,
 				cameraTarget.transform.position.z - distance);
 
-			distance = 1;
-			height = 1;
+			distance = 1f;
+			height = 1f;
 		}
 
 		private void Update()
 		{
 			// Follow cam.
-			if (Input.GetKeyDown(KeyCode.F)) {
-				if (following) { following = false; }
-				else { following = true; }
-			}
+			//if (Input.GetKeyDown(KeyCode.F)) {
+			//	if (following) { following = false; }
+			//	else { following = true; }
+			//}
 			if (following) { CameraFollow(); }
 			else { transform.position = lastPosition; }
 
-			// Rotate cam.
-			if (Input.GetKey(KeyCode.Q)) { rotate = -1; }
-			else if (Input.GetKey(KeyCode.E)) { rotate = 1; }
-			else { rotate = 0; }
+			//// Rotate cam.
+			//if (Input.GetKey(KeyCode.Q)) { rotate = -1; }
+			//else if (Input.GetKey(KeyCode.E)) { rotate = 1; }
+			//else { rotate = 0; }
 
-			// Mouse zoom.
-			if (Input.mouseScrollDelta.y == 1) { distance += zoomAmount; height += zoomAmount; }
-			else if (Input.mouseScrollDelta.y == -1) { distance -= zoomAmount; height -= zoomAmount; }
+			//// Mouse zoom.
+			//if (Input.mouseScrollDelta.y == 1) { distance += zoomAmount; height += zoomAmount; }
+			//else if (Input.mouseScrollDelta.y == -1) { distance -= zoomAmount; height -= zoomAmount; }
 
 			// Set cameraTargetOffset as cameraTarget + cameraTargetOffsetY.
 			cameraTargetOffset = cameraTarget.transform.position + new Vector3(0, cameraTargetOffsetY, 0);

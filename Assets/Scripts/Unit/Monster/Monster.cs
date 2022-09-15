@@ -19,6 +19,7 @@ public class Monster : Unit
     protected bool canAttack;
 
     private WaitForSeconds WaitOneSeconds = new WaitForSeconds(1f);
+    private WaitForSeconds WaitTwoSeconds = new WaitForSeconds(2f);
 
     #region properties
     public Dictionary<NS_Unit.BaseState, IState> DicMonsterState { get { return dicMonsterState; } }
@@ -66,13 +67,13 @@ public class Monster : Unit
                 this.target = obj;
             }
         }
-        animator.SetBool("IsFocus", true);
+        animator.SetBool(HashIsFocus, true);
     }
 
     public void TargettingOff()
     {
         this.target = null;
-        animator.SetBool("IsFocus", false);
+        animator.SetBool(HashIsFocus, false);
     }
 
     public void SetStopDistance(float distance)
@@ -85,7 +86,7 @@ public class Monster : Unit
         print(b);
         monsterNavAgent.isStopped = b;
         canAttack = b;
-        animator.SetBool("CanAttack", b);
+        animator.SetBool(HashCanAttack, b);
     }
     #endregion
 
@@ -135,18 +136,21 @@ public class Monster : Unit
         isRun = true;
         animator.SetBool(HashIsRun, isRun);
 
-        while (Vector3.Distance(this.transform.position, this.target.transform.position) > monsterNavAgent.stoppingDistance)
+        while (!canAttack && Vector3.Distance(this.transform.position, this.target.transform.position) > monsterNavAgent.stoppingDistance)
         {
-            if (monsterNavAgent.isStopped) animator.SetBool(HashIsRun, false);
             yield return WaitOneSeconds;
+            if (monsterNavAgent.isStopped) animator.SetBool(HashIsRun, false);
 
-            monsterNavAgent.SetDestination(this.target.transform.position);
-            monsterNavAgent.stoppingDistance = this.target.transform.lossyScale.z;
-            print(monsterNavAgent.stoppingDistance);
-            animator.SetBool(HashIsRun, true);
+            if (this.target == null) break;
+            else
+            {
+                monsterNavAgent.SetDestination(this.target.transform.position);
+                monsterNavAgent.stoppingDistance = this.target.transform.lossyScale.z;
+                animator.SetBool(HashIsRun, true);
+            }
         }
 
-        canAttack = true;
+        //canAttack = true;
         isRun = false;
         animator.SetBool(HashIsRun, isRun);
 
@@ -161,15 +165,18 @@ public class Monster : Unit
         isStayCoroutine = true;
         print("meleeAttack in");
 
-        while (isAttack)
+        isAttack = true;
+
+        while (isAttack && canAttack)
         {
             animator.SetBool(HashIsAttack, false);
-            yield return WaitOneSeconds;
+            yield return WaitTwoSeconds;
             animator.SetBool(HashIsAttack, true);
+            yield return WaitOneSeconds;
         }
-        print("attackEnd");
-        
-        animator.SetBool(HashIsAttack, false);
+
+        isAttack = false;
+        animator.SetBool(HashIsAttack, isAttack);
         StateMachine.SetState(dicMonsterState[NS_Unit.BaseState.Idle]);
 
         isStayCoroutine = false;

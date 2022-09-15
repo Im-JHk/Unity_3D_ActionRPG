@@ -43,10 +43,13 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     public readonly int HashIsRun = Animator.StringToHash("IsRun");
     public readonly int HashOnAttack = Animator.StringToHash("OnAttack");
     public readonly int HashIsAttack = Animator.StringToHash("IsAttack");
+    public readonly int HashCanAttack = Animator.StringToHash("CanAttack");
     public readonly int HashCombo = Animator.StringToHash("AttackCombo");
     public readonly int HashIsDefend = Animator.StringToHash("IsDefend");
     public readonly int HashOnDodge = Animator.StringToHash("OnDodge");
+    public readonly int HashIsFocus = Animator.StringToHash("IsFocus");
     public readonly int HashIsDie = Animator.StringToHash("IsDie");
+    public readonly int HashOnHit = Animator.StringToHash("OnHit");
 
     #region properties
     public AnimationEvent AnimationEvent { get { return animationEvent; } }

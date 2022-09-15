@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class GameManager : SingletonBase<GameManager>
+public class GameManager : SingletonMono<GameManager>
 {
+    private Action gameoverAction;
+    public bool IsGameover { get; private set; }
+
     void Start()
     {
         
@@ -12,5 +16,10 @@ public class GameManager : SingletonBase<GameManager>
     void Update()
     {
         
+    }
+
+    public void AddGameoverAction(Action action)
+    {
+        gameoverAction += action;
     }
 }

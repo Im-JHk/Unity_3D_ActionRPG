@@ -28,6 +28,7 @@ public class MosterAttackRange : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        print("Trg exit");
         if (other.gameObject.CompareTag("Player"))
         {
             monster.ChangeMoveAndAttackState(false);

@@ -9,7 +9,7 @@ public class MosterSearchRange : MonoBehaviour
     [SerializeField]
     private SphereCollider rangeCollider = null;
     private float radius = 7f;
-    private float distance = 2f;
+    //private float distance = 2f;
 
     private void Awake()
     {
@@ -18,7 +18,7 @@ public class MosterSearchRange : MonoBehaviour
     private void Start()
     {
         rangeCollider.radius = radius;
-        monster.SetStopDistance(distance);
+        //monster.SetStopDistance(distance);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -26,8 +26,9 @@ public class MosterSearchRange : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             monster.FocusTarget(other.gameObject);
-            monster.MonsterPhase.PhaseOn = true;
-            monster.MonsterPhase.PhaseExecute();
+            monster.StateMachine.SetState(monster.DicMonsterState[NS_Unit.BaseState.Run]);
+            //monster.MonsterPhase.PhaseOn = true;
+            //monster.MonsterPhase.PhaseExecute();
         }
     }
     private void OnTriggerExit(Collider other)

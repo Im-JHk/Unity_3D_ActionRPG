@@ -15,7 +15,6 @@ public class Monster : Unit
     protected GameObject target = null;
 
     protected Vector3 dodgeDirection = Vector3.zero;
-    protected float dodgeSpeed;
     protected bool canAttack;
 
     private WaitForSeconds WaitOneSeconds = new WaitForSeconds(1f);

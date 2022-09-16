@@ -4,28 +4,23 @@ using UnityEngine;
 
 public class Player : Unit
 {
+
+    
     [SerializeField]
     private PlayerAttackHit playerhit = null;
-    private Dictionary<NS_Unit.BaseState, IState> dicPlayerState;
-    private float dodgeSpeed = 10f;
-
-    #region properties
-    public Dictionary<NS_Unit.BaseState, IState> DicPlayerState { get { return dicPlayerState; } }
-    public Vector3 DodgeDirection { get; set; }
-    #endregion
 
     public void Initialize()
     {
-        dicPlayerState = new Dictionary<NS_Unit.BaseState, IState>();
-        dicPlayerState.Add(NS_Unit.BaseState.Idle, new NS_State.Idle(this));
-        dicPlayerState.Add(NS_Unit.BaseState.Walk, new NS_State.Walk(this));
-        dicPlayerState.Add(NS_Unit.BaseState.Run, new NS_State.Run(this));
-        dicPlayerState.Add(NS_Unit.BaseState.Attack, new NS_State.Attack(this));
-        dicPlayerState.Add(NS_Unit.BaseState.Defend, new NS_State.Defend(this));
-        dicPlayerState.Add(NS_Unit.BaseState.Dodge, new NS_State.Dodge(this));
-        dicPlayerState.Add(NS_Unit.BaseState.Die, new NS_State.Die(this));
+        DicState = new Dictionary<NS_Unit.BaseState, IState>();
+        DicState.Add(NS_Unit.BaseState.Idle, new NS_State.Idle(this));
+        DicState.Add(NS_Unit.BaseState.Walk, new NS_State.Walk(this));
+        DicState.Add(NS_Unit.BaseState.Run, new NS_State.Run(this));
+        DicState.Add(NS_Unit.BaseState.Attack, new NS_State.Attack(this));
+        DicState.Add(NS_Unit.BaseState.Defend, new NS_State.Defend(this));
+        DicState.Add(NS_Unit.BaseState.Dodge, new NS_State.Dodge(this));
+        DicState.Add(NS_Unit.BaseState.Die, new NS_State.Die(this));
 
-        StateMachine = new NS_State.State(dicPlayerState[NS_Unit.BaseState.Idle]);
+        StateMachine = new NS_State.State(DicState[NS_Unit.BaseState.Idle]);
 
         moveVector = Vector3.zero;
         moveSpeed = 3f;
@@ -89,9 +84,9 @@ public class Player : Unit
 
     override public void Damaged(float damage)
     {
-        hp -= damage;
+        hp -= (int)damage;
         if (hp < 0) hp = 0;
-        if (hp <= 0) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Die]);
+        if (hp <= 0) StateMachine.SetState(DicState[NS_Unit.BaseState.Die]);
     }
 
     override public void SetMoveParameter()
@@ -113,9 +108,9 @@ public class Player : Unit
     #region AnimationEvent
     override public void OnEventSetMoveState()
     {
-        if (isMove) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Walk]);
-        else if (isRun) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Run]);
-        else StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
+        if (isMove) StateMachine.SetState(DicState[NS_Unit.BaseState.Walk]);
+        else if (isRun) StateMachine.SetState(DicState[NS_Unit.BaseState.Run]);
+        else StateMachine.SetState(DicState[NS_Unit.BaseState.Idle]);
     }
 
     public void OnEventSetCanCombo()
@@ -147,7 +142,7 @@ public class Player : Unit
     private void Update()
     {
         StateMachine.StateUpdate();
-        if (StateMachine.CurrentState.IsExitReady()) StateMachine.SetState(dicPlayerState[NS_Unit.BaseState.Idle]);
+        if (StateMachine.CurrentState.IsExitReady()) StateMachine.SetState(DicState[NS_Unit.BaseState.Idle]);
     }
     #endregion
 }

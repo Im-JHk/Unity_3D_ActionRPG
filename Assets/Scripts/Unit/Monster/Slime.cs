@@ -41,9 +41,9 @@ public class Slime : Monster
         dicMonsterState.Add(NS_Unit.BaseState.Die, new NS_State.Die(this));
         StateMachine = new NS_State.State(dicMonsterState[NS_Unit.BaseState.Idle]);
 
-        monsterPhase.ListMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
-        monsterPhase.ListMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
-        monsterPhase.SetPhase(monsterPhase.ListMonsterPhase[monsterPhase.CurrentPhaseIndex]);
+        //monsterPhase.ListMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
+        //monsterPhase.ListMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
+        //monsterPhase.SetPhase(monsterPhase.ListMonsterPhase[monsterPhase.CurrentPhaseIndex]);
 
         canAttack = false;
 

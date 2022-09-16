@@ -12,20 +12,27 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     protected SkinnedMeshRenderer meshRenderer = null;
     protected Color originColor;
 
+    protected Dictionary<NS_Unit.BaseState, IState> dicState;
+    protected NS_State.State stateMachine;
     protected NS_Unit.UnitType unitType;
     protected NS_Unit.MoveState currentMoveState = NS_Unit.MoveState.None;
     protected NS_Unit.ActionState currentActionState = NS_Unit.ActionState.None;
-    [SerializeField]
-    protected Vector3 moveVector;
 
     //status test
     [SerializeField]
-    protected float hp = 100;
-    protected float hpMax = 100;
+    protected float hp;
+    public float Hp { get { return hp; } set { hp = Mathf.Clamp(value, 0, 99999); } }
+    protected float mp;
+    public float Mp { get { return mp; } set { mp = Mathf.Clamp(value, 0, 99999); } }
+    protected float exp;
+    public float Exp { get { return exp; } set { exp = Mathf.Clamp(value, 0, 99999); } }
+    //protected float hpMax = 100;
     [SerializeField]
+    protected Vector3 moveVector;
     protected float moveSpeed;
     protected float rotateSpeed;
     protected float rotateTime;
+    protected float dodgeSpeed;
     protected int comboCount;
     protected int comboMax;
     protected bool isMove;
@@ -56,10 +63,13 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     public Animator Animator { get { return animator; } }
     public Rigidbody Rigidbody { get { return rigidbody; } }
     public CapsuleCollider BodyCollider { get { return bodyCollider; } }
-    public NS_State.State StateMachine { get; set; }
+
+    public Dictionary<NS_Unit.BaseState, IState> DicState { get { return dicState; } protected set { dicState = value; } }
+    public NS_State.State StateMachine { get { return stateMachine; } protected set { stateMachine = value; } }
     public NS_Unit.UnitType UnitType { get { return unitType; } }
     public NS_Unit.MoveState MoveState { get { return currentMoveState; } set { currentMoveState = value; } }
     public NS_Unit.ActionState ActionState { get { return currentActionState; } set { currentActionState = value; } }
+
     public Vector3 MoveVector { get { return moveVector; } set { moveVector = value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
     public float RotateSpeed { get { return rotateSpeed; } set { rotateSpeed = value; } }

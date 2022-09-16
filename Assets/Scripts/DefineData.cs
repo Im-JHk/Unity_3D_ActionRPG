@@ -54,3 +54,12 @@ public enum TrueFalse
     False = 0,
     True
 }
+
+public enum EventType
+{
+    OnGameover = 0,
+    OnLevelup,
+    OnAttack,
+    OnDamage,
+    OnDie
+}

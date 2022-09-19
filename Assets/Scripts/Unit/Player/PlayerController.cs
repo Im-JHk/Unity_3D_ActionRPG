@@ -6,10 +6,12 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 {
     private Player player = null;
+    private PlayerStat playerStat = null;
 
     private void Awake()
     {
         player = GetComponent<Player>();
+        playerStat = GetComponent<PlayerStat>();
     }
 
     public void OnWalk(InputAction.CallbackContext context)
@@ -74,9 +76,34 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 
     public void OnFocus(InputAction.CallbackContext context)
     {
-        if (player.CanChangeState && context.started)
+        if (context.started)
         {
+            if (UIManager.Instance.Status.activeSelf) UIManager.Instance.Status.SetActive(false);
+            else
+            {
+                playerStat.UpdateStatusUI();
+                UIManager.Instance.Status.SetActive(true);
+            }
+        }
+    }
 
+    public void OnStatus(InputAction.CallbackContext context)
+    {
+        print("OnStatus");
+        if (context.started)
+        {
+            if (UIManager.Instance.Status.activeSelf) UIManager.Instance.Status.SetActive(false);
+            else UIManager.Instance.Status.SetActive(true);
+        }
+    }
+
+    public void OnDD(InputAction.CallbackContext context)
+    {
+        print("OnDD");
+        if (context.started)
+        {
+            if (UIManager.Instance.Status.activeSelf) UIManager.Instance.Status.SetActive(false);
+            else UIManager.Instance.Status.SetActive(true);
         }
     }
 }

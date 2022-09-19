@@ -21,4 +21,16 @@ public class EventManager : SingletonMono<EventManager>
         DicEvent.Add(EventType.OnDamage, OnDamage);
         DicEvent.Add(EventType.OnDie, OnDie);
     }
+
+    public void AddAction(EventType type, Action action)
+    {
+        DicEvent[type] += action;
+    }
+
+    public void ExecuteAction(Action action)
+    {
+        action.Invoke();
+    }
+
+
 }

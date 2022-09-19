@@ -80,6 +80,24 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Status"",
+                    ""type"": ""Button"",
+                    ""id"": ""17caf6d0-f0ef-41e5-b30d-3d6081afc8e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DD"",
+                    ""type"": ""Button"",
+                    ""id"": ""1bf8b0ad-9537-405f-bf93-4da79b6928d8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -192,6 +210,28 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0eea708b-1140-415a-9c73-bf179a3456cd"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Status"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26eae0dd-19e5-46ce-a2ab-29044d9cd865"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DD"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -223,7 +263,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""32c2673d-c5ea-4f63-9424-050155874e5c"",
                     ""path"": ""<Keyboard>/i"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""PC"",
                     ""action"": ""Inventory"",
@@ -282,6 +322,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Player_Defend = m_Player.FindAction("Defend", throwIfNotFound: true);
         m_Player_Dodge = m_Player.FindAction("Dodge", throwIfNotFound: true);
         m_Player_Focus = m_Player.FindAction("Focus", throwIfNotFound: true);
+        m_Player_Status = m_Player.FindAction("Status", throwIfNotFound: true);
+        m_Player_DD = m_Player.FindAction("DD", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
@@ -351,6 +393,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Defend;
     private readonly InputAction m_Player_Dodge;
     private readonly InputAction m_Player_Focus;
+    private readonly InputAction m_Player_Status;
+    private readonly InputAction m_Player_DD;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -361,6 +405,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Defend => m_Wrapper.m_Player_Defend;
         public InputAction @Dodge => m_Wrapper.m_Player_Dodge;
         public InputAction @Focus => m_Wrapper.m_Player_Focus;
+        public InputAction @Status => m_Wrapper.m_Player_Status;
+        public InputAction @DD => m_Wrapper.m_Player_DD;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -388,6 +434,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Focus.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFocus;
                 @Focus.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFocus;
                 @Focus.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFocus;
+                @Status.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStatus;
+                @Status.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStatus;
+                @Status.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStatus;
+                @DD.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDD;
+                @DD.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDD;
+                @DD.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDD;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -410,6 +462,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Focus.started += instance.OnFocus;
                 @Focus.performed += instance.OnFocus;
                 @Focus.canceled += instance.OnFocus;
+                @Status.started += instance.OnStatus;
+                @Status.performed += instance.OnStatus;
+                @Status.canceled += instance.OnStatus;
+                @DD.started += instance.OnDD;
+                @DD.performed += instance.OnDD;
+                @DD.canceled += instance.OnDD;
             }
         }
     }
@@ -481,6 +539,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnDefend(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
         void OnFocus(InputAction.CallbackContext context);
+        void OnStatus(InputAction.CallbackContext context);
+        void OnDD(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

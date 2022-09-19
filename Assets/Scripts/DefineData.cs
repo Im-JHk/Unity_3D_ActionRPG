@@ -63,3 +63,27 @@ public enum EventType
     OnDamage,
     OnDie
 }
+
+public enum StatPointType
+{
+    Hp = 0,
+    Mp,
+    ATK,
+    DEF
+}
+
+public enum ItemType
+{
+    Equipable = 0,
+    Consumable,
+}
+
+public enum EquipmentType
+{
+    Weapon = 0,
+    SubWeapon,
+    Accessory,
+    Head,
+    Body,
+    Foot
+}

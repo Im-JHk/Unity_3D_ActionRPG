@@ -18,6 +18,8 @@ public class PlayerStat : MonoBehaviour
     private int mpPoint;
     private int atkPoint;
     private int defPoint;
+    private int equipAtkValue;
+    private int equipDefValue;
     private float exp;
 
     private int plusLevel;
@@ -66,13 +68,19 @@ public class PlayerStat : MonoBehaviour
         UIManager.Instance.levelText.text = level.ToString();
         UIManager.Instance.hpText.text = string.Format("{0}/{1}", hp, data.Hp + ((level - 1) * levelInfo.HpIncreaseByLevelup) + (hpPoint * levelInfo.HpIncreaseByPointup));
         UIManager.Instance.mpText.text = string.Format("{0}/{1}", mp, data.Mp + ((level - 1) * levelInfo.MpIncreaseByLevelup) + (mpPoint * levelInfo.MpIncreaseByPointup));
-        UIManager.Instance.atkText.text = (data.Atk + ((level - 1) * levelInfo.AtkIncreaseByLevelup) + (atkPoint * levelInfo.AtkIncreaseByPointup)).ToString();
-        UIManager.Instance.defText.text = (data.Def + ((level - 1) * levelInfo.DefIncreaseByLevelup) + (defPoint * levelInfo.DefIncreaseByPointup)).ToString();
+        UIManager.Instance.atkText.text = (data.Atk + ((level - 1) * levelInfo.AtkIncreaseByLevelup) + (atkPoint * levelInfo.AtkIncreaseByPointup) + equipAtkValue).ToString();
+        UIManager.Instance.defText.text = (data.Def + ((level - 1) * levelInfo.DefIncreaseByLevelup) + (defPoint * levelInfo.DefIncreaseByPointup) + equipDefValue).ToString();
         UIManager.Instance.remainPointText.text = remainPoint.ToString();
         UIManager.Instance.expText.text = string.Format("{0}/{1}", this.exp, levelInfo.GetExpPerLevel(level));
         UIManager.Instance.expSlider.value = this.exp / levelInfo.GetExpPerLevel(level);
         if (remainPoint > 0) PointButtonSetActive(1, true);
         else PointButtonSetActive(1, false);
+    }
+
+    public void UpdateEquipedStat(int atk, int def)
+    {
+        equipAtkValue = atk;
+        equipDefValue = def;
     }
 
     public void EnableTextAnim()
@@ -102,7 +110,6 @@ public class PlayerStat : MonoBehaviour
 
     public void DisableTextAnim()
     {
-        print("DisableTextAnim");
         UIManager.Instance.plusHpValueText.text = "+0";
         UIManager.Instance.plusMpValueText.text = "+0";
         UIManager.Instance.plusAtkValueText.text = "+0";
@@ -284,6 +291,8 @@ public class PlayerStat : MonoBehaviour
         mpPoint = 0;
         atkPoint = 0;
         defPoint = 0;
+        equipAtkValue = 0;
+        equipDefValue = 0;
         exp = 0;
         remainPoint = 0;
         plusHpPoint = 0;

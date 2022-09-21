@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : Equipment
 {
-    public Weapon(WeaponData data) : base(data) { }
+    public WeaponData WeaponData { get; private set; }
+    public Weapon(WeaponData data) : base(data) { WeaponData = data; }
 }

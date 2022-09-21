@@ -74,7 +74,8 @@ public enum StatPointType
 
 public enum ItemType
 {
-    Equipable = 0,
+    Normal = 0,
+    Equipable,
     Consumable,
 }
 

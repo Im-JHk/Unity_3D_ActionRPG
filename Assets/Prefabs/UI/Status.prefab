@@ -1180,6 +1180,7 @@ GameObject:
   - component: {fileID: 2848843123214561070}
   - component: {fileID: 2848843123214561068}
   - component: {fileID: 2848843123214561071}
+  - component: {fileID: 3557853605874194360}
   m_Layer: 5
   m_Name: SubWeapon
   m_TagString: Untagged
@@ -1246,6 +1247,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3557853605874194360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2848843123214561057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae186142c4f5aa542a5121bb7bc531d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentGO: {fileID: 2848843123214561057}
+  equipmentImage: {fileID: 2848843123331668064}
 --- !u!1 &2848843123262972447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1624,6 +1639,7 @@ GameObject:
   - component: {fileID: 2848843123614195770}
   - component: {fileID: 2848843123614195768}
   - component: {fileID: 2848843123614195771}
+  - component: {fileID: 4473676128309705650}
   m_Layer: 5
   m_Name: Foot
   m_TagString: Untagged
@@ -1690,6 +1706,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4473676128309705650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2848843123614195773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae186142c4f5aa542a5121bb7bc531d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentGO: {fileID: 2848843123614195773}
+  equipmentImage: {fileID: 2848843125126362815}
 --- !u!1 &2848843123874535811
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,6 +1951,7 @@ GameObject:
   - component: {fileID: 2848843123994267215}
   - component: {fileID: 2848843123994267213}
   - component: {fileID: 2848843123994267212}
+  - component: {fileID: 1498808540041501131}
   m_Layer: 5
   m_Name: MainWeapon
   m_TagString: Untagged
@@ -1987,6 +2018,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1498808540041501131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2848843123994267214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae186142c4f5aa542a5121bb7bc531d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentGO: {fileID: 2848843123994267214}
+  equipmentImage: {fileID: 2848843124688353214}
 --- !u!1 &2848843124075881780
 GameObject:
   m_ObjectHideFlags: 0
@@ -2627,6 +2672,7 @@ GameObject:
   - component: {fileID: 2848843124517328942}
   - component: {fileID: 2848843124517328940}
   - component: {fileID: 2848843124517328943}
+  - component: {fileID: 4663583749773401400}
   m_Layer: 5
   m_Name: ETC
   m_TagString: Untagged
@@ -2693,6 +2739,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4663583749773401400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2848843124517328929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae186142c4f5aa542a5121bb7bc531d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentGO: {fileID: 2848843124517328929}
+  equipmentImage: {fileID: 2848843123304728643}
 --- !u!1 &2848843124561849753
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,6 +2764,7 @@ GameObject:
   - component: {fileID: 2848843124561849766}
   - component: {fileID: 2848843124561849764}
   - component: {fileID: 2848843124561849767}
+  - component: {fileID: 654156901541368452}
   m_Layer: 5
   m_Name: Body
   m_TagString: Untagged
@@ -2770,6 +2831,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &654156901541368452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2848843124561849753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae186142c4f5aa542a5121bb7bc531d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentGO: {fileID: 2848843124561849753}
+  equipmentImage: {fileID: 2848843123874535809}
 --- !u!1 &2848843124669058893
 GameObject:
   m_ObjectHideFlags: 0
@@ -3082,6 +3157,7 @@ GameObject:
   - component: {fileID: 2848843124973800741}
   - component: {fileID: 2848843124973800739}
   - component: {fileID: 2848843124973800738}
+  - component: {fileID: 6869201194227067156}
   m_Layer: 5
   m_Name: Head
   m_TagString: Untagged
@@ -3148,6 +3224,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6869201194227067156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2848843124973800740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae186142c4f5aa542a5121bb7bc531d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentGO: {fileID: 2848843124973800740}
+  equipmentImage: {fileID: 2848843123959454390}
 --- !u!1 &2848843125126362801
 GameObject:
   m_ObjectHideFlags: 0

@@ -78,12 +78,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
     {
         if (context.started)
         {
-            if (UIManager.Instance.Status.activeSelf) UIManager.Instance.Status.SetActive(false);
-            else
-            {
-                playerStat.UpdateStatusUI();
-                UIManager.Instance.Status.SetActive(true);
-            }
+            if (UIManager.Instance.SetActiveSwitchingStatusInventory()) playerStat.UpdateStatusUI();
         }
     }
 
@@ -92,8 +87,6 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
         print("OnStatus");
         if (context.started)
         {
-            if (UIManager.Instance.Status.activeSelf) UIManager.Instance.Status.SetActive(false);
-            else UIManager.Instance.Status.SetActive(true);
         }
     }
 
@@ -102,8 +95,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
         print("OnDD");
         if (context.started)
         {
-            if (UIManager.Instance.Status.activeSelf) UIManager.Instance.Status.SetActive(false);
-            else UIManager.Instance.Status.SetActive(true);
+
         }
     }
 }

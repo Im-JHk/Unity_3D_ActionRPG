@@ -6,40 +6,30 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     [SerializeField]
-    private GridLayoutGroup grid = null;
-    [SerializeField]
-    private List<Slot> listSlots = new List<Slot>();
-    [SerializeField]
-    private GameObject slotPrefab = null;
-    [SerializeField]
-    private GameObject popupInfo = null;
-    [SerializeField]
     private InventoryUI inventoryUI = null;
 
     private int maxSlotColumn = 5;
     private int maxSlotRow = 7;
-    private int maxSlot;
+    private int maxSlotSize;
     private Item[] items;
 
     private void Awake()
     {
         inventoryUI = GetComponent<InventoryUI>();
-        maxSlot = maxSlotColumn * maxSlotRow;
-        items = new Item[maxSlot];
-    }
-    void Start()
-    {
-        
+        maxSlotSize = maxSlotColumn * maxSlotRow;
+        items = new Item[maxSlotSize];
+        inventoryUI.Initialize(this);
+        UpdateAllSlots();
     }
 
-    void Update()
+    public void UpdateAllSlots()
     {
-        
+        for (int i = 0; i < maxSlotSize; ++i) UpdateSlot(i);
     }
 
     public int FindEmptySlot()
     {
-        for(int i = 0; i < maxSlot; ++i)
+        for(int i = 0; i < maxSlotSize; ++i)
             if (items[i] == null) return i;
         return -1;
     }
@@ -49,12 +39,11 @@ public class Inventory : MonoBehaviour
         Item item = items[index];
         if(items[index] == null)
         {
-            print("deactive slot");
             inventoryUI.RemoveItem(index);
         }
         else
         {
-            print("active slot");
+            inventoryUI.SetSlotItem(item.ItemData.Image, index);
         }
     }
 
@@ -66,11 +55,10 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            print("No CDATA");
             int index = FindEmptySlot();
             if(index == -1)
             {
-                print("Inventory is Full");
+                Debug.Log("Inventory is Full");
             }
             else
             {
@@ -80,5 +68,37 @@ public class Inventory : MonoBehaviour
             return index;
         }
         return 0;
+    }
+
+    public void ClearItem(int index)
+    {
+        items[index] = null;
+        UpdateSlot(index);
+    }
+
+    public Item GetItem(int index)
+    {
+        return items[index];
+    }
+
+    public ItemData GetItemData(int index)
+    {
+        return items[index].ItemData;
+    }
+
+    public bool IsEquipable(int index)
+    {
+        if (items[index] is Equipment) return true;
+        else return false;
+    }
+
+    public void SwapData(int leftIndex, int rightIndex)
+    {
+        var temp = items[leftIndex];
+        items[leftIndex] = items[rightIndex];
+        items[rightIndex] = temp;
+
+        UpdateSlot(leftIndex);
+        UpdateSlot(rightIndex);
     }
 }

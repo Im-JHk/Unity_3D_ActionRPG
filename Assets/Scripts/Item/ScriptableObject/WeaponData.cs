@@ -9,9 +9,15 @@ public class WeaponData : EquipmentData
     private int attackPower;
 
     public int AttackPower { get { return attackPower; } }
+    
 
     public override Item CreateItem()
     {
         return new Weapon(this);
+    }
+
+    public override string GetItemValueToString()
+    {
+        return string.Format("ATK +{0}", attackPower);
     }
 }

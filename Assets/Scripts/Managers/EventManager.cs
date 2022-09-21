@@ -12,6 +12,11 @@ public class EventManager : SingletonMono<EventManager>
     public Action OnDamage { get; }
     public Action OnDie { get; }
 
+    //inventest
+    public Inventory inven;
+    public ItemData itDT1;
+    public ItemData itDT2;
+
     private void Awake()
     {    
         DicEvent = new Dictionary<EventType, Action>();
@@ -32,5 +37,13 @@ public class EventManager : SingletonMono<EventManager>
         action.Invoke();
     }
 
+    public void InvenTest()
+    {
+        inven.AddItem(itDT1);
+    }
+    public void InvenTest1()
+    {
+        inven.AddItem(itDT2);
+    }
 
 }

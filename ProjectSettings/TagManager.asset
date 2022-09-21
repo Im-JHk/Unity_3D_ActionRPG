@@ -10,6 +10,13 @@ TagManager:
   - Item
   - Interactive
   - NPC
+  - EquipHead
+  - EquipBody
+  - EquipFoot
+  - EquipWeapon
+  - EquipSubWeapon
+  - EquipAccessory
+  - Inventory
   layers:
   - Default
   - TransparentFX

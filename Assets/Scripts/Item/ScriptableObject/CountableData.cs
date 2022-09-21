@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CountableData : ItemData
+public abstract class CountableData : ItemData
 {
     [SerializeField]
     protected int quantity;

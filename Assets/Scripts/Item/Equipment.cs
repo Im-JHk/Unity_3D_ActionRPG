@@ -4,5 +4,12 @@ using UnityEngine;
 
 public abstract class Equipment : Item
 {
-    public Equipment(EquipmentData data) : base(data) { }
+    [SerializeField]
+    protected EquipmentData equipmentData;
+
+    public EquipmentData EquipmentData { get { return equipmentData; } protected set { equipmentData = value; } }
+    public Equipment(EquipmentData data) : base(data) 
+    {
+        equipmentData = data;
+    }
 }

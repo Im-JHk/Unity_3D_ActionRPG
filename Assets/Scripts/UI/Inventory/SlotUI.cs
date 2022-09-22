@@ -76,7 +76,7 @@ public class SlotUI : MonoBehaviour,
     public void RemoveItem()
     {
         itemImage.sprite = null;
-        quantityText.text = "";
+        quantityText.text = string.Empty;
         itemImageGO.SetActive(false);
         overImageGO.SetActive(false);
         quantityGO.SetActive(false);
@@ -109,7 +109,6 @@ public class SlotUI : MonoBehaviour,
             {
                 Item item = inventory.GetItem(this.Index);
                 inventory.ClearItem(this.Index);
-                print("aft item: " + item);
                 UIManager.Instance.EquipItem(item);
             }
         }
@@ -119,7 +118,6 @@ public class SlotUI : MonoBehaviour,
     {
         if (inventoryUI.IsSlotDragging)
         {
-            print("point up");
             bool isInArea = false;
             listRayResults.Clear();
             gRay.Raycast(eventData, listRayResults);
@@ -134,7 +132,6 @@ public class SlotUI : MonoBehaviour,
 
             if (!isInArea)
             {
-                print("remove");
                 inventory.ClearItem(Index);
             }
         }
@@ -144,7 +141,6 @@ public class SlotUI : MonoBehaviour,
     {
         if (itemImage.sprite != null)
         {
-            print("begin drag: " + this.gameObject);
             beginDragPosition = itemImage.transform.position;
             inventoryUI.SetDragSlot(this);
             inventoryUI.IsSlotDragging = true;
@@ -163,7 +159,6 @@ public class SlotUI : MonoBehaviour,
     {
         if (inventoryUI.IsSlotDragging)
         {
-            print("drop drag: " + this);
             if (inventoryUI.DraggingSlot == this) return;
             else inventoryUI.SwapSlot(this);
         }
@@ -173,7 +168,6 @@ public class SlotUI : MonoBehaviour,
     {
         if (inventoryUI.IsSlotDragging)
         {
-            print("end drag: " + this.gameObject);
             itemImage.transform.position = beginDragPosition;
             inventoryUI.IsSlotDragging = false;
         }

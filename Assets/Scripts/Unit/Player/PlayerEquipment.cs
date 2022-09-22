@@ -18,12 +18,10 @@ public class PlayerEquipment : MonoBehaviour
     {
         playerStat = GetComponent<PlayerStat>();
 
-        //equipmentUIs = new EquipmentUI[Enum.GetValues(typeof(EquipmentType)).Length];
         dicEquipmentUI = new Dictionary<EquipmentType, EquipmentUI>();
         dicEquipment = new Dictionary<EquipmentType, Item>();
         for(int i = 0; i < Enum.GetValues(typeof(EquipmentType)).Length; ++i)
         {
-            print(equipmentUIs[i]);
             EquipmentType type = (EquipmentType)i;
             dicEquipment.Add(type, null);
             dicEquipmentUI.Add(type, equipmentUIs[i]);

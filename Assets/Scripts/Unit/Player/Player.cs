@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Unit
-{
-
-    
+{ 
     [SerializeField]
     private PlayerAttackHit playerhit = null;
 

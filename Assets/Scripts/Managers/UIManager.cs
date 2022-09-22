@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,11 @@ public class UIManager : SingletonMono<UIManager>
 {
     public Action UpdateStatus { get; set; }
     public Action PointUp { get; set; }
+
+    #region Dialogue
+    public GameObject DialogueGO;
+    public UnityEvent OnDialogue;
+    #endregion
 
     #region Status, Inventory
     public GameObject StatusInventoryGO;
@@ -58,15 +64,10 @@ public class UIManager : SingletonMono<UIManager>
     public readonly int HashUpTrigger = Animator.StringToHash("UpTrigger");
     // Inventory
     
-
     #endregion
 
     private void Awake()
     {
-        //for(int i = 0; i < Enum.GetValues(typeof(EquipmentType)).Length; ++i)
-        //{
-        //    dicEquipmentUI.Add((EquipmentType)i, )
-        //}
     }
 
     public bool SetActiveSwitchingStatusInventory()
@@ -116,5 +117,12 @@ public class UIManager : SingletonMono<UIManager>
     { 
         print(inventoryRef);
         inventoryRef.AddItem(item.ItemData);
+    }
+
+    public void StartDialogue()
+    {
+        print("UIMng startDialog");
+        DialogueGO.SetActive(true);
+        OnDialogue.Invoke();
     }
 }

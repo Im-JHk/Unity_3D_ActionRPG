@@ -109,6 +109,7 @@ public class SlotUI : MonoBehaviour,
             {
                 Item item = inventory.GetItem(this.Index);
                 inventory.ClearItem(this.Index);
+                print("aft item: " + item);
                 UIManager.Instance.EquipItem(item);
             }
         }

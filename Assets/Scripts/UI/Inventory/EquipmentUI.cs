@@ -4,9 +4,12 @@ using UnityEngine.UI;
 
 public class EquipmentUI : MonoBehaviour, IPointerClickHandler
 {
+    [SerializeField]
     private PlayerEquipment playerEquipment;
     [SerializeField]
     private GameObject equipmentGO;
+    [SerializeField]
+    private GameObject equipmentImageGO;
     [SerializeField]
     private Image equipmentImage;
 
@@ -22,14 +25,14 @@ public class EquipmentUI : MonoBehaviour, IPointerClickHandler
         else
         {
             equipmentImage.sprite = sprite;
-            equipmentGO.SetActive(true);
+            equipmentImageGO.SetActive(true);
         }
     }
 
     public void RemoveItem()
     {
         equipmentImage.sprite = null;
-        equipmentGO.SetActive(false);
+        equipmentImageGO.SetActive(false);
     }
 
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)

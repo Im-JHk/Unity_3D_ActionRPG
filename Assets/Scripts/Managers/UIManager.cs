@@ -113,7 +113,8 @@ public class UIManager : SingletonMono<UIManager>
     }
 
     public void DisequipItem(Item item)
-    {
+    { 
+        print(inventoryRef);
         inventoryRef.AddItem(item.ItemData);
     }
 }

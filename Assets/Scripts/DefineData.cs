@@ -88,3 +88,9 @@ public enum EquipmentType
     Body,
     Foot
 }
+
+public enum EquipedValueType
+{
+    Atk = 0,
+    Def
+}

@@ -7,17 +7,9 @@ public class WeaponData : EquipmentData
 {
     [SerializeField]
     private int attackPower;
-
     public int AttackPower { get { return attackPower; } }
     
-
-    public override Item CreateItem()
-    {
-        return new Weapon(this);
-    }
-
-    public override string GetItemValueToString()
-    {
-        return string.Format("ATK +{0}", attackPower);
-    }
+    public override Item CreateItem() { return new Weapon(this); }
+    public override int GetItemValue() { return attackPower; }
+    public override string GetItemValueToString() { return string.Format("ATK +{0}", attackPower); }
 }

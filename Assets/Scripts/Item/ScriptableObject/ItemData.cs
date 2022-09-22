@@ -22,5 +22,7 @@ public abstract class ItemData : ScriptableObject
     public GameObject Prefab { get { return prefab; } }
 
     public abstract Item CreateItem();
+    public abstract int GetItemValue();
+    public abstract EquipedValueType GetEquipedValueType();
     public abstract string GetItemValueToString();
 }

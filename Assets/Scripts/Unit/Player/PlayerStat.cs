@@ -23,8 +23,6 @@ public class PlayerStat : MonoBehaviour
     private float exp;
 
     private int plusLevel;
-
-
     private int usePoint;
     private int remainPoint;
     private int plusHpPoint;
@@ -34,7 +32,6 @@ public class PlayerStat : MonoBehaviour
 
     public void GetExp(float exp)
     {
-        print("GetExp: " + exp);
         print(levelInfo.GetExpPerLevel(level));
         this.exp += exp;
 
@@ -50,7 +47,6 @@ public class PlayerStat : MonoBehaviour
 
     public void LevelUp()
     {
-        print("LevelUp");
         level += plusLevel;
         remainPoint += plusLevel * levelInfo.LevelupToPoint;
         hp = data.Hp + ((level - 1) * levelInfo.HpIncreaseByLevelup);
@@ -64,7 +60,6 @@ public class PlayerStat : MonoBehaviour
 
     public void UpdateStatusUI()
     {
-        print("UpdateStatusUI");
         UIManager.Instance.levelText.text = level.ToString();
         UIManager.Instance.hpText.text = string.Format("{0}/{1}", hp, data.Hp + ((level - 1) * levelInfo.HpIncreaseByLevelup) + (hpPoint * levelInfo.HpIncreaseByPointup));
         UIManager.Instance.mpText.text = string.Format("{0}/{1}", mp, data.Mp + ((level - 1) * levelInfo.MpIncreaseByLevelup) + (mpPoint * levelInfo.MpIncreaseByPointup));
@@ -77,7 +72,7 @@ public class PlayerStat : MonoBehaviour
         else PointButtonSetActive(1, false);
     }
 
-    public void UpdateEquipedStat(int atk, int def)
+    public void SetEquipedStats(int atk, int def)
     {
         equipAtkValue = atk;
         equipDefValue = def;
@@ -85,7 +80,6 @@ public class PlayerStat : MonoBehaviour
 
     public void EnableTextAnim()
     {
-        print("EnableTextAnim");
         if (UIManager.Instance.plusHpValueText.text != "+0")
         {
             UIManager.Instance.plusHpValueText.enabled = true;
@@ -122,7 +116,6 @@ public class PlayerStat : MonoBehaviour
 
     public void ClickButtonPlusPoint(int type)
     {
-        print("ClickButtonPlusPoint");
         switch ((StatPointType)type)
         {
             case StatPointType.Hp:
@@ -171,7 +164,6 @@ public class PlayerStat : MonoBehaviour
 
     public void ClickButtonMinusPoint(int type)
     {
-        print("ClickButtonMinusPoint");
         switch ((StatPointType)type)
         {
             case StatPointType.Hp:

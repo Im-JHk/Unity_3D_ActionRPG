@@ -18,15 +18,8 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     protected NS_Unit.MoveState currentMoveState = NS_Unit.MoveState.None;
     protected NS_Unit.ActionState currentActionState = NS_Unit.ActionState.None;
 
-    //status test
-    [SerializeField]
     protected float hp;
-    public float Hp { get { return hp; } set { hp = Mathf.Clamp(value, 0, 99999); } }
-    protected float mp;
-    public float Mp { get { return mp; } set { mp = Mathf.Clamp(value, 0, 99999); } }
-    protected float exp;
-    public float Exp { get { return exp; } set { exp = Mathf.Clamp(value, 0, 99999); } }
-    //protected float hpMax = 100;
+
     [SerializeField]
     protected Vector3 moveVector;
     protected float moveSpeed;

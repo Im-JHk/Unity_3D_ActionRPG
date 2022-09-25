@@ -30,6 +30,8 @@ public class PlayerStat : MonoBehaviour
     private int plusAtkPoint;
     private int plusDefPoint;
 
+    public int Level { get { return level; } }
+
     public void GetExp(float exp)
     {
         print(levelInfo.GetExpPerLevel(level));

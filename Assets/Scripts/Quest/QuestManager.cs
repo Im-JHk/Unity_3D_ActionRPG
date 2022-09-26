@@ -10,6 +10,23 @@ public class QuestManager : SingletonMono<QuestManager>
     private List<QuestData> listCompleteQuest;
     private List<Quest> listProgressQuest;
 
+    public List<QuestData> ListPossibleQuest { get { return listPossibleQuest; } }
+    public List<Quest> ListProgressQuest { get { return listProgressQuest; } }
+
+    private void Awake()
+    {
+        //List<QuestData> listQuestData = new List<QuestData>();
+        //List<QuestData> listPossibleQuest = new List<QuestData>();
+        //List<QuestData> listCompleteQuest = new List<QuestData>();
+        //List<Quest> listProgressQuest = new List<Quest>();
+        if (listQuestData == null) print("null");
+    }
+
+    public void SetQuestListByInProgress()
+    {
+
+    }
+
     public int GetPossibleIndex(int questID)
     {
         for (int i = 0; i < listPossibleQuest.Count; ++i)

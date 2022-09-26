@@ -15,4 +15,5 @@ public class QuestTask : ScriptableObject
 
     public bool IsTarget(int id) { return targetId == id; }
     public bool IsCompleteTask(int amount) { return amount >= this.amount; }
+    public string GetPrintTaskToString(string task, int amount) { return string.Format("{0} {1} / {2}", task, amount, this.amount); }
 }

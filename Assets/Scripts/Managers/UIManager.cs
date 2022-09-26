@@ -15,6 +15,11 @@ public class UIManager : SingletonMono<UIManager>
     public UnityEvent OnDialogue;
     #endregion
 
+    #region ButtonList
+    [SerializeField]
+    private ButtonListUI buttonListUI;
+    #endregion
+
     #region Status, Inventory
     public GameObject StatusInventoryGO;
     public GameObject StatusGO;
@@ -29,13 +34,13 @@ public class UIManager : SingletonMono<UIManager>
 
     public Button SwitchStatusButton;
     public Button SwitchInventoryButton;
-    private int SwitchStatusButtonOriginSibling;
-    private int SwitchInventoryButtonOriginSibling;
 
     // Equipment
-    
+
 
     // Status
+    private PlayerStat playerStat;
+
     public Text levelText;
     public Text hpText;
     public Text mpText;
@@ -62,12 +67,32 @@ public class UIManager : SingletonMono<UIManager>
     public Text plusDefValueText;
 
     public readonly int HashUpTrigger = Animator.StringToHash("UpTrigger");
+
     // Inventory
-    
+
+    #endregion
+
+    #region Quest
+    [SerializeField]
+    private QuestUI questUI;
+    private QuestSlotUI openDetailSlot = null;
     #endregion
 
     private void Awake()
     {
+        if (questUI == null) questUI = FindObjectOfType<QuestUI>();
+    }
+
+    public void OpenOrCloseButtonList()
+    {
+        if (buttonListUI.IsOpen) buttonListUI.OnClickCloseList();
+        else buttonListUI.OnClickOpenList();
+    }
+
+    #region Inventory Method
+    public void OpenInventoryUI()
+    {
+        if (SetActiveSwitchingStatusInventory()) playerStat.UpdateStatusUI();
     }
 
     public bool SetActiveSwitchingStatusInventory()
@@ -118,11 +143,35 @@ public class UIManager : SingletonMono<UIManager>
         print(inventoryRef);
         inventoryRef.AddItem(item.ItemData);
     }
+    #endregion
 
     public void StartDialogue()
     {
-        print("UIMng startDialog");
         DialogueGO.SetActive(true);
         OnDialogue.Invoke();
     }
+
+    #region Quest Method
+    public void OpenOrCloseQuestList()
+    {
+        if (questUI.IsQuestListOpen)
+        {
+            questUI.ClostQuestWindow();
+        }
+        else
+        {
+            questUI.OpenQuestWindow(QuestManager.Instance.ListProgressQuest, QuestManager.Instance.ListPossibleQuest);
+        }
+    }
+
+    public void OpenDetailView(Quest quest)
+    {
+        questUI.OpenDetailView(quest);
+    }
+
+    public void CloseDetailView()
+    {
+        questUI.CloseDetailView();
+    }
+    #endregion
 }

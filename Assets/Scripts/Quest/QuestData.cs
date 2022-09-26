@@ -14,7 +14,9 @@ public class QuestData : ScriptableObject
     [SerializeField]
     private string questDescription;
     [SerializeField]
-    private string questSummary;
+    private string questTaskString;
+    [SerializeField]
+    private bool isInProgressQuest;
     [SerializeField]
     private bool isClearQuest;
 
@@ -29,7 +31,8 @@ public class QuestData : ScriptableObject
     public int QuestID { get { return questID; } }
     public string QuestName { get { return questName; } }
     public string QuestDescription { get { return questDescription; } }
-    public string QuestSummary { get { return questSummary; } }
+    public string QuestTaskString { get { return questTaskString; } }
+    public bool IsInProgressQuest { get { return isInProgressQuest; } }
     public bool IsClearQuest { get { return IsClearQuest; } }
 
     public QuestCondition QuestCondition { get { return questCondition; } }

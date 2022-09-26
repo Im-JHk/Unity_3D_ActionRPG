@@ -13,6 +13,7 @@ public class PlayerStat : MonoBehaviour
 
     private int level;
     private int hp;
+    private int hpMax;
     private int mp;
     private int hpPoint;
     private int mpPoint;
@@ -21,6 +22,8 @@ public class PlayerStat : MonoBehaviour
     private int equipAtkValue;
     private int equipDefValue;
     private float exp;
+    private float energy;
+    private float energyMax;
 
     private int plusLevel;
     private int usePoint;
@@ -31,6 +34,10 @@ public class PlayerStat : MonoBehaviour
     private int plusDefPoint;
 
     public int Level { get { return level; } }
+    public int Hp { get { return hp; } }
+    public int HpMax { get { return hpMax; } }
+    public float Energy { get { return energy; } }
+    public float EnergyMax { get { return energyMax; } }
 
     public void GetExp(float exp)
     {
@@ -51,8 +58,9 @@ public class PlayerStat : MonoBehaviour
     {
         level += plusLevel;
         remainPoint += plusLevel * levelInfo.LevelupToPoint;
-        hp = data.Hp + ((level - 1) * levelInfo.HpIncreaseByLevelup);
-        mp = data.Mp + ((level - 1) * levelInfo.MpIncreaseByLevelup);
+        hpMax = data.Hp + ((level - 1) * levelInfo.HpIncreaseByLevelup) + (hpPoint * levelInfo.HpIncreaseByPointup);
+        hp = hpMax;
+        mp = data.Mp + ((level - 1) * levelInfo.MpIncreaseByLevelup) + (mpPoint * levelInfo.MpIncreaseByPointup);
         UIManager.Instance.plusHpValueText.text = string.Format("+{0}", plusLevel * levelInfo.HpIncreaseByLevelup);
         UIManager.Instance.plusMpValueText.text = string.Format("+{0}", plusLevel * levelInfo.MpIncreaseByLevelup);
         UIManager.Instance.plusAtkValueText.text = string.Format("+{0}", plusLevel * levelInfo.AtkIncreaseByLevelup);
@@ -279,15 +287,20 @@ public class PlayerStat : MonoBehaviour
         PointButtonSetActive(0, false);
         PointButtonSetActive(1, false);
         level = 1;
-        hp = data.Hp;
-        mp = data.Mp;
+        hpMax = data.Hp + ((level - 1) * levelInfo.HpIncreaseByLevelup) + (hpPoint * levelInfo.HpIncreaseByPointup);
+        hp = hpMax;
+        mp = data.Mp + ((level - 1) * levelInfo.MpIncreaseByLevelup) + (mpPoint * levelInfo.MpIncreaseByPointup);
+
         hpPoint = 0;
         mpPoint = 0;
         atkPoint = 0;
         defPoint = 0;
         equipAtkValue = 0;
         equipDefValue = 0;
+
         exp = 0;
+        energy = energyMax = 100f;
+
         remainPoint = 0;
         plusHpPoint = 0;
         plusMpPoint = 0;

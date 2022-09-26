@@ -17,5 +17,5 @@ public class Quest : MonoBehaviour
     public bool IsProgress { get { return isProgress; } set { isProgress = value; } }
 
     public bool IsQuestComplete() { return currentAmount >= data.QuestTask.Amount; }
-    public string GetProgressInfoToString() { return string.Format(data.QuestSummary + " {0} / {1}", currentAmount, data.QuestTask.Amount); }
+    public string GetInProgressTaskToString() { return string.Format(data.QuestTaskString + " {0} / {1}", currentAmount, data.QuestTask.Amount); }
 }

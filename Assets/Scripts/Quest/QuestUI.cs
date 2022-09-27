@@ -53,6 +53,8 @@ public class QuestUI : MonoBehaviour
 
     public void OpenQuestWindow(List<Quest> progessQuests, List<QuestData> possibleData)
     {
+        IsQuestListOpen = true;
+
         questGO.SetActive(true);
         questListGO.SetActive(true);
         detailViewGO.SetActive(false);
@@ -72,11 +74,12 @@ public class QuestUI : MonoBehaviour
                 AddSlot(possibleData[i].CreateQuest());
             }
         }
-            
     }
 
     public void ClostQuestWindow()
     {
+        IsQuestListOpen = false;
+
         questListGO.SetActive(true);
         detailViewGO.SetActive(true);
         questGO.SetActive(false);

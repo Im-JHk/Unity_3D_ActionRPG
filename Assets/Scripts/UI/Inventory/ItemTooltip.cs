@@ -12,6 +12,11 @@ public class ItemTooltip : MonoBehaviour
     [SerializeField]
     private Text howToUse;
 
+    private void Awake()
+    {
+        UIManager.Instance.SetItemTooltipRef(this);
+    }
+
     public void ShowTooltip(ItemData data, Vector3 pos)
     {
         gameObject.SetActive(true);
@@ -28,7 +33,7 @@ public class ItemTooltip : MonoBehaviour
                 howToUse.text = "사용 불가";
                 break;
             case ItemType.Equipable:
-                howToUse.text = "장착(우클릭)";
+                howToUse.text = "장착/해제(우클릭)";
                 break;
             case ItemType.Consumable:
                 howToUse.text = "사용(우클릭)";

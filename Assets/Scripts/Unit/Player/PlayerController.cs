@@ -78,23 +78,6 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
     {
         if (context.started)
         {
-            if (UIManager.Instance.SetActiveSwitchingStatusInventory()) playerStat.UpdateStatusUI();
-        }
-    }
-
-    public void OnStatus(InputAction.CallbackContext context)
-    {
-        print("OnStatus");
-        if (context.started)
-        {
-        }
-    }
-
-    public void OnDD(InputAction.CallbackContext context)
-    {
-        print("OnDD");
-        if (context.started)
-        {
 
         }
     }

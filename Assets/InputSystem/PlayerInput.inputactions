@@ -58,24 +58,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Status",
-                    "type": "Button",
-                    "id": "17caf6d0-f0ef-41e5-b30d-3d6081afc8e9",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DD",
-                    "type": "Button",
-                    "id": "1bf8b0ad-9537-405f-bf93-4da79b6928d8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -186,28 +168,6 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "Run",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0eea708b-1140-415a-9c73-bf179a3456cd",
-                    "path": "<Keyboard>/anyKey",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC",
-                    "action": "Status",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "26eae0dd-19e5-46ce-a2ab-29044d9cd865",
-                    "path": "<Keyboard>/u",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

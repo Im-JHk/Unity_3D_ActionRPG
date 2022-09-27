@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EquipmentUI : MonoBehaviour, IPointerClickHandler
+public class EquipmentUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private PlayerEquipment playerEquipment;
@@ -40,6 +40,24 @@ public class EquipmentUI : MonoBehaviour, IPointerClickHandler
         if (eventData.button == PointerEventData.InputButton.Right && equipmentImage.sprite != null)
         {
             playerEquipment.DisequipItem(EquipmentType);
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (equipmentImage.sprite != null && !playerEquipment.IsTooltipOn)
+        {
+            playerEquipment.IsTooltipOn = true;
+            UIManager.Instance.ShowTooltip(playerEquipment.DicEquipment[EquipmentType].ItemData, GetComponent<RectTransform>().position);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (playerEquipment.IsTooltipOn)
+        {
+            UIManager.Instance.HideTooltip();
+            playerEquipment.IsTooltipOn = false;
         }
     }
 }

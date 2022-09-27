@@ -14,6 +14,11 @@ public class PlayerEquipment : MonoBehaviour
     [SerializeField]
     private Dictionary<EquipmentType, Item> dicEquipment;
 
+    public Dictionary<EquipmentType, EquipmentUI> DicEquipmentUI { get { return dicEquipmentUI; } }
+    public Dictionary<EquipmentType, Item> DicEquipment { get { return dicEquipment; } }
+
+    public bool IsTooltipOn { get; set; }
+
     private void Awake()
     {
         playerStat = GetComponent<PlayerStat>();
@@ -27,6 +32,7 @@ public class PlayerEquipment : MonoBehaviour
             dicEquipmentUI.Add(type, equipmentUIs[i]);
             dicEquipmentUI[type].SetEquipmentType(type);
         }
+        IsTooltipOn = false;
     }
 
     public void EquipItem(Item item)

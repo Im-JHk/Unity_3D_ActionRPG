@@ -249,6 +249,7 @@ public class PlayerStat : MonoBehaviour
 
         if (remainPoint > 0) PointButtonSetActive(1, true);
         else PointButtonSetActive(1, false);
+        PointButtonSetActive(0, false);
     }
 
     public void ClickButtonAcceptPoint()
@@ -278,6 +279,7 @@ public class PlayerStat : MonoBehaviour
 
         if (remainPoint > 0) PointButtonSetActive(1, true);
         else PointButtonSetActive(1, false);
+        PointButtonSetActive(0, false);
     }
 
     void Awake()

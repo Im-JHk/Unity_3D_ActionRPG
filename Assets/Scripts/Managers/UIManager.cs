@@ -10,6 +10,8 @@ public class UIManager : SingletonMono<UIManager>
     public Action UpdateStatus { get; set; }
     public Action PointUp { get; set; }
 
+    private ItemTooltip itemTooltip;
+
     #region Dialogue
     public GameObject DialogueGO;
     public UnityEvent OnDialogue;
@@ -39,6 +41,7 @@ public class UIManager : SingletonMono<UIManager>
 
 
     // Status
+    [SerializeField]
     private PlayerStat playerStat;
 
     public Text levelText;
@@ -78,6 +81,8 @@ public class UIManager : SingletonMono<UIManager>
     private QuestSlotUI openDetailSlot = null;
     #endregion
 
+    public void SetItemTooltipRef(ItemTooltip itemTooltip) => this.itemTooltip = itemTooltip;
+
     private void Awake()
     {
         if (questUI == null) questUI = FindObjectOfType<QuestUI>();
@@ -89,25 +94,41 @@ public class UIManager : SingletonMono<UIManager>
         else buttonListUI.OnClickOpenList();
     }
 
-    #region Inventory Method
-    public void OpenInventoryUI()
+    #region Status Inventory Method
+    public void ShowTooltip(ItemData itemData, Vector3 pos)
     {
-        if (SetActiveSwitchingStatusInventory()) playerStat.UpdateStatusUI();
+        itemTooltip.ShowTooltip(itemData, pos);
     }
 
-    public bool SetActiveSwitchingStatusInventory()
+    public void HideTooltip()
+    {
+        itemTooltip.HideTooltip();
+    }
+
+    public void OpenOrCloseStatusUI()
     {
         if (StatusInventoryGO.activeSelf)
         {
             StatusInventoryGO.SetActive(false);
-            return false;
         }
         else
         {
             StatusInventoryGO.SetActive(true);
-            StatusGO.SetActive(true);
-            InventoryGO.SetActive(false);
-            return true;
+            OnClickSwitchButton(1);
+            playerStat.UpdateStatusUI();
+        }
+    }
+
+    public void OpenOrCloseInventoryUI()
+    {
+        if (StatusInventoryGO.activeSelf)
+        {
+            StatusInventoryGO.SetActive(false);
+        }
+        else
+        {
+            StatusInventoryGO.SetActive(true);
+            OnClickSwitchButton(2);
         }
     }
 

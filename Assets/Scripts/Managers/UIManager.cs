@@ -17,9 +17,11 @@ public class UIManager : SingletonMono<UIManager>
     public UnityEvent OnDialogue;
     #endregion
 
-    #region ButtonList
+    #region HUD
     [SerializeField]
     private ButtonListUI buttonListUI;
+    [SerializeField]
+    private QuestDisplay questDisplay;
     #endregion
 
     #region Status, Inventory
@@ -78,7 +80,6 @@ public class UIManager : SingletonMono<UIManager>
     #region Quest
     [SerializeField]
     private QuestUI questUI;
-    private QuestSlotUI openDetailSlot = null;
     #endregion
 
     public void SetItemTooltipRef(ItemTooltip itemTooltip) => this.itemTooltip = itemTooltip;
@@ -86,6 +87,15 @@ public class UIManager : SingletonMono<UIManager>
     private void Awake()
     {
         if (questUI == null) questUI = FindObjectOfType<QuestUI>();
+        if (questDisplay == null) questDisplay = FindObjectOfType<QuestDisplay>();
+    }
+
+    #region HUD
+
+    public void OpenOrCloseQuestDisplay()
+    {
+        if (questDisplay.IsOpen) questDisplay.OnClickCloseList();
+        else questDisplay.OnClickOpenList();
     }
 
     public void OpenOrCloseButtonList()
@@ -93,6 +103,7 @@ public class UIManager : SingletonMono<UIManager>
         if (buttonListUI.IsOpen) buttonListUI.OnClickCloseList();
         else buttonListUI.OnClickOpenList();
     }
+    #endregion
 
     #region Status Inventory Method
     public void ShowTooltip(ItemData itemData, Vector3 pos)
@@ -173,6 +184,11 @@ public class UIManager : SingletonMono<UIManager>
     }
 
     #region Quest Method
+    public void InitializeQuestUI()
+    {
+        questUI.InitializeQuestUI();
+    }
+
     public void OpenOrCloseQuestList()
     {
         if (questUI.IsQuestListOpen)
@@ -181,18 +197,19 @@ public class UIManager : SingletonMono<UIManager>
         }
         else
         {
-            questUI.OpenQuestWindow(QuestManager.Instance.ListProgressQuest, QuestManager.Instance.ListPossibleQuest);
+            questUI.OpenQuestWindow();
         }
     }
 
-    public void OpenDetailView(Quest quest)
+    public void OpenOrCloseDetailView(Quest quest, int index)
     {
-        questUI.OpenDetailView(quest);
-    }
-
-    public void CloseDetailView()
-    {
-        questUI.CloseDetailView();
+        questUI.OpenOrCloseDetailView(quest, index);
     }
     #endregion
+
+    public void SetDeactiveUIs()
+    {
+        StatusInventoryGO.SetActive(false);
+        questUI.QuestGO.SetActive(false);
+    }
 }

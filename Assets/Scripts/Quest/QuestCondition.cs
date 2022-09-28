@@ -9,24 +9,18 @@ public class QuestCondition : ScriptableObject
     private int level;
     [SerializeField]
     private int prevQuestID;
-    [SerializeField]
-    private bool isClearPrevQuest;
-    [SerializeField]
-    private bool isPossibleQuest;
 
     public int Level { get { return level; } }
     public int PrevQuestID { get { return prevQuestID; } }
-    public bool IsClearPrevQuest { get { return isClearPrevQuest; } }
-    public bool IsPossibleQuest { get { return isPossibleQuest; } }
 
-    public bool UpdateIsPossible(int level)
+    public bool IsCanProgressLevel(int level) { return level >= this.level; }
+    public bool IsPrevQuestClear(List<int> questIDs) 
     {
-        if (level >= this.level && isClearPrevQuest)
+        if (prevQuestID == -1) return true;
+        for(int i = 0; i < questIDs.Count; ++i)
         {
-            isPossibleQuest = true;
-            return true;
+            if (questIDs[i] == prevQuestID) return true;
         }
         return false;
     }
-    public void ClearQuestIsPrev(int questID) { if (!isClearPrevQuest && questID == prevQuestID) isClearPrevQuest = true; }
 }

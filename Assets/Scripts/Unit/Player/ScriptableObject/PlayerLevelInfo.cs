@@ -17,12 +17,12 @@ public class PlayerLevelInfo : ScriptableObject
     private int levelupToPoint = 5;
     private int hpIncreaseByLevelup = 40;
     private int mpIncreaseByLevelup = 20;
-    private int atkIncreaseByLevelup = 20;
-    private int defIncreaseByLevelup = 10;
+    private int atkIncreaseByLevelup = 10;
+    private int defIncreaseByLevelup = 5;
     private int hpIncreaseByPointup = 20;
     private int mpIncreaseByPointup = 10;
-    private int atkIncreaseByPointup = 10;
-    private int defIncreaseByPointup = 5;
+    private int atkIncreaseByPointup = 5;
+    private int defIncreaseByPointup = 2;
 
     public float ExpIncreaseRatio { get { return expIncreaseRatio; } }
     public int LevelupToPoint { get { return levelupToPoint; } }

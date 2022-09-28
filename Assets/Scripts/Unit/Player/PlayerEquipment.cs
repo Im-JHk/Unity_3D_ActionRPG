@@ -21,7 +21,7 @@ public class PlayerEquipment : MonoBehaviour
 
     private void Awake()
     {
-        playerStat = GetComponent<PlayerStat>();
+        if (playerStat == null) playerStat = FindObjectOfType<PlayerStat>();
 
         dicEquipmentUI = new Dictionary<EquipmentType, EquipmentUI>();
         dicEquipment = new Dictionary<EquipmentType, Item>();
@@ -30,6 +30,7 @@ public class PlayerEquipment : MonoBehaviour
             EquipmentType type = (EquipmentType)i;
             dicEquipment.Add(type, null);
             dicEquipmentUI.Add(type, equipmentUIs[i]);
+            dicEquipmentUI[type].SetEquipReference(this);
             dicEquipmentUI[type].SetEquipmentType(type);
         }
         IsTooltipOn = false;

@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    [SerializeField]
+    private int npcID;
+    [SerializeField]
+    private List<QuestData> listQuestData;
+    [SerializeField]
+    private List<DialogueDataSO> listDialogueData;
 }

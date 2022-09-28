@@ -14,26 +14,29 @@ public class QuestSlotUI : MonoBehaviour, IPointerClickHandler
     private Text questName;
     [SerializeField]
     private Text questTask;
+    [SerializeField]
+    private GameObject isProgressGO;
 
     private int index;
-    private bool isDetailOpen = false;
+
+    public Quest Quest { get { return quest; } }
 
     public void SetIndex(int index) => this.index = index;
     public void SetQuest(Quest quest) => this.quest = quest;
+
     public void SetInitialize(int index)
     {
         this.index = index;
-        this.isDetailOpen = false;
     }
 
-    public void SetQuestSlot()
+    public void SetQuestSlotUI()
     {
         if (quest.IsQuestComplete()) background.color = Color.green;
         else background.color = Color.white;
 
         Color color = background.color;
-        if (quest.IsProgress) color.a = 1f;
-        else color.a = 0.2f;
+        if (quest.IsProgress) { color.a = 0.5f; isProgressGO.SetActive(true); }
+        else { color.a = 0.2f; isProgressGO.SetActive(false); };
         background.color = color;
 
         questName.text = quest.Data.QuestName;
@@ -44,16 +47,7 @@ public class QuestSlotUI : MonoBehaviour, IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            if (isDetailOpen)
-            {
-                UIManager.Instance.CloseDetailView();
-                isDetailOpen = false;
-            }
-            else
-            {
-                UIManager.Instance.OpenDetailView(quest);
-                isDetailOpen = true;
-            }
+            UIManager.Instance.OpenOrCloseDetailView(quest, index);
         }
     }
 }

@@ -96,7 +96,7 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
         Debug.Log("base Defend()");
     }
 
-    virtual public void Damaged(float damage)
+    virtual public void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
     {
         Debug.Log("base Damaged()");
     }

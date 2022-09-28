@@ -21,24 +21,39 @@ public class QuestUI : MonoBehaviour
 
     #region DetailView
     [SerializeField]
+    private Quest openQuest = null;
+    [SerializeField]
+    private int openQuestIndex;
+    [SerializeField]
     private GameObject detailViewGO;
     [SerializeField]
     private QuestDetailViewUI detailViewUI;
     public bool IsQuestDetailOpen { get; private set; }
     #endregion
 
+    public GameObject QuestGO { get { return questGO; } }
+
     private void Awake()
     {
-        listSlotUI = new List<QuestSlotUI>();
+        InitializeQuestUI();
+    }
+
+    public void InitializeQuestUI()
+    {
+        if (listSlotUI == null) listSlotUI = new List<QuestSlotUI>();
         if (detailViewUI == null) detailViewUI = GetComponentInChildren<QuestDetailViewUI>();
         IsQuestListOpen = false;
         IsQuestDetailOpen = false;
+
+        for (int i = 0; i < QuestManager.Instance.ListYetProgressQuest.Count; ++i)
+        {
+            AddSlot(QuestManager.Instance.ListYetProgressQuest[i]);
+        }
     }
 
     public void AddSlot(Quest quest)
     {
         int index = listSlotUI.Count;
-
         GameObject newSlot = Instantiate(slotPrefab);
         RectTransform rectTransform = newSlot.GetComponent<RectTransform>();
         rectTransform.SetParent(contentSpace);
@@ -51,7 +66,7 @@ public class QuestUI : MonoBehaviour
         listSlotUI.Add(slotUI);
     }
 
-    public void OpenQuestWindow(List<Quest> progessQuests, List<QuestData> possibleData)
+    public void OpenQuestWindow()
     {
         IsQuestListOpen = true;
 
@@ -59,20 +74,9 @@ public class QuestUI : MonoBehaviour
         questListGO.SetActive(true);
         detailViewGO.SetActive(false);
 
-        if (progessQuests != null)
+        for (int i = 0; i < listSlotUI.Count; ++i)
         {
-            for (int i = 0; i < progessQuests.Count; ++i)
-            {
-                AddSlot(progessQuests[i]);
-            }
-        }
-
-        if (possibleData != null)
-        {
-            for (int i = 0; i < possibleData.Count; ++i)
-            {
-                AddSlot(possibleData[i].CreateQuest());
-            }
+            listSlotUI[i].SetQuestSlotUI();
         }
     }
 
@@ -85,17 +89,38 @@ public class QuestUI : MonoBehaviour
         questGO.SetActive(false);
     }
 
-    public void OpenDetailView(Quest quest)
+    public void OpenOrCloseDetailView(Quest quest, int index)
     {
+        if (openQuest != null && openQuest == quest)
+        {
+            detailViewGO.SetActive(false);
+            openQuest = null;
+            return;
+        }
+
+        openQuest = quest;
+        openQuestIndex = index;
         detailViewGO.SetActive(true);
 
-        if (quest.Data.IsInProgressQuest) detailViewUI.SetButtonInterableIfInProgress(true);
+        if (quest != null && quest.IsProgress) detailViewUI.SetButtonInterableIfInProgress(true);
         else detailViewUI.SetButtonInterableIfInProgress(false);
+
         detailViewUI.SetDetailViewUI(quest.Data.QuestName, quest.Data.QuestDescription, quest.GetInProgressTaskToString());
     }
 
-    public void CloseDetailView()
+    public void AcceptQuest()
     {
-        detailViewGO.SetActive(false);
+        if (openQuest == null) return;
+        QuestManager.Instance.AcceptQuest(openQuest);
+        listSlotUI[openQuestIndex].SetQuestSlotUI();
+        detailViewUI.SetButtonInterableIfInProgress(true);
+    }
+
+    public void RefuseQuest()
+    {
+        if (openQuest == null) return;
+        QuestManager.Instance.RefuseQuest(openQuest);
+        listSlotUI[openQuestIndex].SetQuestSlotUI();
+        detailViewUI.SetButtonInterableIfInProgress(true);
     }
 }

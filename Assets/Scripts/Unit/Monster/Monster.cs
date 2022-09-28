@@ -13,6 +13,7 @@ public class Monster : Unit
 
     protected NavMeshAgent monsterNavAgent = null;
     protected GameObject target = null;
+    protected MonsterStat monsterStat = null;
 
     protected Vector3 dodgeDirection = Vector3.zero;
     protected bool canAttack;
@@ -30,27 +31,7 @@ public class Monster : Unit
     public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
     #endregion
 
-    virtual public void Initialize()
-    {
-        //dicMonsterState = new Dictionary<NS_Unit.BaseState, IState>();
-        //dicMonsterState.Add(NS_Unit.BaseState.Idle, new NS_State.Idle(this));
-        //dicMonsterState.Add(NS_Unit.BaseState.Walk, new NS_State.Walk(this));
-        //dicMonsterState.Add(NS_Unit.BaseState.Run, new NS_State.Run(this));
-        //dicMonsterState.Add(NS_Unit.BaseState.Attack, new NS_State.Attack(this));
-        //dicMonsterState.Add(NS_Unit.BaseState.Defend, new NS_State.Defend(this));
-        //dicMonsterState.Add(NS_Unit.BaseState.Dodge, new NS_State.Dodge(this));
-
-        //monsterState = new NS_State.State(dicMonsterState[NS_Unit.BaseState.Idle]);
-
-        //moveVector = Vector3.zero;
-        //moveSpeed = 1f;
-        //rotateSpeed = 100f;
-        //rotateTime = 0;
-        //comboCount = 0;
-        //isMove = false;
-        //isRun = false;
-        //canChangeState = true;
-    }
+    virtual public void Initialize() { }
 
     #region SetNav
     public void FocusTarget(GameObject obj)
@@ -108,15 +89,13 @@ public class Monster : Unit
         if (!isStayCoroutine && !isAttack) StartCoroutine(nameof(MeleeAttack));
     }
 
-    override public void Damaged(float damage)
+    override public void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
     {
-        animator.SetTrigger("OnHit");
-        hp -= damage;
-        if (hp < 0) hp = 0;
-        if (hp <= 0)
+        animator.SetTrigger(HashOnHit);
+        if (monsterStat.Damaged(damage))
         {
             StateMachine.SetState(dicMonsterState[NS_Unit.BaseState.Die]);
-            StartCoroutine("DestroyMonster");
+            StartCoroutine(nameof(DestroyMonster));
         }
     }
 

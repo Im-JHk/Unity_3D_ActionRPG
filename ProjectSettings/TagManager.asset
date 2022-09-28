@@ -17,6 +17,7 @@ TagManager:
   - EquipSubWeapon
   - EquipAccessory
   - Inventory
+  - PlayerSpawn
   layers:
   - Default
   - TransparentFX

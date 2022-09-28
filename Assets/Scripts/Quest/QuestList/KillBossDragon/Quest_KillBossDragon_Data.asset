@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822d5dd7238e57d48bfa685e3f02ebe3, type: 3}
+  m_Name: Quest_KillBossDragon_Data
+  m_EditorClassIdentifier: 
+  employerID: 1
+  questID: 10002
+  questName: "\uB4DC\uB798\uACE4 \uC2AC\uB808\uC774\uC5B4"
+  questDescription: "\uB9C8\uC744\uC744 \uACF5\uD3EC\uC5D0 \uB5A8\uAC8C \uB9CC\uB4DC\uB294
+    \uB4DC\uB798\uACE4\uC744 \uBB34\uCC14\uB7EC\uB77C"
+  questTaskString: "\uB4DC\uB798\uACE4\uC744 \uC7A1\uC544\uB77C"
+  isInProgressQuest: 0
+  isClearQuest: 0
+  questCondition: {fileID: 11400000, guid: 8af9131a0d86a8f4589e1e930722c2f1, type: 2}
+  questTask: {fileID: 11400000, guid: 0a56aebd4dc0f2e4ca32341a2b73a0cd, type: 2}
+  questReward: {fileID: 11400000, guid: ceae365df46d7aa4791d9a4699fac8a0, type: 2}

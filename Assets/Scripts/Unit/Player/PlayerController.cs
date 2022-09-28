@@ -6,12 +6,10 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
 {
     private Player player = null;
-    private PlayerStat playerStat = null;
 
     private void Awake()
     {
         player = GetComponent<Player>();
-        playerStat = GetComponent<PlayerStat>();
     }
 
     public void OnWalk(InputAction.CallbackContext context)

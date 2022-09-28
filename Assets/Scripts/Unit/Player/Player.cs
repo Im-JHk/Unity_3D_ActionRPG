@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Unit
-{ 
+{
+    [SerializeField]
+    private PlayerStat playerStat = null;
     [SerializeField]
     private PlayerAttackHit playerhit = null;
+    [SerializeField]
+    private Transform spawnPosition = null;
 
     public void Initialize()
     {
+        if (playerStat == null) playerStat = GetComponent<PlayerStat>();
+
         DicState = new Dictionary<NS_Unit.BaseState, IState>();
         DicState.Add(NS_Unit.BaseState.Idle, new NS_State.Idle(this));
         DicState.Add(NS_Unit.BaseState.Walk, new NS_State.Walk(this));
@@ -80,11 +86,17 @@ public class Player : Unit
         Rigidbody.AddForce(transform.forward * dodgeSpeed, ForceMode.VelocityChange);
     }
 
-    override public void Damaged(float damage)
+    override public void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
     {
         hp -= (int)damage;
         if (hp < 0) hp = 0;
         if (hp <= 0) StateMachine.SetState(DicState[NS_Unit.BaseState.Die]);
+
+        animator.SetTrigger(HashOnHit);
+        if (playerStat.Damaged(damage))
+        {
+            StateMachine.SetState(DicState[NS_Unit.BaseState.Die]);
+        }
     }
 
     override public void SetMoveParameter()
@@ -126,6 +138,9 @@ public class Player : Unit
     #region Monobehaviour
     private void Awake()
     {
+        if (spawnPosition == null) spawnPosition = GameObject.FindGameObjectWithTag("PlayerSpawn").transform;
+        transform.position = spawnPosition.position;
+
         animationEvent = new AnimationEvent();
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
@@ -134,7 +149,6 @@ public class Player : Unit
         Initialize();
 
         playerhit = GetComponentInChildren<PlayerAttackHit>();
-        playerhit.Damage = 20f;
     }
 
     private void Update()

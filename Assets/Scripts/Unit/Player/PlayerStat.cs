@@ -11,10 +11,6 @@ public class PlayerStat : MonoBehaviour
     [SerializeField]
     private PlayerLevelInfo levelInfo;
 
-    private int level;
-    private int hp;
-    private int hpMax;
-    private int mp;
     private int hpPoint;
     private int mpPoint;
     private int atkPoint;
@@ -22,8 +18,6 @@ public class PlayerStat : MonoBehaviour
     private int equipAtkValue;
     private int equipDefValue;
     private float exp;
-    private float energy;
-    private float energyMax;
 
     private int plusLevel;
     private int usePoint;
@@ -33,34 +27,45 @@ public class PlayerStat : MonoBehaviour
     private int plusAtkPoint;
     private int plusDefPoint;
 
-    public int Level { get { return level; } }
-    public int Hp { get { return hp; } }
-    public int HpMax { get { return hpMax; } }
-    public float Energy { get { return energy; } }
-    public float EnergyMax { get { return energyMax; } }
+    public int Level { get; private set; }
+    public int Hp { get; private set; }
+    public int HpMax { get; private set; }
+    public int Mp { get; private set; }
+    public int MpMax { get; private set; }
+    public float Energy { get; private set; }
+    public float EnergyMax { get; private set; }
+    public float Damage { get { return (data.Atk + ((Level - 1) * levelInfo.AtkIncreaseByLevelup) + (atkPoint * levelInfo.AtkIncreaseByPointup) + equipAtkValue); } }
+
+    public bool Damaged(float damage)
+    {
+        Hp -= Mathf.CeilToInt(damage - data.Def);
+        if (Hp < 0) Hp = 0;
+        if (Hp <= 0) return true;
+        return false;
+    }
 
     public void GetExp(float exp)
     {
-        print(levelInfo.GetExpPerLevel(level));
+        print(levelInfo.GetExpPerLevel(Level));
         this.exp += exp;
 
-        while (this.exp >= levelInfo.GetExpPerLevel(level))
+        while (this.exp >= levelInfo.GetExpPerLevel(Level))
         {
-            this.exp -= levelInfo.GetExpPerLevel(level);
+            this.exp -= levelInfo.GetExpPerLevel(Level);
             plusLevel += 1;
         }
-        UIManager.Instance.expText.text = string.Format("{0}/{1}", this.exp, levelInfo.GetExpPerLevel(level));
-        UIManager.Instance.expSlider.value = this.exp / levelInfo.GetExpPerLevel(level);
+        UIManager.Instance.expText.text = string.Format("{0}/{1}", this.exp, levelInfo.GetExpPerLevel(Level));
+        UIManager.Instance.expSlider.value = this.exp / levelInfo.GetExpPerLevel(Level);
         if (plusLevel > 0) { EventManager.Instance.DicEvent[EventType.OnLevelup].Invoke(); }
     }
 
     public void LevelUp()
     {
-        level += plusLevel;
+        Level += plusLevel;
         remainPoint += plusLevel * levelInfo.LevelupToPoint;
-        hpMax = data.Hp + ((level - 1) * levelInfo.HpIncreaseByLevelup) + (hpPoint * levelInfo.HpIncreaseByPointup);
-        hp = hpMax;
-        mp = data.Mp + ((level - 1) * levelInfo.MpIncreaseByLevelup) + (mpPoint * levelInfo.MpIncreaseByPointup);
+        HpMax = data.Hp + ((Level - 1) * levelInfo.HpIncreaseByLevelup) + (hpPoint * levelInfo.HpIncreaseByPointup);
+        Hp = HpMax;
+        Mp = data.Mp + ((Level - 1) * levelInfo.MpIncreaseByLevelup) + (mpPoint * levelInfo.MpIncreaseByPointup);
         UIManager.Instance.plusHpValueText.text = string.Format("+{0}", plusLevel * levelInfo.HpIncreaseByLevelup);
         UIManager.Instance.plusMpValueText.text = string.Format("+{0}", plusLevel * levelInfo.MpIncreaseByLevelup);
         UIManager.Instance.plusAtkValueText.text = string.Format("+{0}", plusLevel * levelInfo.AtkIncreaseByLevelup);
@@ -70,14 +75,14 @@ public class PlayerStat : MonoBehaviour
 
     public void UpdateStatusUI()
     {
-        UIManager.Instance.levelText.text = level.ToString();
-        UIManager.Instance.hpText.text = string.Format("{0}/{1}", hp, data.Hp + ((level - 1) * levelInfo.HpIncreaseByLevelup) + (hpPoint * levelInfo.HpIncreaseByPointup));
-        UIManager.Instance.mpText.text = string.Format("{0}/{1}", mp, data.Mp + ((level - 1) * levelInfo.MpIncreaseByLevelup) + (mpPoint * levelInfo.MpIncreaseByPointup));
-        UIManager.Instance.atkText.text = (data.Atk + ((level - 1) * levelInfo.AtkIncreaseByLevelup) + (atkPoint * levelInfo.AtkIncreaseByPointup) + equipAtkValue).ToString();
-        UIManager.Instance.defText.text = (data.Def + ((level - 1) * levelInfo.DefIncreaseByLevelup) + (defPoint * levelInfo.DefIncreaseByPointup) + equipDefValue).ToString();
+        UIManager.Instance.levelText.text = Level.ToString();
+        UIManager.Instance.hpText.text = string.Format("{0}/{1}", Hp, data.Hp + ((Level - 1) * levelInfo.HpIncreaseByLevelup) + (hpPoint * levelInfo.HpIncreaseByPointup));
+        UIManager.Instance.mpText.text = string.Format("{0}/{1}", Mp, data.Mp + ((Level - 1) * levelInfo.MpIncreaseByLevelup) + (mpPoint * levelInfo.MpIncreaseByPointup));
+        UIManager.Instance.atkText.text = (data.Atk + ((Level - 1) * levelInfo.AtkIncreaseByLevelup) + (atkPoint * levelInfo.AtkIncreaseByPointup) + equipAtkValue).ToString();
+        UIManager.Instance.defText.text = (data.Def + ((Level - 1) * levelInfo.DefIncreaseByLevelup) + (defPoint * levelInfo.DefIncreaseByPointup) + equipDefValue).ToString();
         UIManager.Instance.remainPointText.text = remainPoint.ToString();
-        UIManager.Instance.expText.text = string.Format("{0}/{1}", this.exp, levelInfo.GetExpPerLevel(level));
-        UIManager.Instance.expSlider.value = this.exp / levelInfo.GetExpPerLevel(level);
+        UIManager.Instance.expText.text = string.Format("{0}/{1}", this.exp, levelInfo.GetExpPerLevel(Level));
+        UIManager.Instance.expSlider.value = this.exp / levelInfo.GetExpPerLevel(Level);
         if (remainPoint > 0) PointButtonSetActive(1, true);
         else PointButtonSetActive(1, false);
     }
@@ -258,8 +263,8 @@ public class PlayerStat : MonoBehaviour
         mpPoint += plusMpPoint;
         atkPoint += plusAtkPoint;
         defPoint += plusDefPoint;
-        hp += plusHpPoint * levelInfo.HpIncreaseByPointup;
-        mp += plusMpPoint * levelInfo.MpIncreaseByPointup;
+        Hp += plusHpPoint * levelInfo.HpIncreaseByPointup;
+        Mp += plusMpPoint * levelInfo.MpIncreaseByPointup;
         UIManager.Instance.plusHpValueText.text = string.Format("+{0}", plusHpPoint * levelInfo.HpIncreaseByPointup);
         UIManager.Instance.plusMpValueText.text = string.Format("+{0}", plusMpPoint * levelInfo.MpIncreaseByPointup);
         UIManager.Instance.plusAtkValueText.text = string.Format("+{0}", plusAtkPoint * levelInfo.AtkIncreaseByPointup);
@@ -288,10 +293,10 @@ public class PlayerStat : MonoBehaviour
         DisableTextAnim();
         PointButtonSetActive(0, false);
         PointButtonSetActive(1, false);
-        level = 1;
-        hpMax = data.Hp + ((level - 1) * levelInfo.HpIncreaseByLevelup) + (hpPoint * levelInfo.HpIncreaseByPointup);
-        hp = hpMax;
-        mp = data.Mp + ((level - 1) * levelInfo.MpIncreaseByLevelup) + (mpPoint * levelInfo.MpIncreaseByPointup);
+        Level = 1;
+        HpMax = data.Hp + ((Level - 1) * levelInfo.HpIncreaseByLevelup) + (hpPoint * levelInfo.HpIncreaseByPointup);
+        Hp = HpMax;
+        Mp = data.Mp + ((Level - 1) * levelInfo.MpIncreaseByLevelup) + (mpPoint * levelInfo.MpIncreaseByPointup);
 
         hpPoint = 0;
         mpPoint = 0;
@@ -301,7 +306,7 @@ public class PlayerStat : MonoBehaviour
         equipDefValue = 0;
 
         exp = 0;
-        energy = energyMax = 100f;
+        Energy = EnergyMax = 100f;
 
         remainPoint = 0;
         plusHpPoint = 0;

@@ -28,6 +28,8 @@ public class FollowCamera : MonoBehaviour
 
     void Awake()
     {
+        if (target == null) target = FindObjectOfType<Player>().transform;
+
         offset = new Vector3(0f, 6f, -10f);
         rotate = new Vector3(30f, 0f, 0f);
         transform.eulerAngles = rotate;

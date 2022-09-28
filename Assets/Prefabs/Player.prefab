@@ -1776,6 +1776,7 @@ GameObject:
   - component: {fileID: 6425184291409029984}
   - component: {fileID: 6425184291409029999}
   - component: {fileID: 6425184291409029998}
+  - component: {fileID: 2878090532617490084}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1837,7 +1838,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!136 &7197698931502559640
 CapsuleCollider:
@@ -2012,8 +2013,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c55e469a6040b48b49815567bff88b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bodyCollider: {fileID: 0}
   moveVector: {x: 0, y: 0, z: 0}
-  moveSpeed: 0
+  playerhit: {fileID: 0}
+--- !u!114 &2878090532617490084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6425184291409029985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d5cd543447a264881981ed6440a1c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 9d65c7eedc0930344b326824e389bc41, type: 2}
+  levelInfo: {fileID: 11400000, guid: 7cb3867d76836ee4b8c4d9ded0b693d1, type: 2}
 --- !u!1 &6441168920013919144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2564,6 +2580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6784499320178011281}
   - component: {fileID: 2692950752643218255}
+  - component: {fileID: 7875917841718868014}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
@@ -2599,6 +2616,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7875917841718868014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8798129793157606947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a33afc70eb9d9b4408b4d8c66b8af4f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8836455901521781273
 GameObject:
   m_ObjectHideFlags: 0

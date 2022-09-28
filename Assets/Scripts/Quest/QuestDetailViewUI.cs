@@ -26,8 +26,8 @@ public class QuestDetailViewUI : MonoBehaviour
         questName.text = name;
         questDescription.text = des;
         questTask.text = task;
-
     }
+
     public void SetButtonInterableIfInProgress(bool flag)
     {
         acceptButton.interactable = !flag;

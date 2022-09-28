@@ -18,6 +18,7 @@ public class Slime : Monster
     {
         monsterPhase = new NS_Phase.BattlePhase(Enum.GetValues(typeof(SlimePhase)).Length);
         monsterNavAgent = GetComponent<NavMeshAgent>();
+        monsterStat = GetComponent<MonsterStat>();
         rigidbody = GetComponent<Rigidbody>();
         animationEvent = new AnimationEvent();
         bodyCollider = GetComponentInChildren<CapsuleCollider>();

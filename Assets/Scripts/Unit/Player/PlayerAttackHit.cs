@@ -5,11 +5,13 @@ using UnityEngine;
 public class PlayerAttackHit : MonoBehaviour
 {
     [SerializeField]
+    private PlayerStat playerStat;
+    [SerializeField]
     public BoxCollider Hitbox { get; set; }
-    public float Damage { get; set; }
 
     private void Awake()
     {
+        if (playerStat == null) playerStat = GetComponentInParent<PlayerStat>();
         Hitbox = GetComponent<BoxCollider>();
     }
 
@@ -17,9 +19,8 @@ public class PlayerAttackHit : MonoBehaviour
     {
         if (other.CompareTag("Monster"))
         {
-            print("trigger " + other);
             var monster = other.GetComponentInParent<Monster>();
-            monster.Damaged(Damage);
+            monster.Damaged(playerStat.Damage, transform.position - other.transform.position , other.ClosestPoint(transform.position));
         }
     }
 }

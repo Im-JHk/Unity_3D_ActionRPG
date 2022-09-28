@@ -4,13 +4,14 @@ using UnityEngine;
 public class DialogueDataSO : ScriptableObject
 {
     [SerializeField]
-    private int id;
+    private int speakerID;
     [SerializeField]
-    private string name;
+    private string speakerName;
     [SerializeField]
     private string[] dialogues;
 
-    public string Name { get { return name; } }
+    public int SpeakerID { get { return speakerID; } }
+    public string SpeakerName { get { return name; } }
     public string[] Dialogues { get { return dialogues; } }
 
     public string GetDialogue(int index) { return dialogues[index]; }

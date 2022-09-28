@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ff290f43fef79f4c913e8084a63c430, type: 3}
-  m_Name: Quest_First_Condition
+  m_Name: Quest_KillSlime_Condition
   m_EditorClassIdentifier: 
   level: 0
   prevQuestID: -1
+  isClearPrevQuest: 1
+  isPossibleQuest: 1

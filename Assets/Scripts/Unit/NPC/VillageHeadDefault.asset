@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3cb7829990cf74aad1ce67d3f7d6f5, type: 3}
-  m_Name: PlayerBaseData
-  m_EditorClassIdentifier: 
-  energy: 100
-  moveSpeed: 3
-  damageRadius: 0.5
-  hp: 200
-  mp: 50
-  atk: 20
-  def: 40
+  m_Script: {fileID: 0}
+  m_Name: VillageHeadDefault
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueDataSO
+  id: 0
+  name: 
+  dialogues: []

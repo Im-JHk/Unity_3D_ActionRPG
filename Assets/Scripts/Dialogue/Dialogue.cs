@@ -83,7 +83,6 @@ public class Dialogue : MonoBehaviour, IPointerClickHandler
 
     public IEnumerator PlayTypeScript()
     {
-        print("playType");
         isPlayDialogue = true;
 
         foreach (var c in listDialogueData[dialogueIndex].dialogue.ToCharArray())

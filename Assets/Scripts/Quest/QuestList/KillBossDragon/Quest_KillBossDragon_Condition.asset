@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eb8a68c85cde1a4ea2a8251f6a73470, type: 3}
-  m_Name: Quest_First_Task
+  m_Script: {fileID: 11500000, guid: 8ff290f43fef79f4c913e8084a63c430, type: 3}
+  m_Name: Quest_KillBossDragon_Condition
   m_EditorClassIdentifier: 
-  targetId: 1000
-  amount: 5
+  level: 1
+  prevQuestID: -1

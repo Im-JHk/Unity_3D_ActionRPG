@@ -26,6 +26,10 @@ public class MosterSearchRange : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             monster.FocusTarget(other.gameObject);
+            if (monster is Turtle turtle)
+            {
+                //turtle.isD
+            } 
             monster.StateMachine.SetState(monster.DicMonsterState[NS_Unit.BaseState.Run]);
             //monster.MonsterPhase.PhaseOn = true;
             //monster.MonsterPhase.PhaseExecute();

@@ -38,7 +38,9 @@ public class PlayerStat : MonoBehaviour
 
     public bool Damaged(float damage)
     {
-        Hp -= Mathf.CeilToInt(damage - data.Def);
+        float getDamage = damage - data.Def * 0.5f;
+        if (player.IsDefend) getDamage *= 0.5f;
+        Hp -= Mathf.CeilToInt(getDamage);
         if (Hp < 0) Hp = 0;
         if (Hp <= 0) return true;
         return false;
@@ -290,6 +292,7 @@ public class PlayerStat : MonoBehaviour
     void Awake()
     {
         player = GetComponent<Player>();
+
         DisableTextAnim();
         PointButtonSetActive(0, false);
         PointButtonSetActive(1, false);

@@ -37,6 +37,9 @@ public class Player : Unit
         isMove = false;
         isRun = false;
         isAttack = false;
+        isDefend = false;
+        isDodge = false;
+        isDie = false;
         canChangeState = true;
         canComboAttack = true;
     }
@@ -45,10 +48,10 @@ public class Player : Unit
     // -- override --
     override public void Move()
     {
-        if (moveVector != Vector3.zero && isMove && currentActionState == NS_Unit.ActionState.None)
+        if (moveVector != Vector3.zero && isMove && 
+            (currentActionState == NS_Unit.ActionState.None || currentActionState == NS_Unit.ActionState.Defend))
         {
             rigidbody.MovePosition(rigidbody.position + moveVector * moveSpeed * Time.deltaTime);
-            //if()
             Rotate();
         }
     }
@@ -90,6 +93,8 @@ public class Player : Unit
 
     override public void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
     {
+        if (isDie) return;
+
         animator.SetTrigger(HashOnHit);
         if (playerStat.Damaged(damage))
         {
@@ -105,7 +110,11 @@ public class Player : Unit
             isMove = false;
             isRun = false;
         }
-        else animator.SetFloat(HashMoveSpeed, moveSpeed);
+        else
+        {
+            animator.SetFloat(HashMoveSpeed, moveSpeed);
+            isMove = true;
+        }
         animator.SetFloat(HashHorizontal, moveVector.x);
         animator.SetFloat(HashVertical, moveVector.z);
         animator.SetBool(HashIsMove, isMove);

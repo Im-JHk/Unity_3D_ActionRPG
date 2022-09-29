@@ -32,6 +32,7 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     protected bool isAttack;
     protected bool isDefend;
     protected bool isDodge;
+    protected bool isDie;
     protected bool canChangeState;
     protected bool canComboAttack;
 
@@ -50,6 +51,7 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     public readonly int HashIsFocus = Animator.StringToHash("IsFocus");
     public readonly int HashIsDie = Animator.StringToHash("IsDie");
     public readonly int HashOnHit = Animator.StringToHash("OnHit");
+    public readonly int HashOnDie = Animator.StringToHash("OnDie");
     #endregion
 
     #region properties

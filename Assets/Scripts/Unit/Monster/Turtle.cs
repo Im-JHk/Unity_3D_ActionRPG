@@ -34,6 +34,7 @@ public class Turtle : Monster
         dicMonsterState.Add(NS_Unit.BaseState.Run, new NS_State.Run(this));
         dicMonsterState.Add(NS_Unit.BaseState.Attack, new NS_State.Attack(this));
         dicMonsterState.Add(NS_Unit.BaseState.Defend, new NS_State.Defend(this));
+        dicMonsterState.Add(NS_Unit.BaseState.Die, new NS_State.Die(this));
         StateMachine = new NS_State.State(dicMonsterState[NS_Unit.BaseState.Idle]);
 
         moveSpeed = 1f;

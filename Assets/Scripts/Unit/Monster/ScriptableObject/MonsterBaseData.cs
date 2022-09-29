@@ -6,9 +6,9 @@ using UnityEngine;
 public class MonsterBaseData : ScriptableObject
 {
     [SerializeField]
-    private float hp;
+    private int hp;
     [SerializeField]
-    private float energy;
+    private int energy;
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
@@ -20,8 +20,8 @@ public class MonsterBaseData : ScriptableObject
     [SerializeField]
     private int def;
 
-    public float Hp { get { return hp; } }
-    public float Energy { get { return energy; } }
+    public int Hp { get { return hp; } }
+    public int Energy { get { return energy; } }
     public float MoveSpeed { get { return moveSpeed; } }
     public float AttackRadius { get { return attackRadius; } }
     public float DamageRadius { get { return damageRadius; } }

@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour, PlayerInput.IPlayerActions
         player.MoveVector = new Vector3(value.x, 0, value.y);
 
         if (!player.CanChangeState) return;
-        if(player.MoveVector != Vector3.zero && !player.IsRun)
+        if(player.MoveVector != Vector3.zero && !player.IsRun && !player.IsDefend)
         {
             player.StateMachine.SetState(player.DicState[NS_Unit.BaseState.Walk]);
         }

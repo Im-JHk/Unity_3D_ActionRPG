@@ -46,6 +46,10 @@ public class Monster : Unit
         moveVector = Vector3.zero;
         isMove = false;
         isRun = false;
+        isAttack = false;
+        isDefend = false;
+        isDodge = false;
+        isDie = false;
         canAttack = false;
         canChangeState = true;
     }
@@ -107,6 +111,8 @@ public class Monster : Unit
 
     override public void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
     {
+        if (isDie) return;
+
         animator.SetTrigger(HashOnHit);
         if (monsterStat.Damaged(damage))
         {

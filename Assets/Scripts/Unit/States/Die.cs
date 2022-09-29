@@ -15,7 +15,7 @@ namespace NS_State
             Debug.Log("Die Enter");
             unit.CanChangeState = false;
             unit.ActionState = NS_Unit.ActionState.Die;
-            unit.Animator.SetBool(unit.HashIsDie, true);
+            unit.Animator.SetTrigger(unit.HashOnDie);
         }
 
         override public void StateStay()
@@ -28,7 +28,7 @@ namespace NS_State
             Debug.Log("Die Exit");
             unit.CanChangeState = true;
             unit.ActionState = NS_Unit.ActionState.None;
-            unit.Animator.SetBool(unit.HashIsDie, false);
+            //unit.Animator.SetBool(unit.HashIsDie, false);
         }
     }
 }

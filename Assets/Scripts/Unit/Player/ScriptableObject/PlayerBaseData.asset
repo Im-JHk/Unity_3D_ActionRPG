@@ -17,5 +17,5 @@ MonoBehaviour:
   damageRadius: 0.5
   hp: 200
   mp: 50
-  atk: 20
+  atk: 30
   def: 40

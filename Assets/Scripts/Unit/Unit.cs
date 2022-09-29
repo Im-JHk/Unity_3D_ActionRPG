@@ -18,13 +18,12 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     protected NS_Unit.MoveState currentMoveState = NS_Unit.MoveState.None;
     protected NS_Unit.ActionState currentActionState = NS_Unit.ActionState.None;
 
-    protected float hp;
-
     [SerializeField]
     protected Vector3 moveVector;
     protected float moveSpeed;
     protected float rotateSpeed;
     protected float rotateTime;
+    [SerializeField]
     protected float dodgeSpeed;
     protected int comboCount;
     protected int comboMax;
@@ -36,6 +35,7 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     protected bool canChangeState;
     protected bool canComboAttack;
 
+    #region AnimatorHash
     public readonly int HashHorizontal = Animator.StringToHash("Horizontal");
     public readonly int HashVertical = Animator.StringToHash("Vertical");
     public readonly int HashMoveSpeed = Animator.StringToHash("MoveSpeed");
@@ -50,6 +50,7 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     public readonly int HashIsFocus = Animator.StringToHash("IsFocus");
     public readonly int HashIsDie = Animator.StringToHash("IsDie");
     public readonly int HashOnHit = Animator.StringToHash("OnHit");
+    #endregion
 
     #region properties
     public AnimationEvent AnimationEvent { get { return animationEvent; } }
@@ -67,6 +68,7 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
     public float RotateSpeed { get { return rotateSpeed; } set { rotateSpeed = value; } }
     public float RotateTime { get { return rotateTime; } set { rotateTime = value; } }
+    public float DodgeSpeed { get { return dodgeSpeed; } }
     public bool IsMove { get { return isMove; } set { isMove = value; } }
     public bool IsRun { get { return isRun; } set { isRun = value; } }
     public bool IsAttack { get { return isAttack; } set { isAttack = value; } }

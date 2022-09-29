@@ -17,12 +17,6 @@ public class Slime : Monster
     private void Awake()
     {
         monsterPhase = new NS_Phase.BattlePhase(Enum.GetValues(typeof(SlimePhase)).Length);
-        monsterNavAgent = GetComponent<NavMeshAgent>();
-        monsterStat = GetComponent<MonsterStat>();
-        rigidbody = GetComponent<Rigidbody>();
-        animationEvent = new AnimationEvent();
-        bodyCollider = GetComponentInChildren<CapsuleCollider>();
-        animator = GetComponent<Animator>();
         Initialize();
     }
 
@@ -34,6 +28,8 @@ public class Slime : Monster
 
     override public void Initialize()
     {
+        base.Initialize();
+
         dicMonsterState = new Dictionary<NS_Unit.BaseState, IState>();
         dicMonsterState.Add(NS_Unit.BaseState.Idle, new NS_State.Idle(this));
         dicMonsterState.Add(NS_Unit.BaseState.Walk, new NS_State.Walk(this));
@@ -42,21 +38,16 @@ public class Slime : Monster
         dicMonsterState.Add(NS_Unit.BaseState.Die, new NS_State.Die(this));
         StateMachine = new NS_State.State(dicMonsterState[NS_Unit.BaseState.Idle]);
 
-        //monsterPhase.ListMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
-        //monsterPhase.ListMonsterPhase.Add(new NS_Phase.MeleeAttack(this));
-        //monsterPhase.SetPhase(monsterPhase.ListMonsterPhase[monsterPhase.CurrentPhaseIndex]);
-
-        canAttack = false;
-
-        unitType = NS_Unit.UnitType.Monster;
-        moveVector = Vector3.zero;
         moveSpeed = 1f;
         rotateSpeed = 100f;
         rotateTime = 0;
         comboCount = 0;
         comboMax = 2;
-        isMove = false;
-        isRun = false;
-        canChangeState = true;
+    }
+
+    override public void OnEventSetHitbox(TrueFalse tf)
+    {
+        if (tf == TrueFalse.False) monsterHit.Hitbox.enabled = false;
+        else monsterHit.Hitbox.enabled = true;
     }
 }

@@ -14,6 +14,8 @@ public class Monster : Unit
     protected NavMeshAgent monsterNavAgent = null;
     protected GameObject target = null;
     protected MonsterStat monsterStat = null;
+    [SerializeField]
+    protected MonsterAttackHit monsterHit = null;
 
     protected Vector3 dodgeDirection = Vector3.zero;
     protected bool canAttack;
@@ -31,7 +33,22 @@ public class Monster : Unit
     public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
     #endregion
 
-    virtual public void Initialize() { }
+    virtual public void Initialize() 
+    {
+        monsterNavAgent = GetComponent<NavMeshAgent>();
+        monsterStat = GetComponent<MonsterStat>();
+        rigidbody = GetComponent<Rigidbody>();
+        animationEvent = new AnimationEvent();
+        bodyCollider = GetComponentInChildren<CapsuleCollider>();
+        animator = GetComponent<Animator>();
+
+        unitType = NS_Unit.UnitType.Monster;
+        moveVector = Vector3.zero;
+        isMove = false;
+        isRun = false;
+        canAttack = false;
+        canChangeState = true;
+    }
 
     #region SetNav
     public void FocusTarget(GameObject obj)
@@ -63,7 +80,6 @@ public class Monster : Unit
 
     public void ChangeMoveAndAttackState(bool b)
     {
-        print(b);
         monsterNavAgent.isStopped = b;
         canAttack = b;
         animator.SetBool(HashCanAttack, b);
@@ -109,17 +125,14 @@ public class Monster : Unit
     {
         isStayCoroutine = true;
 
-        print("chase in");
-
         isRun = true;
         animator.SetBool(HashIsRun, isRun);
 
         while (!canAttack && Vector3.Distance(this.transform.position, this.target.transform.position) > monsterNavAgent.stoppingDistance)
         {
             yield return WaitOneSeconds;
-            if (monsterNavAgent.isStopped) animator.SetBool(HashIsRun, false);
 
-            if (this.target == null) break;
+            if (this.target == null || monsterNavAgent.isStopped) break;
             else
             {
                 monsterNavAgent.SetDestination(this.target.transform.position);
@@ -128,12 +141,10 @@ public class Monster : Unit
             }
         }
 
-        //canAttack = true;
         isRun = false;
         animator.SetBool(HashIsRun, isRun);
 
         isStayCoroutine = false;
-        print("chase out");
 
         StateMachine.SetState(dicMonsterState[NS_Unit.BaseState.Attack]);
     }
@@ -141,24 +152,18 @@ public class Monster : Unit
     public IEnumerator MeleeAttack()
     {
         isStayCoroutine = true;
-        print("meleeAttack in");
-
         isAttack = true;
 
         while (isAttack && canAttack)
         {
-            animator.SetBool(HashIsAttack, false);
+            animator.SetTrigger(HashOnAttack);
             yield return WaitTwoSeconds;
-            animator.SetBool(HashIsAttack, true);
-            yield return WaitOneSeconds;
         }
-
         isAttack = false;
-        animator.SetBool(HashIsAttack, isAttack);
-        StateMachine.SetState(dicMonsterState[NS_Unit.BaseState.Idle]);
-
         isStayCoroutine = false;
-        print("meleeAttack out");
+
+        if (target == null) StateMachine.SetState(dicMonsterState[NS_Unit.BaseState.Idle]);
+        else StateMachine.SetState(dicMonsterState[NS_Unit.BaseState.Run]);
     }
 
     public IEnumerator Defend(Action action)
@@ -183,9 +188,9 @@ public class Monster : Unit
         StateMachine.SetState(dicMonsterState[NS_Unit.BaseState.Idle]);
     }
 
-    public void OnEventSetAttackState()
+    virtual public void OnEventSetHitbox(TrueFalse tf)
     {
-        StateMachine.SetState(dicMonsterState[NS_Unit.BaseState.Idle]);
+
     }
 
     #endregion

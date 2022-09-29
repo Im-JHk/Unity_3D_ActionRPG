@@ -14,6 +14,7 @@ public class Player : Unit
     public void Initialize()
     {
         if (playerStat == null) playerStat = GetComponent<PlayerStat>();
+        if (bodyCollider == null) bodyCollider = GetComponent<CapsuleCollider>();
 
         DicState = new Dictionary<NS_Unit.BaseState, IState>();
         DicState.Add(NS_Unit.BaseState.Idle, new NS_State.Idle(this));
@@ -28,6 +29,7 @@ public class Player : Unit
 
         moveVector = Vector3.zero;
         moveSpeed = 3f;
+        dodgeSpeed = 10f;
         rotateSpeed = 50f;
         rotateTime = 0;
         comboCount = 0;
@@ -83,15 +85,11 @@ public class Player : Unit
 
     override public void Dodge()
     {
-        Rigidbody.AddForce(transform.forward * dodgeSpeed, ForceMode.VelocityChange);
+        //Rigidbody.AddForce(transform.forward * dodgeSpeed, ForceMode.VelocityChange);
     }
 
     override public void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
     {
-        hp -= (int)damage;
-        if (hp < 0) hp = 0;
-        if (hp <= 0) StateMachine.SetState(DicState[NS_Unit.BaseState.Die]);
-
         animator.SetTrigger(HashOnHit);
         if (playerStat.Damaged(damage))
         {

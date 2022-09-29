@@ -15,6 +15,7 @@ MonoBehaviour:
   hp: 80
   energy: 100
   moveSpeed: 1.5
+  attackRadius: 0
   damageRadius: 1
-  atk: 30
+  atk: 60
   def: 50

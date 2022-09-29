@@ -2,26 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackHit : MonoBehaviour
+public class MonsterAttackHit : MonoBehaviour
 {
     [SerializeField]
-    private PlayerStat playerStat;
+    private MonsterStat monsterStat;
     [SerializeField]
     private BoxCollider hitbox;
     public BoxCollider Hitbox { get { return hitbox; } private set { hitbox = value; } }
 
     private void Awake()
     {
-        if (playerStat == null) playerStat = GetComponentInParent<PlayerStat>();
+        if (monsterStat == null) monsterStat = GetComponentInParent<MonsterStat>();
         Hitbox = GetComponent<BoxCollider>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Monster"))
+        if (other.CompareTag("Player"))
         {
-            var monster = other.GetComponentInParent<Monster>();
-            monster.Damaged(playerStat.Damage, transform.position - other.transform.position , other.ClosestPoint(transform.position));
+            var player = other.GetComponentInParent<Player>();
+            player.Damaged(monsterStat.Damage, transform.position - other.transform.position, other.ClosestPoint(transform.position));
         }
     }
 }

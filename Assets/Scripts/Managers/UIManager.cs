@@ -13,8 +13,12 @@ public class UIManager : SingletonMono<UIManager>
     private ItemTooltip itemTooltip;
 
     #region Dialogue
+    public GameObject InteractionGO;
     public GameObject DialogueGO;
-    public UnityEvent OnDialogue;
+    public Dialogue Dialogue;
+
+    public DialogueDataSO readyDialogueData = null;
+    public Transform readyDialogueTarget = null;
     #endregion
 
     #region HUD
@@ -103,6 +107,30 @@ public class UIManager : SingletonMono<UIManager>
         if (buttonListUI.IsOpen) buttonListUI.OnClickCloseList();
         else buttonListUI.OnClickOpenList();
     }
+
+    public void SetActiveInteractionButton(bool flag)
+    {
+        if (flag) InteractionGO.SetActive(true);
+        else InteractionGO.SetActive(false);
+    }
+    #endregion
+
+    #region Dialogue
+    public void SetReadyDialogue(DialogueDataSO dialogueData, Transform target)
+    {
+        readyDialogueData = dialogueData;
+        readyDialogueTarget = target;
+    }
+
+    public void StartDialogue()
+    {
+        if(readyDialogueData != null && readyDialogueTarget != null)
+        {
+            DialogueGO.SetActive(true);
+            Dialogue.SetDialogue(readyDialogueData);
+            Dialogue.StartDialogue();
+        }
+    }
     #endregion
 
     #region Status Inventory Method
@@ -176,12 +204,6 @@ public class UIManager : SingletonMono<UIManager>
         inventoryRef.AddItem(item.ItemData);
     }
     #endregion
-
-    public void StartDialogue()
-    {
-        DialogueGO.SetActive(true);
-        OnDialogue.Invoke();
-    }
 
     #region Quest Method
     public void InitializeQuestUI()

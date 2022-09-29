@@ -30,7 +30,6 @@ public class MosterAttackRange : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            print("Trg exit");
             monster.ChangeMoveAndAttackState(false);
         }
     }

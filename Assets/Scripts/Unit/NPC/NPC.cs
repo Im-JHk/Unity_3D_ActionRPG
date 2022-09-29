@@ -10,4 +10,6 @@ public class NPC : MonoBehaviour
     private List<QuestData> listQuestData;
     [SerializeField]
     private List<DialogueDataSO> listDialogueData;
+
+    public List<DialogueDataSO> ListDialogueData { get { return listDialogueData; } private set { listDialogueData = value; } }
 }

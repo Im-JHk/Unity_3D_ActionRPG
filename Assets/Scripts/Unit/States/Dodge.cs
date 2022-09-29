@@ -24,6 +24,7 @@ namespace NS_State
         override public void StateStay()
         {
             //Debug.Log("Dodge Stay");
+            unit.Rigidbody.MovePosition(unit.Rigidbody.position + unit.transform.forward * unit.DodgeSpeed * Time.deltaTime);
             if (unit.AnimationEvent.IsPlaytimeOverTime(unit.Animator, "Dodge", 0.5f))
                 unit.Rigidbody.velocity = Vector3.Lerp(unit.Rigidbody.velocity, Vector3.zero, Time.deltaTime);
             if (unit.AnimationEvent.IsOverPlaytime(unit.Animator, "Dodge")) isExitReady = true;

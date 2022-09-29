@@ -34,8 +34,8 @@ public class FilledBar : MonoBehaviour
 
     private void Update()
     {
-        hpBarImage.fillAmount = playerStat.Hp / playerStat.HpMax;
-        energyBarImage.fillAmount = playerStat.Energy / playerStat.EnergyMax;
+        hpBarImage.fillAmount = (float)playerStat.Hp / (float)playerStat.HpMax;
+        energyBarImage.fillAmount = (float)playerStat.Energy / (float)playerStat.EnergyMax;
         hpBarText.text = playerStat.Hp.ToString() + "/" + playerStat.HpMax.ToString();
         energyBarText.text = playerStat.Energy.ToString() + "/" + playerStat.EnergyMax.ToString();
         if (IsLevelUp) UpdateLevelText();

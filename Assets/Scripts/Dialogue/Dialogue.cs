@@ -17,8 +17,11 @@ public struct DialogueUI
 [Serializable]
 public struct DialogueData
 {
+    [SerializeField]
     public int speakerIndex;
+    [SerializeField]
     public string name;
+    [SerializeField]
     public string dialogue;
 }
 
@@ -31,13 +34,15 @@ public class Dialogue : MonoBehaviour, IPointerClickHandler
 
     [SerializeField]
     private float typeSpeed;
+    [SerializeField]
     private int dialogueIndex;
+    [SerializeField]
     private bool isPlayDialogue;
+    [SerializeField]
     private bool isStart;
 
     void Awake()
     {
-        dialogueUI.dialogueGO.SetActive(false);
         Initialize();
     }
 
@@ -47,6 +52,11 @@ public class Dialogue : MonoBehaviour, IPointerClickHandler
         dialogueIndex = 0;
         isPlayDialogue = false;
         isStart = false;
+    }
+
+    public void SetDialogue(DialogueDataSO dialogueData)
+    {
+        listDialogueData = dialogueData.Dialogues;
     }
 
     public void MoveNextScript()

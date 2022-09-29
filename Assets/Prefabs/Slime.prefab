@@ -56,6 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3693911088598980067}
   - component: {fileID: 686735138479274454}
+  - component: {fileID: 783100949055383770}
   m_Layer: 0
   m_Name: HitCollider
   m_TagString: Untagged
@@ -71,7 +72,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4575005480163578167}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.4}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.40000007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -91,6 +92,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.7, y: 1, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &783100949055383770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4575005480163578167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7655cd0c3fc55104a820d972425fb188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterStat: {fileID: 5266214535361582855}
+  hitbox: {fileID: 0}
 --- !u!1 &5892207244374928858
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +559,7 @@ GameObject:
   - component: {fileID: 5812940367527858230}
   - component: {fileID: 8339100061931955477}
   - component: {fileID: -1164981797624175966}
+  - component: {fileID: 5266214535361582855}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -628,7 +644,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &-1164981797624175966
 MonoBehaviour:
@@ -644,8 +660,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyCollider: {fileID: 0}
   moveVector: {x: 0, y: 0, z: 0}
-  hp: 100
-  moveSpeed: 0
+  monsterHit: {fileID: 783100949055383770}
+--- !u!114 &5266214535361582855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5908568744448827994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40eef808c2e0f37458dc1f5860825686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c2d560177ce780d47872d3dcb9b08d7c, type: 2}
 --- !u!1 &5908631372322746798
 GameObject:
   m_ObjectHideFlags: 0

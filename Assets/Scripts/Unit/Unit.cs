@@ -80,37 +80,42 @@ public abstract class Unit : MonoBehaviour, IMovable, IBattle
     public bool CanComboAttack { get { return canComboAttack; } set { canComboAttack = value; } }
     #endregion
 
-    virtual public void Move()
+    public virtual void Move()
     {
         Debug.Log("base Move()");
     }
 
-    virtual public void Rotate()
+    public virtual void Rotate()
     {
         Debug.Log("base Rotate()");
     }
 
-    virtual public void Attack()
+    public virtual void Attack()
     {
         Debug.Log("base Attack()");
     }
-    
-    virtual public void Defend()
+
+    public virtual void Defend()
     {
         Debug.Log("base Defend()");
     }
 
-    virtual public void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
+    public virtual void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
     {
         Debug.Log("base Damaged()");
     }
 
-    virtual public void Dodge()
+    public virtual void Dodge()
     {
         Debug.Log("base Dodge()");
     }
 
-    virtual public void SetMoveParameter() { }
+    public virtual void Die()
+    {
+        Debug.Log("base Die()");
+    }
 
-    virtual public void OnEventSetMoveState() { }
+    public virtual void SetMoveParameter() { }
+
+    public virtual void OnEventSetMoveState() { }
 }

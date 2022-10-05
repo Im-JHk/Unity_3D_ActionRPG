@@ -17,7 +17,7 @@ public class MonsterStat : MonoBehaviour
     private void Awake()
     {
         monster = GetComponent<Monster>();
-        Hp = data.Hp;
+        Hp = data.Health;
     }
 
     public bool Damaged(float damage)

@@ -19,6 +19,7 @@ namespace NS_Unit
         Attack,
         Defend,
         Dodge,
+        Rush,
         Die
     }
     public enum MoveState
@@ -34,6 +35,7 @@ namespace NS_Unit
         Attack,
         Defend,
         Dodge,
+        Rush,
         Die
     }
 }
@@ -61,7 +63,8 @@ public enum EventType
     OnLevelup,
     OnAttack,
     OnDamage,
-    OnDie
+    OnDie,
+    OnMonsterDie
 }
 
 public enum StatPointType

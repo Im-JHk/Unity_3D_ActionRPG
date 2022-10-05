@@ -13,6 +13,8 @@ public class Inventory : MonoBehaviour
     private int maxSlotSize;
     private Item[] items;
 
+    private int gold;
+
     private void Awake()
     {
         inventoryUI = GetComponent<InventoryUI>();
@@ -68,6 +70,11 @@ public class Inventory : MonoBehaviour
             return index;
         }
         return 0;
+    }
+
+    public void AddGold(int gold)
+    {
+        this.gold += gold;
     }
 
     public void ClearItem(int index)

@@ -33,7 +33,7 @@ public class Monster : Unit
     public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
     #endregion
 
-    virtual public void Initialize() 
+    public virtual void Initialize() 
     {
         monsterNavAgent = GetComponent<NavMeshAgent>();
         monsterStat = GetComponent<MonsterStat>();
@@ -92,7 +92,7 @@ public class Monster : Unit
 
     #region State Function
     // -- override --
-    override public void Move()
+    public override void Move()
     {
         if (this.target == null)
         {
@@ -104,12 +104,12 @@ public class Monster : Unit
         }
     }
 
-    override public void Attack()
+    public override void Attack()
     {
         if (!isStayCoroutine && !isAttack) StartCoroutine(nameof(MeleeAttack));
     }
 
-    override public void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
+    public override void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
     {
         if (isDie) return;
 
@@ -117,11 +117,17 @@ public class Monster : Unit
         if (monsterStat.Damaged(damage))
         {
             StateMachine.SetState(dicMonsterState[NS_Unit.BaseState.Die]);
-            StartCoroutine(nameof(DestroyMonster));
         }
     }
 
-    override public void SetMoveParameter()
+    public override void Die()
+    {
+        StopAllCoroutines();
+        QuestManager.Instance.NotifyDoTask(monsterStat.Data.Identity);
+        StartCoroutine(nameof(DestroyMonster));
+    }
+
+    public override void SetMoveParameter()
     {
         //
     }
@@ -181,7 +187,6 @@ public class Monster : Unit
 
     public IEnumerator DestroyMonster()
     {
-        StopCoroutine(nameof(MeleeAttack));
         yield return new WaitForSeconds(2f);
 
         this.gameObject.SetActive(false);
@@ -189,12 +194,12 @@ public class Monster : Unit
     #endregion
 
     #region AnimationEvent
-    override public void OnEventSetMoveState()
+    public override void OnEventSetMoveState()
     {
         StateMachine.SetState(dicMonsterState[NS_Unit.BaseState.Idle]);
     }
 
-    virtual public void OnEventSetHitbox(TrueFalse tf)
+    public virtual void OnEventSetHitbox(TrueFalse tf)
     {
 
     }

@@ -11,6 +11,7 @@ public class EventManager : SingletonMono<EventManager>
     public Action OnAttack { get; }
     public Action OnDamage { get; }
     public Action OnDie { get; }
+    public Action OnMonsterDie { get; }
 
     //inventest
     public Inventory inven;
@@ -25,6 +26,7 @@ public class EventManager : SingletonMono<EventManager>
         DicEvent.Add(EventType.OnAttack, OnAttack);
         DicEvent.Add(EventType.OnDamage, OnDamage);
         DicEvent.Add(EventType.OnDie, OnDie);
+        DicEvent.Add(EventType.OnMonsterDie, OnMonsterDie);
     }
 
     public void AddAction(EventType type, Action action)
@@ -32,9 +34,9 @@ public class EventManager : SingletonMono<EventManager>
         DicEvent[type] += action;
     }
 
-    public void ExecuteAction(Action action)
+    public void ExecuteAction(EventType type)
     {
-        action.Invoke();
+        DicEvent[type].Invoke();
     }
 
     public void InvenTest()

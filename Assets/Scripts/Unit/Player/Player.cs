@@ -46,7 +46,7 @@ public class Player : Unit
 
     #region State
     // -- override --
-    override public void Move()
+    public override void Move()
     {
         if (moveVector != Vector3.zero && isMove && 
             (currentActionState == NS_Unit.ActionState.None || currentActionState == NS_Unit.ActionState.Defend))
@@ -56,13 +56,13 @@ public class Player : Unit
         }
     }
 
-    override public void Rotate()
+    public override void Rotate()
     {
         var rotation = Quaternion.LookRotation(moveVector);
         transform.rotation = Quaternion.Slerp(rigidbody.rotation, rotation, rotateSpeed * Time.deltaTime);
     }
 
-    override public void Attack()
+    public override void Attack()
     {
         if (!isAttack)
         {
@@ -81,17 +81,17 @@ public class Player : Unit
         }
     }
 
-    override public void Defend()
+    public override void Defend()
     {
         base.Defend();
     }
 
-    override public void Dodge()
+    public override void Dodge()
     {
         //Rigidbody.AddForce(transform.forward * dodgeSpeed, ForceMode.VelocityChange);
     }
 
-    override public void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
+    public override void Damaged(float damage, Vector3 hitDir, Vector3 hitPoint)
     {
         if (isDie) return;
 
@@ -102,7 +102,7 @@ public class Player : Unit
         }
     }
 
-    override public void SetMoveParameter()
+    public override void SetMoveParameter()
     {
         if (moveVector == Vector3.zero)
         {
@@ -123,7 +123,7 @@ public class Player : Unit
     #endregion
 
     #region AnimationEvent
-    override public void OnEventSetMoveState()
+    public override void OnEventSetMoveState()
     {
         if (isMove) StateMachine.SetState(DicState[NS_Unit.BaseState.Walk]);
         else if (isRun) StateMachine.SetState(DicState[NS_Unit.BaseState.Run]);

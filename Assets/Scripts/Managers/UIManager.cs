@@ -227,6 +227,17 @@ public class UIManager : SingletonMono<UIManager>
     {
         questUI.OpenOrCloseDetailView(quest, index);
     }
+
+    public void GetReward(QuestReward reward)
+    {
+        for(int i = 0; i < reward.Items.Length; ++i)
+        {
+            inventoryRef.AddItem(reward.Items[i]);
+        }
+        inventoryRef.AddGold(reward.Gold);
+        playerStat.GetExp(reward.Experience);
+        
+    }
     #endregion
 
     public void SetDeactiveUIs()

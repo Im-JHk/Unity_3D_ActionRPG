@@ -20,7 +20,7 @@ public class MiniFilledBar : MonoBehaviour
 
     void Update()
     {
-        hpBarImage.fillAmount = (float)monsterStat.Hp / (float)monsterStat.Data.Hp;
+        hpBarImage.fillAmount = (float)monsterStat.Hp / (float)monsterStat.Data.Health;
         transform.LookAt(transform.position + cameraTransform.rotation * Vector3.forward, cameraTransform.rotation * Vector3.up);
     }
 }

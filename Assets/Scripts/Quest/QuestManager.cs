@@ -5,6 +5,8 @@ using UnityEngine;
 public class QuestManager : SingletonMono<QuestManager>
 {
     [SerializeField]
+    private Player player;
+    [SerializeField]
     private List<QuestData> listQuestData;
     [SerializeField]
     private List<Quest> listYetProgressQuest;
@@ -18,6 +20,7 @@ public class QuestManager : SingletonMono<QuestManager>
 
     private void Awake()
     {
+        if (player == null) player = FindObjectOfType<Player>();
         listYetProgressQuest = new List<Quest>();
         listProgressQuest = new List<Quest>();
         listCompleteQuestID = new List<int>();
@@ -66,9 +69,13 @@ public class QuestManager : SingletonMono<QuestManager>
         listProgressQuest.RemoveAt(index);
     }
 
-    public void NotifyClearQuest(int questID)
+    public void NotifyClearQuest(Quest quest)
     {
-        Debug.Log("questID: " + questID + " clear");
+        listCompleteQuestID.Add(quest.Data.QuestID);
+
+        int index = listProgressQuest.IndexOf(quest);
+        UIManager.Instance.GetReward(quest.Data.QuestReward);
+        listProgressQuest.RemoveAt(index);
         //for (int i = 0; i < listQuestData.Count; ++i)
         //{
         //    listCompleteQuestID.Add(listQuestData[i].QuestID);
@@ -85,5 +92,16 @@ public class QuestManager : SingletonMono<QuestManager>
         //{
         //    if (listQuestData[i].QuestCondition.IsCanProgressLevel(level)) listPossibleQuest.Add(listQuestData[i]);
         //}
+    }
+
+    public void NotifyDoTask(int id)
+    {
+        for(int i = 0; i < listProgressQuest.Count; ++i)
+        {
+            if(listProgressQuest[i].Data.QuestTask.TargetId == id)
+            {
+                listProgressQuest[i].PlusAmount(1);
+            }
+        }
     }
 }

@@ -121,6 +121,12 @@ public class QuestUI : MonoBehaviour
         if (openQuest == null) return;
         QuestManager.Instance.RefuseQuest(openQuest);
         listSlotUI[openQuestIndex].SetQuestSlotUI();
-        detailViewUI.SetButtonInterableIfInProgress(true);
+        detailViewUI.SetButtonInterableIfInProgress(false);
+    }
+
+    public void ClearQuest()
+    {
+        if (openQuest == null) return;
+        QuestManager.Instance.NotifyClearQuest(openQuest);
     }
 }

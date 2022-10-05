@@ -16,6 +16,7 @@ namespace NS_State
             unit.CanChangeState = false;
             unit.ActionState = NS_Unit.ActionState.Defend;
             unit.Animator.SetBool(unit.HashIsDefend, true);
+            unit.Defend();
         }
 
         override public void StateStay()

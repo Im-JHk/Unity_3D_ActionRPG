@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Turtle : Monster
+public class Turtle : Monster, IRushable
 {
     public enum TurtlePhase
     {
@@ -13,9 +13,11 @@ public class Turtle : Monster
     }
 
     private TurtlePhase currentPhase;
+    private bool isRush;
 
     private void Awake()
     {
+        isRush = false;
         Initialize();
     }
 
@@ -41,5 +43,12 @@ public class Turtle : Monster
         rotateSpeed = 100f;
         rotateTime = 0;
         comboCount = 0;
+    }
+
+    public bool GetIsRush() { return isRush; }
+
+    public void OnRush()
+    {
+        isRush = true;
     }
 }
